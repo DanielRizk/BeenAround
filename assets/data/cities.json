@@ -1,0 +1,23 @@
+[
+  {
+    "id": "cairo",
+    "name": "Cairo",
+    "country": "EG",
+    "lat": 30.0444,
+    "lng": 31.2357
+  },
+  {
+    "id": "alexandria",
+    "name": "Alexandria",
+    "country": "EG",
+    "lat": 31.2001,
+    "lng": 29.9187
+  },
+  {
+    "id": "berlin",
+    "name": "Berlin",
+    "country": "DE",
+    "lat": 52.52,
+    "lng": 13.405
+  }
+]
