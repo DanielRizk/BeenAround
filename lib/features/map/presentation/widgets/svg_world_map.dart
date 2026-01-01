@@ -6,12 +6,17 @@ import '../../data/svg_map_repository.dart';
 
 class SvgWorldMap extends StatefulWidget {
   final String assetPath;
+
+  // current zoom scale
   final ValueListenable<double> scaleListenable;
 
-  /// true while user is pinching/panning
+  // true while user is pinching/panning
   final ValueListenable<bool> isInteracting;
 
-  /// desired on-screen border thickness
+  // selected country ids (e.g. {"DE","EG"})
+  final ValueListenable<Set<String>> selectedIds;
+
+  // desired on-screen border thickness
   final double baseBorderWidth;
 
   const SvgWorldMap({
@@ -19,6 +24,7 @@ class SvgWorldMap extends StatefulWidget {
     required this.assetPath,
     required this.scaleListenable,
     required this.isInteracting,
+    required this.selectedIds,
     this.baseBorderWidth = 0.5,
   });
 
@@ -29,24 +35,24 @@ class SvgWorldMap extends StatefulWidget {
 class _SvgWorldMapState extends State<SvgWorldMap> {
   final _repo = SvgMapRepository();
 
-  String? _templateSvg; // contains __SW__
-  String? _currentSvg;
+  String? _templateWithSelection; // contains __SW__
+  String? _currentSvg;            // __SW__ resolved
 
   @override
   void initState() {
     super.initState();
-    widget.scaleListenable.addListener(_onScaleMaybe);
+    widget.selectedIds.addListener(_onSelectionChanged);
     widget.isInteracting.addListener(_onInteractionChanged);
-    _loadTemplate();
+    _rebuildTemplateForSelection(); // initial
   }
 
   @override
   void didUpdateWidget(covariant SvgWorldMap oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (oldWidget.scaleListenable != widget.scaleListenable) {
-      oldWidget.scaleListenable.removeListener(_onScaleMaybe);
-      widget.scaleListenable.addListener(_onScaleMaybe);
+    if (oldWidget.selectedIds != widget.selectedIds) {
+      oldWidget.selectedIds.removeListener(_onSelectionChanged);
+      widget.selectedIds.addListener(_onSelectionChanged);
     }
 
     if (oldWidget.isInteracting != widget.isInteracting) {
@@ -55,58 +61,61 @@ class _SvgWorldMapState extends State<SvgWorldMap> {
     }
 
     if (oldWidget.assetPath != widget.assetPath) {
-      _templateSvg = null;
+      _templateWithSelection = null;
       _currentSvg = null;
-      _loadTemplate();
+      _rebuildTemplateForSelection();
     }
   }
 
   @override
   void dispose() {
-    widget.scaleListenable.removeListener(_onScaleMaybe);
+    widget.selectedIds.removeListener(_onSelectionChanged);
     widget.isInteracting.removeListener(_onInteractionChanged);
     super.dispose();
   }
 
-  Future<void> _loadTemplate() async {
-    final template = await _repo.loadWorldMapTemplate(widget.assetPath);
-    if (!mounted) return;
-
-    setState(() {
-      _templateSvg = template;
-    });
-
-    // initial apply
-    _applyConstantBorderNow();
-  }
-
-  void _onScaleMaybe() {
-    // Only update borders while NOT interacting (optional).
-    // This keeps the zoom buttery smooth.
-    if (widget.isInteracting.value) return;
-    _applyConstantBorderNow();
+  void _onSelectionChanged() {
+    // Rebuild template when selection changes (rare, user-driven)
+    _rebuildTemplateForSelection();
   }
 
   void _onInteractionChanged() {
-    // When interaction ends, apply constant borders ONCE.
+    // When interaction ends, apply constant border correction once
     if (!widget.isInteracting.value) {
-      _applyConstantBorderNow();
+      _applyStrokeNow();
     }
   }
 
-  void _applyConstantBorderNow() {
-    if (_templateSvg == null) return;
+  Future<void> _rebuildTemplateForSelection() async {
+    final template = await _repo.buildTemplateSvg(
+      widget.assetPath,
+      selectedIds: widget.selectedIds.value,
+    );
+
+    if (!mounted) return;
+
+    setState(() {
+      _templateWithSelection = template;
+    });
+
+    // After template rebuild, resolve stroke once
+    _applyStrokeNow();
+  }
+
+  void _applyStrokeNow() {
+    if (_templateWithSelection == null) return;
 
     final scale = widget.scaleListenable.value;
     final safeScale = math.max(scale, 0.0001);
 
-    // inverse-scale stroke so it appears constant on screen
     final stroke = widget.baseBorderWidth / safeScale;
-
-    final svg = _templateSvg!.replaceAll('__SW__', stroke.toStringAsFixed(4));
+    final resolved = _templateWithSelection!.replaceAll(
+      '__SW__',
+      stroke.toStringAsFixed(4),
+    );
 
     setState(() {
-      _currentSvg = svg;
+      _currentSvg = resolved;
     });
   }
 

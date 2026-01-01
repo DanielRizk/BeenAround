@@ -205,12 +205,8 @@ class _BoundedInteractiveMapState extends State<BoundedInteractiveMap> {
           boundaryMargin: EdgeInsets.zero,
           clipBehavior: Clip.hardEdge,
 
-          onInteractionStart: (_) {
-            widget.isInteractingNotifier?.value = true;
-          },
-          onInteractionEnd: (_) {
-            widget.isInteractingNotifier?.value = false;
-          },
+          onInteractionStart: (_) => widget.isInteractingNotifier?.value = true,
+          onInteractionEnd: (_) => widget.isInteractingNotifier?.value = false,
 
           child: _Measurable(
             onSize: (s) {
