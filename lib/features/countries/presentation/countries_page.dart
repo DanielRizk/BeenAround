@@ -14,6 +14,7 @@ class CountriesPage extends StatefulWidget {
 
   /// When true, renders without Scaffold/AppBar so it can be shown inside a bottom sheet.
   final bool asSheet;
+  final bool editable;
 
   const CountriesPage({
     super.key,
@@ -22,6 +23,7 @@ class CountriesPage extends StatefulWidget {
     required this.countryNameById,
     required this.iso2ToCities,
     this.asSheet = false,
+    this.editable = true,
   });
 
   @override
@@ -156,18 +158,19 @@ class _CountriesPageState extends State<CountriesPage> {
                           ? Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          IconButton(
-                            tooltip: 'Edit cities',
-                            icon: const Icon(Icons.add),
-                            onPressed: () => _editCities(context, iso2, name),
-                          ),
-                          IconButton(
-                            tooltip: 'Remove country',
-                            icon: const Icon(Icons.delete_outline),
-                            onPressed: () =>
-                                _removeCountryWithConfirm(context, iso2),
-                          ),
-                          const SizedBox(width: 4),
+                          if (widget.editable) ...[
+                            IconButton(
+                              tooltip: 'Edit cities',
+                              icon: const Icon(Icons.add),
+                              onPressed: () => _editCities(context, iso2, name),
+                            ),
+                            IconButton(
+                              tooltip: 'Remove country',
+                              icon: const Icon(Icons.delete_outline),
+                              onPressed: () => _removeCountryWithConfirm(context, iso2),
+                            ),
+                            const SizedBox(width: 4),
+                          ],
                           const Icon(Icons.expand_less),
                         ],
                       )
@@ -184,7 +187,8 @@ class _CountriesPageState extends State<CountriesPage> {
                             child: Column(
                               children: [
                                 for (final city in selectedCities)
-                                  CheckboxListTile(
+                                  widget.editable
+                                      ? CheckboxListTile(
                                     value: true,
                                     onChanged: (v) {
                                       if (v == false) {
@@ -199,6 +203,13 @@ class _CountriesPageState extends State<CountriesPage> {
                                     title: Text(city),
                                     controlAffinity:
                                     ListTileControlAffinity.trailing,
+                                    dense: true,
+                                  )
+                                      : ListTile(
+                                    title: Text(
+                                      city,
+                                      style: Theme.of(context).textTheme.bodyMedium,
+                                    ),
                                     dense: true,
                                   ),
                               ],

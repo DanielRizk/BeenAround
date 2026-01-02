@@ -79,6 +79,7 @@ class MapPage extends StatelessWidget {
       builder: (_) {
         return CountriesPage(
           asSheet: true,
+          editable: true,
           selectedIds: selectedIds,
           citiesByCountry: citiesByCountry,
           countryNameById: worldMap.nameById,

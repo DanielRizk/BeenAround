@@ -116,6 +116,7 @@ class _HomeShellState extends State<HomeShell> {
             iso2ToCities: iso2ToCities, // ✅ now defined
           ),
           CountriesPage(
+            editable: false,
             selectedIds: selectedCountryIds,
             citiesByCountry: citiesByCountry,
             countryNameById: mapData.nameById,
