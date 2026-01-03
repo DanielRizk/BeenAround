@@ -43,6 +43,6 @@ class WorldMapPainter extends CustomPainter {
     return old.map != map ||
         old.selectedIds != selectedIds ||
         old.controller != controller ||
-        old.selectedColor.value != selectedColor.value;
+        old.selectedColor.toARGB32() != selectedColor.toARGB32();
   }
 }

@@ -62,6 +62,13 @@ class S {
       'settings_appearance': 'Appearance',
       'settings_appearance_sub': 'Theme, colors, map labels',
       'settings_language': 'Language',
+      'reset_app_data': 'Reset app data',
+      'reset_app_data_subtitle': 'Clears countries, and cities, friends and saved settings',
+      'reset_everything': 'Reset everything?',
+      'reset_everything_confirm': 'This will clear ALL locally saved data and return the app to defaults.',
+      'reset_confirmation': 'App data cleared.',
+
+
 
       // Appearance section
       'theme_mode': 'Theme mode',
@@ -90,6 +97,7 @@ class S {
       'cancel': 'Cancel',
       'close': 'Close',
       'done': 'Done',
+      'reset': 'Reset',
 
       // Colors
       'blue': 'Blue',
@@ -110,7 +118,7 @@ class S {
       'tab_countries': 'Länder',
       'tab_stats': 'Statistik',
       'tab_friends': 'Freunde',
-      'tab_settings': 'Einstellungen',
+      'tab_settings': 'Einst.',
 
       //===========================================
       //              Map Page
@@ -150,6 +158,11 @@ class S {
       'settings_appearance': 'Darstellung',
       'settings_appearance_sub': 'Theme, Farben, Kartenbeschriftung',
       'settings_language': 'Sprache',
+      'reset_app_data': 'Appdaten zurücksetzen',
+      'reset_app_data_subtitle': 'Löscht Länder, Städte, Freunde und gespeicherte Einstellungen',
+      'reset_everything': 'Alles zurücksetzen?',
+      'reset_everything_confirm': 'Dadurch werden ALLE lokal gespeicherten Daten gelöscht und die App auf die Standardeinstellungen zurückgesetzt.',
+      'reset_confirmation': 'App-Daten gelöscht.',
 
       // Appearance section
       'theme_mode': 'Designmodus',
@@ -178,6 +191,7 @@ class S {
       'cancel': 'Abbrechen',
       'close': 'Schließen',
       'done': 'Fertig',
+      'reset': 'Zurücksetzen',
 
       // Colors
       'blue': 'Blau',

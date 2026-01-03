@@ -117,15 +117,18 @@ class AppearancePage extends StatelessWidget {
   }
 
   String _colorName(BuildContext context, Color c) {
-    if (c == Colors.blue) return S.t(context, 'blue');
-    if (c == Colors.teal) return S.t(context, 'teal');
-    if (c == Colors.green) return S.t(context, 'green');
-    if (c == Colors.amber) return S.t(context, 'amber');
-    if (c == Colors.orange) return S.t(context, 'orange');
-    if (c == Colors.pink) return S.t(context, 'pink');
-    if (c == Colors.purple) return S.t(context, 'purple');
-    if (c == Colors.red) return S.t(context, 'red');
-    return '#${c.value.toRadixString(16).padLeft(8, '0')}';
+    final v = c.toARGB32();
+
+    if (v == Colors.blue.toARGB32()) return S.t(context, 'blue');
+    if (v == Colors.teal.toARGB32()) return S.t(context, 'teal');
+    if (v == Colors.green.toARGB32()) return S.t(context, 'green');
+    if (v == Colors.amber.toARGB32()) return S.t(context, 'amber');
+    if (v == Colors.orange.toARGB32()) return S.t(context, 'orange');
+    if (v == Colors.pink.toARGB32()) return S.t(context, 'pink');
+    if (v == Colors.purple.toARGB32()) return S.t(context, 'purple');
+    if (v == Colors.red.toARGB32()) return S.t(context, 'red');
+
+    return '#${v.toRadixString(16).padLeft(8, '0')}';
   }
 
   Future<void> _pickColor(

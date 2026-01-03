@@ -11,6 +11,7 @@ import '../shared/i18n/app_strings.dart';
 import '../shared/map/world_map_loader.dart';
 import '../shared/map/world_map_models.dart';
 import '../shared/settings/app_settings.dart';
+import '../shared/storage/local_store.dart';
 
 class BeenAroundApp extends StatelessWidget {
   const BeenAroundApp({super.key, required this.settings});
@@ -86,14 +87,32 @@ class _HomeShellState extends State<HomeShell> {
   void initState() {
     super.initState();
 
-    // ✅ Important: compute anchors BEFORE showing pages.
     _bootstrapFuture = Future.wait([
       WorldMapLoader.loadFromAssetWithAnchors('assets/maps/world.svg'),
       CitiesRepository.loadIso2ToCities('assets/cities/cities.csv'),
+      // load saved user selections
+      LocalStore.loadSelectedCountries(),
+      LocalStore.loadCitiesByCountry(),
     ]).then((list) {
       final mapData = list[0] as WorldMapData;
       final cities = list[1] as Map<String, List<String>>;
+      final savedSelected = list[2] as Set<String>;
+      final savedCitiesByCountry = list[3] as Map<String, List<String>>;
+
       _iso2ToCities = cities;
+
+      // ✅ hydrate notifiers
+      selectedCountryIds.value = savedSelected;
+      citiesByCountry.value = savedCitiesByCountry;
+
+      // ✅ start auto-saving on changes
+      selectedCountryIds.addListener(() {
+        LocalStore.saveSelectedCountries(selectedCountryIds.value);
+      });
+      citiesByCountry.addListener(() {
+        LocalStore.saveCitiesByCountry(citiesByCountry.value);
+      });
+
       return (mapData, cities);
     });
   }
@@ -103,6 +122,16 @@ class _HomeShellState extends State<HomeShell> {
     selectedCountryIds.dispose();
     citiesByCountry.dispose();
     super.dispose();
+  }
+
+  Future<void> _resetAllAppData() async {
+    // 1) clear persisted
+    await LocalStore.clearSelectionData();
+    await AppSettingsScope.of(context).resetToDefaults();
+
+    // 2) clear in-memory so UI updates immediately
+    selectedCountryIds.value = <String>{};
+    citiesByCountry.value = <String, List<String>>{};
   }
 
   @override
@@ -160,7 +189,7 @@ class _HomeShellState extends State<HomeShell> {
           ),
           const StatsPage(),
           const FriendsPage(),
-          const SettingsPage(),
+          SettingsPage(onResetAll: _resetAllAppData),
         ];
 
         return Scaffold(
@@ -168,6 +197,7 @@ class _HomeShellState extends State<HomeShell> {
           bottomNavigationBar: NavigationBar(
             selectedIndex: _index,
             onDestinationSelected: (i) => setState(() => _index = i),
+            labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
             destinations: [
               NavigationDestination(
                 icon: const Icon(Icons.public),
@@ -191,7 +221,6 @@ class _HomeShellState extends State<HomeShell> {
               ),
             ],
           ),
-
         );
       },
     );
