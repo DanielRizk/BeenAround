@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../shared/map/world_map_models.dart';
+import '../../../shared/settings/app_settings.dart';
 import '../presentation/utils/map_transform_clamper.dart';
 import '../presentation/widgets/world_map_labels_painter.dart';
 import 'world_map_painter.dart';
@@ -96,6 +97,8 @@ class _WorldMapViewState extends State<WorldMapView> {
         // ✅ This must already be ready if HomeShell used loadFromAssetWithAnchors
         final anchors = widget.map.labelAnchorById;
 
+        final settings = AppSettingsScope.of(context);
+
         return ClipRect(
           child: Stack(
             children: [
@@ -120,6 +123,7 @@ class _WorldMapViewState extends State<WorldMapView> {
                           map: widget.map,
                           selectedIds: ids,
                           controller: _tc,
+                          selectedColor: settings.selectedCountryColor,
                         ),
                       ),
                     );
@@ -128,16 +132,24 @@ class _WorldMapViewState extends State<WorldMapView> {
               ),
 
               // 2) Labels overlay — ALWAYS (no async, no gating)
-              IgnorePointer(
-                child: SizedBox.expand(
-                  child: CustomPaint(
-                    painter: WorldMapLabelsPainter(
-                      map: widget.map,
-                      controller: _tc,
-                      anchors: anchors,
+              AnimatedBuilder(
+                animation: AppSettingsScope.of(context),
+                builder: (context, _) {
+                  final settings = AppSettingsScope.of(context);
+                  if (!settings.showCountryLabels) return const SizedBox.shrink();
+
+                  return IgnorePointer(
+                    child: SizedBox.expand(
+                      child: CustomPaint(
+                        painter: WorldMapLabelsPainter(
+                          map: widget.map,
+                          controller: _tc,
+                          anchors: anchors,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             ],
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../shared/i18n/app_strings.dart';
 import '../../../../shared/map/world_map_models.dart';
 import 'city_picker_sheet.dart';
 
@@ -69,7 +70,7 @@ class _CountryPickerSheetState extends State<CountryPickerSheet> {
                 controller: _search,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.search),
-                  hintText: 'Search country (name or ISO2)',
+                  hintText: S.t(context, 'search_country'),
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 ),
               ),
@@ -135,7 +136,7 @@ class _CountryPickerSheetState extends State<CountryPickerSheet> {
       final allCities = widget.iso2ToCities[c.id] ?? const <String>[];
       if (allCities.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('No cities available for this country.')),
+          SnackBar(content: Text(S.t(context, 'no_available_cities'))),
         );
         return;
       }
@@ -158,8 +159,8 @@ class _CountryPickerSheetState extends State<CountryPickerSheet> {
 
       if (picked.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('You need to choose a minimum of one city to add the country.'),
+          SnackBar(
+            content: Text(S.t(context, 'minimum_one_city')),
           ),
         );
         return;
@@ -180,11 +181,11 @@ class _CountryPickerSheetState extends State<CountryPickerSheet> {
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Remove country?'),
-        content: const Text('By unchecking this country all cities saved will be lost.'),
+        title: Text(S.t(context, 'remove_country')),
+        content: Text(S.t(context, 'remove_country_confirm')),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
-          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Confirm')),
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(S.t(context, 'cancel'))),
+          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: Text(S.t(context, 'confirm'))),
         ],
       ),
     );

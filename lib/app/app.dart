@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../features/countries/presentation/countries_page.dart';
 import '../features/friends/presentation/friends_page.dart';
@@ -6,22 +7,58 @@ import '../features/map/presentation/map_page.dart';
 import '../features/settings/presentation/settings_page.dart';
 import '../features/stats/presentation/stats_page.dart';
 import '../shared/cities/cities_repository.dart';
+import '../shared/i18n/app_strings.dart';
 import '../shared/map/world_map_loader.dart';
 import '../shared/map/world_map_models.dart';
+import '../shared/settings/app_settings.dart';
 
 class BeenAroundApp extends StatelessWidget {
-  const BeenAroundApp({super.key});
+  const BeenAroundApp({super.key, required this.settings});
+
+  final AppSettingsController settings;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Been Around',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: Colors.blue,
+    return AppSettingsScope(
+      controller: settings,
+      child: AnimatedBuilder(
+        animation: settings,
+        builder: (context, _) {
+          return MaterialApp(
+            title: 'Been Around',
+            debugShowCheckedModeBanner: false,
+
+            // ✅ required for Localizations.localeOf(context) to work + update
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en'),
+              Locale('de'),
+            ],
+
+            // ✅ your controller-driven locale
+            locale: settings.locale,
+
+            themeMode: settings.themeMode,
+            theme: ThemeData(
+              useMaterial3: true,
+              colorSchemeSeed: settings.colorSchemeSeed,
+              brightness: Brightness.light,
+            ),
+            darkTheme: ThemeData(
+              useMaterial3: true,
+              colorSchemeSeed: settings.colorSchemeSeed,
+              brightness: Brightness.dark,
+            ),
+
+            home: const HomeShell(),
+          );
+
+        },
       ),
-      home: const HomeShell(),
     );
   }
 }
@@ -44,7 +81,6 @@ class _HomeShellState extends State<HomeShell> {
 
   late final Future<(WorldMapData, Map<String, List<String>>)> _bootstrapFuture;
   Map<String, List<String>> _iso2ToCities = const {};
-
 
   @override
   void initState() {
@@ -132,14 +168,30 @@ class _HomeShellState extends State<HomeShell> {
           bottomNavigationBar: NavigationBar(
             selectedIndex: _index,
             onDestinationSelected: (i) => setState(() => _index = i),
-            destinations: const [
-              NavigationDestination(icon: Icon(Icons.public), label: 'Map'),
-              NavigationDestination(icon: Icon(Icons.flag), label: 'Countries'),
-              NavigationDestination(icon: Icon(Icons.insights), label: 'Stats'),
-              NavigationDestination(icon: Icon(Icons.group), label: 'Friends'),
-              NavigationDestination(icon: Icon(Icons.settings), label: 'Settings'),
+            destinations: [
+              NavigationDestination(
+                icon: const Icon(Icons.public),
+                label: S.t(context, 'tab_map'),
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.flag),
+                label: S.t(context, 'tab_countries'),
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.insights),
+                label: S.t(context, 'tab_stats'),
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.group),
+                label: S.t(context, 'tab_friends'),
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.settings),
+                label: S.t(context, 'tab_settings'),
+              ),
             ],
           ),
+
         );
       },
     );

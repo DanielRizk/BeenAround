@@ -5,12 +5,14 @@ class WorldMapPainter extends CustomPainter {
   final WorldMapData map;
   final Set<String> selectedIds;
   final TransformationController controller;
+  final Color selectedColor;
 
   WorldMapPainter({
     required this.map,
     required this.selectedIds,
     required this.controller,
-  }) : super(repaint: controller); // ✅ repaints on every transform change
+    required this.selectedColor,
+  }) : super(repaint: controller);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -26,12 +28,11 @@ class WorldMapPainter extends CustomPainter {
       ..strokeJoin = StrokeJoin.round
       ..strokeCap = StrokeCap.round
       ..isAntiAlias = true
-    // ✅ fixed 5px on screen
       ..strokeWidth = 0.5 / scale;
 
     for (final c in map.countries) {
       fillPaint.color =
-      selectedIds.contains(c.id) ? Colors.orange : const Color(0xFF9E9E9E);
+      selectedIds.contains(c.id) ? selectedColor : const Color(0xFF9E9E9E);
       canvas.drawPath(c.path, fillPaint);
       canvas.drawPath(c.path, borderPaint);
     }
@@ -39,6 +40,9 @@ class WorldMapPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant WorldMapPainter old) {
-    return old.map != map || old.selectedIds != selectedIds || old.controller != controller;
+    return old.map != map ||
+        old.selectedIds != selectedIds ||
+        old.controller != controller ||
+        old.selectedColor.value != selectedColor.value;
   }
 }

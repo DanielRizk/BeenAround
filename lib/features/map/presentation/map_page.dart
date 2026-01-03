@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../shared/i18n/app_strings.dart';
 import '../../../shared/map/world_map_models.dart';
 import '../../countries/presentation/countries_page.dart';
 import '../widgets/world_map_view.dart';
@@ -30,7 +31,7 @@ class MapPage extends StatelessWidget {
             children: [
               ListTile(
                 leading: const Icon(Icons.flag),
-                title: const Text('Add country'),
+                title: Text(S.t(context, 'add_country')),
                 onTap: () {
                   Navigator.pop(ctx);
                   _openCountryPicker(context);
@@ -38,9 +39,9 @@ class MapPage extends StatelessWidget {
               ),
               ListTile(
                 leading: const Icon(Icons.location_city),
-                title: const Text('Add city'),
+                title: Text(S.t(context, 'add_city')),
                 subtitle:
-                const Text('Manage cities in already added countries'),
+                Text(S.t(context, 'add_city_subtitle')),
                 onTap: () {
                   Navigator.pop(ctx);
                   _openCityManager(context);

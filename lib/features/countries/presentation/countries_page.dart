@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../shared/i18n/app_strings.dart';
 import '../../map/presentation/widgets/city_picker_sheet.dart';
 
 class CountriesPage extends StatefulWidget {
@@ -47,12 +48,12 @@ class _CountriesPageState extends State<CountriesPage> {
               child: Row(
                 children: [
                   Text(
-                    'Manage cities',
+                    S.t(context, 'manage_cities'),
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const Spacer(),
                   IconButton(
-                    tooltip: 'Close',
+                    tooltip: S.t(context, 'close'),
                     onPressed: () => Navigator.pop(context),
                     icon: const Icon(Icons.close),
                   ),
@@ -77,7 +78,7 @@ class _CountriesPageState extends State<CountriesPage> {
       valueListenable: widget.selectedIds,
       builder: (context, ids, _) {
         if (ids.isEmpty) {
-          return const Center(child: Text('No countries selected yet.'));
+          return Center(child: Text(S.t(context, 'no_countries_selected')));
         }
 
         final sorted = ids.toList()
@@ -109,7 +110,7 @@ class _CountriesPageState extends State<CountriesPage> {
                       dividerColor: Colors.transparent, // 🚫 kill ExpansionTile dividers
                     ),
                     child: ExpansionTile(
-                      key: PageStorageKey('country-$iso2'),
+                      key: PageStorageKey('${S.t(context, 'country')}-$iso2'),
                       initiallyExpanded: isExpanded,
                       onExpansionChanged: (v) {
                         setState(() {
@@ -145,10 +146,16 @@ class _CountriesPageState extends State<CountriesPage> {
                                   style: Theme.of(context).textTheme.titleMedium,
                                 ),
                                 const SizedBox(height: 2),
-                                Text(
-                                  '${selectedCities.length} cit${selectedCities.length == 1 ? 'y' : 'ies'} visited',
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
+                                if(selectedCities.length == 1)
+                                  Text(
+                                    '${selectedCities.length} ${S.t(context, 'city')} ${S.t(context, 'visited')}',
+                                    style: Theme.of(context).textTheme.bodySmall,
+                                  )
+                                else
+                                  Text(
+                                    '${selectedCities.length} ${S.t(context, 'cities')} ${S.t(context, 'visited')}',
+                                    style: Theme.of(context).textTheme.bodySmall,
+                                  ),
                               ],
                             ),
                           ),
@@ -160,12 +167,12 @@ class _CountriesPageState extends State<CountriesPage> {
                         children: [
                           if (widget.editable) ...[
                             IconButton(
-                              tooltip: 'Edit cities',
+                              tooltip: S.t(context, 'edit_cities'),
                               icon: const Icon(Icons.add),
                               onPressed: () => _editCities(context, iso2, name),
                             ),
                             IconButton(
-                              tooltip: 'Remove country',
+                              tooltip: S.t(context, 'remove_country'),
                               icon: const Icon(Icons.delete_outline),
                               onPressed: () => _removeCountryWithConfirm(context, iso2),
                             ),
@@ -177,9 +184,9 @@ class _CountriesPageState extends State<CountriesPage> {
                           : const Icon(Icons.expand_more),
                       children: [
                         if (selectedCities.isEmpty)
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
-                            child: Text('No cities selected.'),
+                            child: Text(S.t(context, 'no_cities_selected')),
                           )
                         else
                           Padding(
@@ -232,7 +239,7 @@ class _CountriesPageState extends State<CountriesPage> {
     final allCities = widget.iso2ToCities[iso2] ?? const <String>[];
     if (allCities.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No cities available for this country.')),
+        SnackBar(content: Text(S.t(context, 'no_available_cities'))),
       );
       return;
     }
@@ -275,9 +282,9 @@ class _CountriesPageState extends State<CountriesPage> {
       ) async {
     if (selectedCitiesSorted.length <= 1) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text(
-            'A country needs at least one city. If you uncheck this city the country will be removed.',
+            S.t(context, 'country_needs_at_least_one_city'),
           ),
         ),
       );
@@ -300,17 +307,17 @@ class _CountriesPageState extends State<CountriesPage> {
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Remove country?'),
-        content: const Text(
-            'Removing this country will also remove all its selected cities.'),
+        title: Text(S.t(context, 'remove_country')),
+        content: Text(
+            S.t(context, 'cities_will_be_lost_remove_country_confirm')),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(S.t(context, 'cancel')),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Remove'),
+            child: Text(S.t(context, 'remove')),
           ),
         ],
       ),
@@ -323,18 +330,18 @@ class _CountriesPageState extends State<CountriesPage> {
     return showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Remove country?'),
-        content: const Text(
-          'A country must have at least one city. If you continue, the country will be removed from your map.',
+        title: Text(S.t(context, 'remove_country')),
+        content: Text(
+          S.t(context, 'country_needs_at_least_one_city'),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Keep'),
+            child: Text(S.t(context, 'keep')),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Remove'),
+            child: Text(S.t(context, 'remove')),
           ),
         ],
       ),

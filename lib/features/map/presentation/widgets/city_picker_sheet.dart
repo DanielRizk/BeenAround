@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../shared/i18n/app_strings.dart';
+
 class CityPickerSheet extends StatefulWidget {
   final String iso2;
   final String countryName;
@@ -59,7 +61,7 @@ class _CityPickerSheetState extends State<CityPickerSheet> {
                   final out = _selected.toList()..sort();
                   Navigator.pop(context, out);
                 },
-                child: const Text('Done'),
+                child: Text(S.t(context, 'done')),
               ),
             ),
             Padding(
@@ -68,7 +70,7 @@ class _CityPickerSheetState extends State<CityPickerSheet> {
                 controller: _search,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.search),
-                  hintText: 'Search city',
+                  hintText: S.t(context, 'search_city'),
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 ),
               ),
