@@ -38,6 +38,16 @@ class S {
       'no_available_cities': 'No cities available for this country',
 
       //===========================================
+      //          Map Country Details Overlay
+      //===========================================
+      'country_details': 'Country details',
+      'visited_on': 'Visited on',
+      'notes': 'Notes',
+      'add_note': 'Add a note',
+      'edit_date': 'Edit date',
+      'back': 'Back',
+
+      //===========================================
       //              Countries Page
       //===========================================
       'country': 'Country',
@@ -131,7 +141,17 @@ class S {
       'add_city_subtitle': 'Städte in den aktuellen Ländern verwalten',
       'search_city': 'Stadt suchen',
       'minimum_one_city': 'Sie müssen mindestens eine Stadt auswählen, um das Land hinzuzufügen.',
-      'no_available_cities': 'Für dieses Land sind keine Städte verfügbar',
+      'no_available_cities': 'Keine Städte für dieses Land verfügbar',
+
+      //===========================================
+      //          Map Country Details Overlay
+      //===========================================
+      'country_details': 'Land-Details',
+      'visited_on': 'Besucht am',
+      'notes': 'Notizen',
+      'add_note': 'Notiz hinzufügen',
+      'edit_date': 'Datum ändern',
+      'back': 'Zurück',
 
       //===========================================
       //              Countries Page

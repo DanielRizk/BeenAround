@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../shared/i18n/app_strings.dart';
-import '../../../shared/settings/app_settings.dart';
-import '../../../shared/storage/local_store.dart';
 import 'account_page.dart';
 import 'appearance_page.dart';
 import 'language_page.dart';

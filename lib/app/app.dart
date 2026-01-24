@@ -13,6 +13,20 @@ import '../shared/map/world_map_models.dart';
 import '../shared/settings/app_settings.dart';
 import '../shared/storage/local_store.dart';
 
+// TODO: Fix the cities data
+// TODO: Click on selected country, opens a menu to show information and metadata and for the cities as well, allow edit mode.
+// TODO: Implement statistics page, show overview countries percentage and cities percentage with nice graphs, click on countries and select each country to see statistics.
+// TODO: Implement Login page and tutorial, allow manual login or by google Auth0.
+// TODO: Implement backup server and store user data countries, cities and friends.
+// TODO: Implement Friends page, add friends, click on a friend to see his map countries cities and statistics.
+// TODO: Design a Logo, Icon, Animated Icon for loading.
+// TODO: Implement Feed in friends page to see latest updates from friends (allow in setting the activity to show on feed per user).
+// TODO: Add GPS tracking for users (Allowed in settings) to automatically detect countries and cities (if not added before), and send notification to instant add them.
+// =============================================================================
+// TODO: Explore the option of adding cities markers on countries.
+// TODO: Explore adding a notification center (to receive likes on activites, friend request and so on.)
+// TODO: Explore adding "Planner Page" to set plans and goals.
+
 class BeenAroundApp extends StatelessWidget {
   const BeenAroundApp({super.key, required this.settings});
 
@@ -75,13 +89,23 @@ class _HomeShellState extends State<HomeShell> {
   int _index = 0;
 
   final ValueNotifier<Set<String>> selectedCountryIds =
-  ValueNotifier<Set<String>>(<String>{});
+      ValueNotifier<Set<String>>(<String>{});
 
   final ValueNotifier<Map<String, List<String>>> citiesByCountry =
-  ValueNotifier<Map<String, List<String>>>({});
+      ValueNotifier<Map<String, List<String>>>({});
+
+  // ✅ New: visit metadata (persisted)
+  final ValueNotifier<Map<String, String>> countryVisitedOn =
+      ValueNotifier<Map<String, String>>({}); // iso2 -> ISO date
+  final ValueNotifier<Map<String, Map<String, String>>> cityVisitedOn =
+      ValueNotifier<Map<String, Map<String, String>>>({}); // iso2 -> city -> ISO date
+  final ValueNotifier<Map<String, Map<String, String>>> cityNotes =
+      ValueNotifier<Map<String, Map<String, String>>>({}); // iso2 -> city -> note
 
   late final Future<(WorldMapData, Map<String, List<String>>)> _bootstrapFuture;
   Map<String, List<String>> _iso2ToCities = const {};
+
+  bool _reconciling = false;
 
   @override
   void initState() {
@@ -93,11 +117,20 @@ class _HomeShellState extends State<HomeShell> {
       // load saved user selections
       LocalStore.loadSelectedCountries(),
       LocalStore.loadCitiesByCountry(),
+
+      // ✅ load saved metadata
+      LocalStore.loadCountryVisitedOn(),
+      LocalStore.loadCityVisitedOn(),
+      LocalStore.loadCityNotes(),
     ]).then((list) {
       final mapData = list[0] as WorldMapData;
       final cities = list[1] as Map<String, List<String>>;
       final savedSelected = list[2] as Set<String>;
       final savedCitiesByCountry = list[3] as Map<String, List<String>>;
+
+      final savedCountryVisitedOn = list[4] as Map<String, String>;
+      final savedCityVisitedOn = list[5] as Map<String, Map<String, String>>;
+      final savedCityNotes = list[6] as Map<String, Map<String, String>>;
 
       _iso2ToCities = cities;
 
@@ -105,22 +138,141 @@ class _HomeShellState extends State<HomeShell> {
       selectedCountryIds.value = savedSelected;
       citiesByCountry.value = savedCitiesByCountry;
 
+      countryVisitedOn.value = savedCountryVisitedOn;
+      cityVisitedOn.value = savedCityVisitedOn;
+      cityNotes.value = savedCityNotes;
+
+      // ✅ keep metadata consistent with selection
+      _reconcileMetadata();
+
       // ✅ start auto-saving on changes
       selectedCountryIds.addListener(() {
         LocalStore.saveSelectedCountries(selectedCountryIds.value);
+        _reconcileMetadata();
       });
       citiesByCountry.addListener(() {
         LocalStore.saveCitiesByCountry(citiesByCountry.value);
+        _reconcileMetadata();
+      });
+
+      countryVisitedOn.addListener(() {
+        LocalStore.saveCountryVisitedOn(countryVisitedOn.value);
+      });
+      cityVisitedOn.addListener(() {
+        LocalStore.saveCityVisitedOn(cityVisitedOn.value);
+      });
+      cityNotes.addListener(() {
+        LocalStore.saveCityNotes(cityNotes.value);
       });
 
       return (mapData, cities);
     });
   }
 
+  void _reconcileMetadata() {
+    if (_reconciling) return;
+    _reconciling = true;
+    try {
+      final visited = selectedCountryIds.value;
+      final citiesMap = citiesByCountry.value;
+
+      final today = DateTime.now();
+      final todayIso = DateTime(today.year, today.month, today.day).toIso8601String();
+
+      // Country dates
+      final nextCountry = Map<String, String>.from(countryVisitedOn.value);
+      // remove unvisited
+      nextCountry.removeWhere((k, _) => !visited.contains(k));
+      // add missing
+      for (final iso2 in visited) {
+        nextCountry.putIfAbsent(iso2, () => todayIso);
+      }
+      if (!_shallowMapEquals(countryVisitedOn.value, nextCountry)) {
+        countryVisitedOn.value = nextCountry;
+      }
+
+      // City visited dates
+      final nextCityVisited = _deepCopy(cityVisitedOn.value);
+      nextCityVisited.removeWhere((k, _) => !visited.contains(k));
+      for (final iso2 in visited) {
+        final cities = (citiesMap[iso2] ?? const <String>[]);
+        final m = Map<String, String>.from(nextCityVisited[iso2] ?? const {});
+        // remove cities no longer selected
+        m.removeWhere((city, _) => !cities.contains(city));
+        // add missing cities
+        for (final city in cities) {
+          m.putIfAbsent(city, () => todayIso);
+        }
+        if (m.isEmpty) {
+          nextCityVisited.remove(iso2);
+        } else {
+          nextCityVisited[iso2] = m;
+        }
+      }
+      if (!_deepMapEquals(cityVisitedOn.value, nextCityVisited)) {
+        cityVisitedOn.value = nextCityVisited;
+      }
+
+      // City notes (only cleanup; don't auto-create empty notes)
+      final nextNotes = _deepCopy(cityNotes.value);
+      nextNotes.removeWhere((k, _) => !visited.contains(k));
+      for (final iso2 in visited) {
+        final cities = (citiesMap[iso2] ?? const <String>[]);
+        final m = Map<String, String>.from(nextNotes[iso2] ?? const {});
+        m.removeWhere((city, _) => !cities.contains(city));
+        if (m.isEmpty) {
+          nextNotes.remove(iso2);
+        } else {
+          nextNotes[iso2] = m;
+        }
+      }
+      if (!_deepMapEquals(cityNotes.value, nextNotes)) {
+        cityNotes.value = nextNotes;
+      }
+    } finally {
+      _reconciling = false;
+    }
+  }
+
+  Map<String, Map<String, String>> _deepCopy(Map<String, Map<String, String>> src) {
+    final out = <String, Map<String, String>>{};
+    for (final e in src.entries) {
+      out[e.key] = Map<String, String>.from(e.value);
+    }
+    return out;
+  }
+
+  bool _shallowMapEquals(Map<String, String> a, Map<String, String> b) {
+    if (identical(a, b)) return true;
+    if (a.length != b.length) return false;
+    for (final e in a.entries) {
+      if (b[e.key] != e.value) return false;
+    }
+    return true;
+  }
+
+  bool _deepMapEquals(Map<String, Map<String, String>> a, Map<String, Map<String, String>> b) {
+    if (identical(a, b)) return true;
+    if (a.length != b.length) return false;
+    for (final e in a.entries) {
+      final bm = b[e.key];
+      if (bm == null) return false;
+      final am = e.value;
+      if (am.length != bm.length) return false;
+      for (final ce in am.entries) {
+        if (bm[ce.key] != ce.value) return false;
+      }
+    }
+    return true;
+  }
+
   @override
   void dispose() {
     selectedCountryIds.dispose();
     citiesByCountry.dispose();
+    countryVisitedOn.dispose();
+    cityVisitedOn.dispose();
+    cityNotes.dispose();
     super.dispose();
   }
 
@@ -132,6 +284,9 @@ class _HomeShellState extends State<HomeShell> {
     // 2) clear in-memory so UI updates immediately
     selectedCountryIds.value = <String>{};
     citiesByCountry.value = <String, List<String>>{};
+    countryVisitedOn.value = <String, String>{};
+    cityVisitedOn.value = <String, Map<String, String>>{};
+    cityNotes.value = <String, Map<String, String>>{};
   }
 
   @override
@@ -166,7 +321,7 @@ class _HomeShellState extends State<HomeShell> {
             body: Center(
               child: Text(
                 'Map loaded, but anchors are empty.\n'
-                    'Make sure WorldMapLoader.loadFromAssetWithAnchors() returns labelAnchorById.',
+                'Make sure WorldMapLoader.loadFromAssetWithAnchors() returns labelAnchorById.',
                 textAlign: TextAlign.center,
               ),
             ),
@@ -178,7 +333,10 @@ class _HomeShellState extends State<HomeShell> {
             worldMap: mapData,
             selectedIds: selectedCountryIds,
             citiesByCountry: citiesByCountry,
-            iso2ToCities: iso2ToCities, // ✅ now defined
+            iso2ToCities: iso2ToCities,
+            countryVisitedOn: countryVisitedOn,
+            cityVisitedOn: cityVisitedOn,
+            cityNotes: cityNotes,
           ),
           CountriesPage(
             editable: false,
@@ -186,6 +344,10 @@ class _HomeShellState extends State<HomeShell> {
             citiesByCountry: citiesByCountry,
             countryNameById: mapData.nameById,
             iso2ToCities: iso2ToCities,
+
+            countryVisitedOn: countryVisitedOn,
+            cityVisitedOn: cityVisitedOn,
+            cityNotes: cityNotes,
           ),
           const StatsPage(),
           const FriendsPage(),
@@ -197,7 +359,7 @@ class _HomeShellState extends State<HomeShell> {
           bottomNavigationBar: NavigationBar(
             selectedIndex: _index,
             onDestinationSelected: (i) => setState(() => _index = i),
-            labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+            //labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
             destinations: [
               NavigationDestination(
                 icon: const Icon(Icons.public),
@@ -226,3 +388,4 @@ class _HomeShellState extends State<HomeShell> {
     );
   }
 }
+
