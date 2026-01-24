@@ -17,10 +17,10 @@ class CountriesPage extends StatefulWidget {
   final bool asSheet;
 
   /// When true, the page is used as "Manage cities" sheet (editable UI).
-  /// When false, it's the Countries tab (read-only UI).
+  /// When false, it's the Countries tab (metadata editor).
   final bool editable;
 
-  /// Metadata (ONLY shown when editable == false)
+  /// Metadata (shown/edited ONLY when editable == false)
   final ValueNotifier<Map<String, String>>? countryVisitedOn; // iso2 -> ISO date
   final ValueNotifier<Map<String, Map<String, String>>>? cityVisitedOn; // iso2 -> city -> ISO date
   final ValueNotifier<Map<String, Map<String, String>>>? cityNotes; // iso2 -> city -> note
@@ -44,6 +44,23 @@ class CountriesPage extends StatefulWidget {
 
 class _CountriesPageState extends State<CountriesPage> {
   final Set<String> _expandedCountries = <String>{};
+
+  // controllers for notes (so typing feels stable)
+  final Map<String, TextEditingController> _noteCtrls = {};
+
+  @override
+  void dispose() {
+    for (final c in _noteCtrls.values) {
+      c.dispose();
+    }
+    _noteCtrls.clear();
+    super.dispose();
+  }
+
+  TextEditingController _noteController(String iso2, String city, String initial) {
+    final key = '$iso2::$city';
+    return _noteCtrls.putIfAbsent(key, () => TextEditingController(text: initial));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,6 +141,7 @@ class _CountriesPageState extends State<CountriesPage> {
                   countryVisitedOn: widget.countryVisitedOn,
                   cityVisitedOn: widget.cityVisitedOn,
                   cityNotes: widget.cityNotes,
+                  noteControllerFactory: _noteController,
                   onToggleExpanded: (v) {
                     setState(() {
                       if (v) {
@@ -133,18 +151,12 @@ class _CountriesPageState extends State<CountriesPage> {
                       }
                     });
                   },
-                  onEditCities: widget.editable
-                      ? () => _editCities(context, iso2, name)
-                      : null,
+                  onEditCities:
+                  widget.editable ? () => _editCities(context, iso2, name) : null,
                   onRemoveCountry: widget.editable
                       ? () => _removeCountryWithConfirm(context, iso2)
                       : null,
-                  onRemoveCity: (city) => _toggleCityOff(
-                    context,
-                    iso2,
-                    city,
-                    selectedCities,
-                  ),
+                  onRemoveCity: (city) => _toggleCityOff(context, iso2, city, selectedCities),
                 );
               },
             );
@@ -292,6 +304,9 @@ class _CountrySection extends StatelessWidget {
 
   final ValueChanged<String> onRemoveCity;
 
+  final TextEditingController Function(String iso2, String city, String initial)
+  noteControllerFactory;
+
   const _CountrySection({
     required this.iso2,
     required this.countryName,
@@ -305,24 +320,23 @@ class _CountrySection extends StatelessWidget {
     required this.onEditCities,
     required this.onRemoveCountry,
     required this.onRemoveCity,
+    required this.noteControllerFactory,
   });
 
   @override
   Widget build(BuildContext context) {
     final headerBg = Theme.of(context).colorScheme.surfaceContainerHighest;
-    final border = Theme.of(context).dividerColor.withOpacity(0.35);
 
     return Container(
       decoration: BoxDecoration(
         color: headerBg,
         borderRadius: BorderRadius.circular(16),
-        // ✅ no border
       ),
       clipBehavior: Clip.antiAlias,
       child: Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
-          key: PageStorageKey('country-$iso2'),
+          key: ValueKey('country-$iso2'),
           initiallyExpanded: isExpanded,
           onExpansionChanged: onToggleExpanded,
           tilePadding: const EdgeInsets.fromLTRB(16, 10, 12, 10),
@@ -341,15 +355,35 @@ class _CountrySection extends StatelessWidget {
                     Text(countryName, style: Theme.of(context).textTheme.titleMedium),
                     const SizedBox(height: 2),
 
-                    // Country visited date only on Countries tab (editable == false)
+                    // Country visited date editable ONLY on Countries tab (editable == false)
                     if (!editable && countryVisitedOn != null)
                       ValueListenableBuilder<Map<String, String>>(
                         valueListenable: countryVisitedOn!,
                         builder: (context, map, _) {
                           final visitedIso = map[iso2];
-                          return Text(
-                            '${S.t(context, "visited_on")}: ${_fmtDate(visitedIso)}',
-                            style: Theme.of(context).textTheme.bodySmall,
+                          return Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  '${S.t(context, "visited_on")}: ${_fmtDate(visitedIso)}',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              IconButton(
+                                visualDensity: VisualDensity.compact,
+                                tooltip: S.t(context, 'edit_date'),
+                                icon: const Icon(Icons.edit_calendar, size: 18),
+                                onPressed: () async {
+                                  final picked = await _pickDate(context, visitedIso);
+                                  if (picked == null) return;
+
+                                  final next = Map<String, String>.from(countryVisitedOn!.value);
+                                  next[iso2] = picked.toIso8601String();
+                                  countryVisitedOn!.value = next;
+                                },
+                              ),
+                            ],
                           );
                         },
                       ),
@@ -400,6 +434,7 @@ class _CountrySection extends StatelessWidget {
                 cityVisitedOn: cityVisitedOn,
                 cityNotes: cityNotes,
                 onRemoveCity: onRemoveCity,
+                noteControllerFactory: noteControllerFactory,
               ),
           ],
         ),
@@ -418,6 +453,9 @@ class _CityGroup extends StatelessWidget {
 
   final ValueChanged<String> onRemoveCity;
 
+  final TextEditingController Function(String iso2, String city, String initial)
+  noteControllerFactory;
+
   const _CityGroup({
     required this.editable,
     required this.iso2,
@@ -425,18 +463,17 @@ class _CityGroup extends StatelessWidget {
     required this.cityVisitedOn,
     required this.cityNotes,
     required this.onRemoveCity,
+    required this.noteControllerFactory,
   });
 
   @override
   Widget build(BuildContext context) {
     final bg = Theme.of(context).colorScheme.surface;
-    final border = Theme.of(context).dividerColor.withOpacity(0.35);
 
     return Container(
       decoration: BoxDecoration(
         color: bg,
         borderRadius: BorderRadius.circular(14),
-        // ✅ no border
       ),
       clipBehavior: Clip.antiAlias,
       child: Column(
@@ -449,6 +486,7 @@ class _CityGroup extends StatelessWidget {
               cityVisitedOn: cityVisitedOn,
               cityNotes: cityNotes,
               onRemove: () => onRemoveCity(cities[i]),
+              noteControllerFactory: noteControllerFactory,
             ),
             if (i != cities.length - 1) const Divider(height: 1),
           ],
@@ -466,6 +504,9 @@ class _CityRowModern extends StatefulWidget {
   final ValueNotifier<Map<String, Map<String, String>>>? cityVisitedOn;
   final ValueNotifier<Map<String, Map<String, String>>>? cityNotes;
 
+  final TextEditingController Function(String iso2, String city, String initial)
+  noteControllerFactory;
+
   final VoidCallback onRemove;
 
   const _CityRowModern({
@@ -475,6 +516,7 @@ class _CityRowModern extends StatefulWidget {
     required this.cityVisitedOn,
     required this.cityNotes,
     required this.onRemove,
+    required this.noteControllerFactory,
   });
 
   @override
@@ -500,6 +542,7 @@ class _CityRowModernState extends State<_CityRowModern> {
       );
     }
 
+    // Countries tab: edit date + note
     return ValueListenableBuilder<Map<String, Map<String, String>>>(
       valueListenable: widget.cityVisitedOn ?? ValueNotifier(const {}),
       builder: (context, visits, _) {
@@ -508,13 +551,22 @@ class _CityRowModernState extends State<_CityRowModern> {
         return ValueListenableBuilder<Map<String, Map<String, String>>>(
           valueListenable: widget.cityNotes ?? ValueNotifier(const {}),
           builder: (context, notes, __) {
-            final noteText = (notes[widget.iso2]?[widget.city] ?? '').trim();
-            final hasNote = noteText.isNotEmpty;
+            final storedNote = notes[widget.iso2]?[widget.city] ?? '';
+            final noteTrimmed = storedNote.trim();
 
+            final controller =
+            widget.noteControllerFactory(widget.iso2, widget.city, storedNote);
+
+            // keep controller synced if store changes elsewhere
+            if (controller.text != storedNote && controller.value.composing.isCollapsed) {
+              controller.text = storedNote;
+            }
+
+            final hasNote = noteTrimmed.isNotEmpty;
             final subtitle = '${S.t(context, "visited_on")}: ${_fmtDate(isoDate)}';
 
             return InkWell(
-              onTap: hasNote ? () => setState(() => _expanded = !_expanded) : null,
+              onTap: () => setState(() => _expanded = !_expanded),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4),
                 child: Column(
@@ -527,27 +579,40 @@ class _CityRowModernState extends State<_CityRowModern> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      trailing: hasNote
-                          ? Row(
+                      trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.note_alt_outlined, size: 18),
-                          const SizedBox(width: 6),
-                          Icon(
-                            _expanded ? Icons.expand_less : Icons.expand_more,
-                            size: 20,
+                          IconButton(
+                            visualDensity: VisualDensity.compact,
+                            tooltip: S.t(context, 'edit_date'),
+                            icon: const Icon(Icons.calendar_month, size: 18),
+                            onPressed: () async {
+                              final vn = widget.cityVisitedOn;
+                              if (vn == null) return;
+
+                              final picked = await _pickDate(context, isoDate);
+                              if (picked == null) return;
+
+                              final nextAll = Map<String, Map<String, String>>.from(vn.value);
+                              final nextForCountry =
+                              Map<String, String>.from(nextAll[widget.iso2] ?? const {});
+                              nextForCountry[widget.city] = picked.toIso8601String();
+                              nextAll[widget.iso2] = nextForCountry;
+                              vn.value = nextAll;
+                            },
                           ),
+                          if (hasNote) const Icon(Icons.note_alt_outlined, size: 18),
+                          const SizedBox(width: 6),
+                          Icon(_expanded ? Icons.expand_less : Icons.expand_more, size: 20),
                         ],
-                      )
-                          : null,
+                      ),
                     ),
 
-                    // Expand note
                     AnimatedSize(
                       duration: const Duration(milliseconds: 180),
                       curve: Curves.easeOut,
                       alignment: Alignment.topCenter,
-                      child: (!_expanded || !hasNote)
+                      child: !_expanded
                           ? const SizedBox.shrink()
                           : Padding(
                         padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
@@ -560,9 +625,50 @@ class _CityRowModernState extends State<_CityRowModern> {
                                 .colorScheme
                                 .surfaceContainerHighest,
                           ),
-                          child: Text(
-                            noteText,
-                            style: Theme.of(context).textTheme.bodySmall,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                S.t(context, 'notes'),
+                                style: Theme.of(context).textTheme.labelLarge,
+                              ),
+                              const SizedBox(height: 8),
+                              TextField(
+                                controller: controller,
+                                maxLines: null,
+                                decoration: InputDecoration(
+                                  hintText: S.t(context, 'add_note'),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                onChanged: (txt) {
+                                  final vn = widget.cityNotes;
+                                  if (vn == null) return;
+
+                                  final nextAll =
+                                  Map<String, Map<String, String>>.from(vn.value);
+                                  final nextForCountry = Map<String, String>.from(
+                                      nextAll[widget.iso2] ?? const {});
+                                  final trimmed = txt.trim();
+
+                                  if (trimmed.isEmpty) {
+                                    nextForCountry.remove(widget.city);
+                                  } else {
+                                    nextForCountry[widget.city] = txt;
+                                  }
+
+                                  if (nextForCountry.isEmpty) {
+                                    nextAll.remove(widget.iso2);
+                                  } else {
+                                    nextAll[widget.iso2] = nextForCountry;
+                                  }
+
+                                  vn.value = nextAll;
+                                  setState(() {}); // refresh note icon instantly
+                                },
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -586,6 +692,21 @@ String _flagEmojiFromIso2(String iso2) {
   if (a < 65 || a > 90 || b < 65 || b > 90) return '🏳️';
   return String.fromCharCode(0x1F1E6 + (a - 65)) +
       String.fromCharCode(0x1F1E6 + (b - 65));
+}
+
+Future<DateTime?> _pickDate(BuildContext context, String? currentIso) async {
+  DateTime initial = DateTime.now();
+  if (currentIso != null && currentIso.isNotEmpty) {
+    final parsed = DateTime.tryParse(currentIso);
+    if (parsed != null) initial = parsed;
+  }
+
+  return showDatePicker(
+    context: context,
+    initialDate: DateTime(initial.year, initial.month, initial.day),
+    firstDate: DateTime(1900),
+    lastDate: DateTime(2100),
+  );
 }
 
 String _fmtDate(String? iso) {

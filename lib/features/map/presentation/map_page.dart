@@ -265,16 +265,9 @@ class _CountryDetailsOverlay extends StatelessWidget {
                           valueListenable: countryVisitedOn,
                           builder: (context, map, _) {
                             final iso = map[iso2];
-                            return _DateRow(
+                            return _DateRowReadOnly(
                               label: S.t(context, 'visited_on'),
                               value: _fmtDate(iso),
-                              onEdit: () async {
-                                final picked = await _pickDate(context, iso);
-                                if (picked == null) return;
-                                final next = Map<String, String>.from(countryVisitedOn.value);
-                                next[iso2] = picked.toIso8601String();
-                                countryVisitedOn.value = next;
-                              },
                             );
                           },
                         ),
@@ -290,8 +283,6 @@ class _CountryDetailsOverlay extends StatelessWidget {
                                     iso2: iso2,
                                     city: city,
                                     cityVisitedOn: cityVisitedOn,
-                                    cityNotes: cityNotes,
-                                    noteControllers: noteControllers,
                                   ),
                                 if (cities.isEmpty)
                                   Padding(
@@ -323,16 +314,11 @@ class _CityItem extends StatelessWidget {
   final String city;
 
   final ValueNotifier<Map<String, Map<String, String>>> cityVisitedOn;
-  final ValueNotifier<Map<String, Map<String, String>>> cityNotes;
-
-  final Map<String, TextEditingController> noteControllers;
 
   const _CityItem({
     required this.iso2,
     required this.city,
     required this.cityVisitedOn,
-    required this.cityNotes,
-    required this.noteControllers,
   });
 
   @override
@@ -342,87 +328,56 @@ class _CityItem extends StatelessWidget {
       builder: (context, visits, _) {
         final iso = visits[iso2]?[city];
 
-        return ValueListenableBuilder<Map<String, Map<String, String>>>(
-          valueListenable: cityNotes,
-          builder: (context, notes, __) {
-            final noteKey = '$iso2::$city';
-            final existingNote = notes[iso2]?[city] ?? '';
-
-            final controller = noteControllers.putIfAbsent(
-              noteKey,
-              () => TextEditingController(text: existingNote),
-            );
-
-            // keep controller in sync if data changes elsewhere
-            if (controller.text != existingNote && controller.value.composing.isCollapsed) {
-              controller.text = existingNote;
-            }
-
-            return Card(
-              margin: const EdgeInsets.only(bottom: 10),
-              child: Theme(
-                data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                child: ExpansionTile(
-                  title: Text(city, overflow: TextOverflow.ellipsis),
-                  subtitle: Text('${S.t(context, 'visited_on')}: ${_fmtDate(iso)}'),
-                  trailing: IconButton(
-                    tooltip: S.t(context, 'edit_date'),
-                    icon: const Icon(Icons.calendar_month),
-                    onPressed: () async {
-                      final picked = await _pickDate(context, iso);
-                      if (picked == null) return;
-
-                      final nextAll = Map<String, Map<String, String>>.from(cityVisitedOn.value);
-                      final nextForCountry = Map<String, String>.from(nextAll[iso2] ?? const {});
-                      nextForCountry[city] = picked.toIso8601String();
-                      nextAll[iso2] = nextForCountry;
-                      cityVisitedOn.value = nextAll;
-                    },
-                  ),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            S.t(context, 'notes'),
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
-                          const SizedBox(height: 8),
-                          TextField(
-                            controller: controller,
-                            maxLines: null,
-                            decoration: InputDecoration(
-                              hintText: S.t(context, 'add_note'),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                            ),
-                            onChanged: (txt) {
-                              final nextAll = Map<String, Map<String, String>>.from(cityNotes.value);
-                              final nextForCountry = Map<String, String>.from(nextAll[iso2] ?? const {});
-                              if (txt.trim().isEmpty) {
-                                nextForCountry.remove(city);
-                              } else {
-                                nextForCountry[city] = txt;
-                              }
-                              if (nextForCountry.isEmpty) {
-                                nextAll.remove(iso2);
-                              } else {
-                                nextAll[iso2] = nextForCountry;
-                              }
-                              cityNotes.value = nextAll;
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+        return Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  city,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-            );
-          },
+              const SizedBox(width: 12),
+              Text(
+                _fmtDate(iso),
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
+          ),
         );
       },
+    );
+  }
+}
+
+
+class _DateRowReadOnly extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _DateRowReadOnly({
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            '$label: $value',
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ),
+      ],
     );
   }
 }
