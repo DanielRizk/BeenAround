@@ -7,6 +7,7 @@ import '../features/map/presentation/map_page.dart';
 import '../features/settings/presentation/settings_page.dart';
 import '../features/stats/presentation/stats_page.dart';
 import '../shared/cities/cities_repository.dart';
+import '../shared/geo/continent_repository.dart';
 import '../shared/i18n/app_strings.dart';
 import '../shared/map/world_map_loader.dart';
 import '../shared/map/world_map_models.dart';
@@ -14,7 +15,7 @@ import '../shared/settings/app_settings.dart';
 import '../shared/storage/local_store.dart';
 
 // TODO: Fix the cities data
-// TODO: Click on selected country, opens a menu to show information and metadata and for the cities as well, allow edit mode.
+// TODO(DONE): Click on selected country, opens a menu to show information and metadata and for the cities as well, allow edit mode.
 // TODO: Implement statistics page, show overview countries percentage and cities percentage with nice graphs, click on countries and select each country to see statistics.
 // TODO: Implement Login page and tutorial, allow manual login or by google Auth0.
 // TODO: Implement backup server and store user data countries, cities and friends.
@@ -103,6 +104,7 @@ class _HomeShellState extends State<HomeShell> {
       ValueNotifier<Map<String, Map<String, String>>>({}); // iso2 -> city -> note
 
   late final Future<(WorldMapData, Map<String, List<String>>)> _bootstrapFuture;
+  Map<String, String> _iso2ToContinent = const {};
   Map<String, List<String>> _iso2ToCities = const {};
 
   bool _reconciling = false;
@@ -114,6 +116,7 @@ class _HomeShellState extends State<HomeShell> {
     _bootstrapFuture = Future.wait([
       WorldMapLoader.loadFromAssetWithAnchors('assets/maps/world.svg'),
       CitiesRepository.loadIso2ToCities('assets/cities/cities.csv'),
+      ContinentRepository.loadIso2ToContinent('assets/geo/country_continents.csv'),
       // load saved user selections
       LocalStore.loadSelectedCountries(),
       LocalStore.loadCitiesByCountry(),
@@ -125,14 +128,21 @@ class _HomeShellState extends State<HomeShell> {
     ]).then((list) {
       final mapData = list[0] as WorldMapData;
       final cities = list[1] as Map<String, List<String>>;
-      final savedSelected = list[2] as Set<String>;
-      final savedCitiesByCountry = list[3] as Map<String, List<String>>;
+      final continentMap = list[2] as Map<String, String>;
 
-      final savedCountryVisitedOn = list[4] as Map<String, String>;
-      final savedCityVisitedOn = list[5] as Map<String, Map<String, String>>;
-      final savedCityNotes = list[6] as Map<String, Map<String, String>>;
+      final savedSelected = list[3] as Set<String>;
+      final savedCitiesByCountry = list[4] as Map<String, List<String>>;
+
+      final savedCountryVisitedOn = list[5] as Map<String, String>;
+      final savedCityVisitedOn = list[6] as Map<String, Map<String, String>>;
+      final savedCityNotes = list[7] as Map<String, Map<String, String>>;
+
+      debugPrint('continentMap length = ${continentMap.length}');
+      debugPrint('continentMap sample = ${continentMap.entries.take(10).toList()}');
+      debugPrint('iso2ToCities keys sample = ${cities.keys.take(10).toList()}');
 
       _iso2ToCities = cities;
+      _iso2ToContinent = continentMap;
 
       // ✅ hydrate notifiers
       selectedCountryIds.value = savedSelected;
@@ -142,7 +152,6 @@ class _HomeShellState extends State<HomeShell> {
       cityVisitedOn.value = savedCityVisitedOn;
       cityNotes.value = savedCityNotes;
 
-      // ✅ keep metadata consistent with selection
       _reconcileMetadata();
 
       // ✅ start auto-saving on changes
@@ -349,7 +358,14 @@ class _HomeShellState extends State<HomeShell> {
             cityVisitedOn: cityVisitedOn,
             cityNotes: cityNotes,
           ),
-          const StatsPage(),
+          StatsPage(
+            selectedCountryIds: selectedCountryIds,
+            citiesByCountry: citiesByCountry,
+            countryNameById: mapData.nameById,
+            iso2ToCities: iso2ToCities,
+            iso2ToContinent: _iso2ToContinent,
+          ),
+
           const FriendsPage(),
           SettingsPage(onResetAll: _resetAllAppData),
         ];

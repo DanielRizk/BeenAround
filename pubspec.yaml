@@ -71,6 +71,7 @@ flutter:
   assets:
     - assets/maps/world.svg
     - assets/cities/cities.csv
+    - assets/geo/country_continents.csv
 
   # To add assets to your application, add an assets section, like this:
   # assets:
