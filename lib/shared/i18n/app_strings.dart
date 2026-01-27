@@ -60,7 +60,15 @@ class S {
       'no_countries_selected': 'No countries selected yet.',
       'country_needs_at_least_one_city': 'A country needs at least one city. If you uncheck this city the country will be removed.',
       'cities_will_be_lost_remove_country_confirm': 'Removing this country will also remove all its selected cities.',
-      
+
+      //===========================================
+      //              Stats Page
+      //===========================================
+      'worldwide': 'Worldwide',
+      'continents': 'Continents',
+      'country_visited': 'Country Visited',
+      'country_not_visited': 'Country not yet Visited',
+
       //===========================================
       //              Settings Page
       //===========================================
@@ -166,6 +174,14 @@ class S {
       'no_countries_selected': 'Noch keine Länder ausgewählt.',
       'country_needs_at_least_one_city': 'Ein Land benötigt mindestens eine Stadt. Wenn Sie diese Stadt deaktivieren, wird das Land entfernt.',
       'cities_will_be_lost_remove_country_confirm': 'Wenn Sie dieses Land entfernen, werden auch alle ausgewählten Städte entfernt.',
+
+      //===========================================
+      //              Stats Page
+      //===========================================
+      'worldwide': 'Weltweit',
+      'continents': 'Kontinente',
+      'country_visited': 'Land Besucht',
+      'country_not_visited': 'Land noch nicht Besucht',
 
       //===========================================
       //              Settings Page

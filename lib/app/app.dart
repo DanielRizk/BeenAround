@@ -137,10 +137,6 @@ class _HomeShellState extends State<HomeShell> {
       final savedCityVisitedOn = list[6] as Map<String, Map<String, String>>;
       final savedCityNotes = list[7] as Map<String, Map<String, String>>;
 
-      debugPrint('continentMap length = ${continentMap.length}');
-      debugPrint('continentMap sample = ${continentMap.entries.take(10).toList()}');
-      debugPrint('iso2ToCities keys sample = ${cities.keys.take(10).toList()}');
-
       _iso2ToCities = cities;
       _iso2ToContinent = continentMap;
 

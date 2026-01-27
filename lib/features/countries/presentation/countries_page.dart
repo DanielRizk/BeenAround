@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../shared/i18n/app_strings.dart';
 import '../../map/presentation/widgets/city_picker_sheet.dart';
@@ -95,8 +96,19 @@ class _CountriesPageState extends State<CountriesPage> {
       );
     }
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('')),
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        title: const SizedBox.shrink(),
+        actions: const [],
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        systemOverlayStyle: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
+      ),
       body: body,
     );
   }
@@ -346,15 +358,32 @@ class _CountrySection extends StatelessWidget {
           const RoundedRectangleBorder(side: BorderSide(color: Colors.transparent)),
           title: Row(
             children: [
-              Text(_flagEmojiFromIso2(iso2), style: const TextStyle(fontSize: 20)),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(countryName, style: Theme.of(context).textTheme.titleMedium),
-                    const SizedBox(height: 2),
-
+                    Row(
+                      children: [
+                        Text(_flagEmojiFromIso2(iso2), style: const TextStyle(fontSize: 20)),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            child: Text(
+                              countryName,
+                              maxLines: 1,
+                              softWrap: false,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.w800),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     // Country visited date editable ONLY on Countries tab (editable == false)
                     if (!editable && countryVisitedOn != null)
                       ValueListenableBuilder<Map<String, String>>(
@@ -371,7 +400,9 @@ class _CountrySection extends StatelessWidget {
                                 ),
                               ),
                               IconButton(
-                                visualDensity: VisualDensity.compact,
+                                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints.tightFor(width: 32, height: 32),
                                 tooltip: S.t(context, 'edit_date'),
                                 icon: const Icon(Icons.edit_calendar, size: 18),
                                 onPressed: () async {
@@ -387,7 +418,6 @@ class _CountrySection extends StatelessWidget {
                           );
                         },
                       ),
-
                     Text(
                       selectedCities.length == 1
                           ? '${selectedCities.length} ${S.t(context, "city")} ${S.t(context, "visited")}'

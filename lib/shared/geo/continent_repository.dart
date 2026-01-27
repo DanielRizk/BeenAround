@@ -23,8 +23,8 @@ class ContinentRepository {
       final parts = line.split(RegExp(r'[;,]'));
       if (parts.length < 2) continue;
 
-      var iso2 = parts[3].trim();
-      var continent = parts[0].trim();
+      var iso2 = parts[0].trim();
+      var continent = parts[1].trim();
 
       // Remove possible quotes
       iso2 = iso2.replaceAll('"', '').replaceAll("'", '').toUpperCase();
