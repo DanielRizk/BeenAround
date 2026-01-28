@@ -191,6 +191,13 @@ class WorldMapViewState extends State<WorldMapView>
 
         final settings = AppSettingsScope.of(context);
 
+        final theme = Theme.of(context);
+        final cs = theme.colorScheme;
+
+        final borderColor = theme.brightness == Brightness.dark
+            ? cs.outlineVariant.withAlpha(125)
+            : cs.outlineVariant.withAlpha(180);
+
         return ClipRect(
           child: Stack(
             children: [
@@ -219,6 +226,7 @@ class WorldMapViewState extends State<WorldMapView>
                             selectedIds: ids,
                             controller: _tc,
                             selectedColor: settings.selectedCountryColor,
+                            borderColor: borderColor,
                           ),
                         ),
                       );
@@ -234,6 +242,13 @@ class WorldMapViewState extends State<WorldMapView>
                   final settings = AppSettingsScope.of(context);
                   if (!settings.showCountryLabels) return const SizedBox.shrink();
 
+                  final theme = Theme.of(context);
+                  final cs = theme.colorScheme;
+
+                  final strokeColor = theme.brightness == Brightness.dark
+                      ? cs.outlineVariant.withAlpha(125)
+                      : cs.outlineVariant.withAlpha(180);
+
                   return IgnorePointer(
                     child: SizedBox.expand(
                       child: CustomPaint(
@@ -241,6 +256,7 @@ class WorldMapViewState extends State<WorldMapView>
                           map: widget.map,
                           controller: _tc,
                           anchors: anchors,
+                          strokeColor: strokeColor
                         ),
                       ),
                     ),

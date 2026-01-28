@@ -6,12 +6,14 @@ class WorldMapPainter extends CustomPainter {
   final Set<String> selectedIds;
   final TransformationController controller;
   final Color selectedColor;
+  final Color borderColor;
 
   WorldMapPainter({
     required this.map,
     required this.selectedIds,
     required this.controller,
     required this.selectedColor,
+    required this.borderColor,
   }) : super(repaint: controller);
 
   @override
@@ -24,7 +26,7 @@ class WorldMapPainter extends CustomPainter {
 
     final borderPaint = Paint()
       ..style = PaintingStyle.stroke
-      ..color = Colors.white
+      ..color = borderColor
       ..strokeJoin = StrokeJoin.round
       ..strokeCap = StrokeCap.round
       ..isAntiAlias = true

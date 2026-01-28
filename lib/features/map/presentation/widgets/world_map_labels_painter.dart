@@ -15,6 +15,8 @@ class WorldMapLabelsPainter extends CustomPainter {
 
   final Map<String, Offset> anchors;
 
+  final Color strokeColor;
+
 
   WorldMapLabelsPainter({
     required this.map,
@@ -23,6 +25,7 @@ class WorldMapLabelsPainter extends CustomPainter {
     this.minCountryScreenWidth = 14,
     this.minCountryScreenHeight = 8,
     required this.anchors,
+    required this.strokeColor
   }) : super(repaint: controller); // ✅ repaint on pan/zoom
 
   @override
@@ -31,7 +34,7 @@ class WorldMapLabelsPainter extends CustomPainter {
     final strokePaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5
-      ..color = Colors.white
+      ..color = strokeColor
       ..strokeJoin = StrokeJoin.round;
 
     // Text fill (same grey as countries)

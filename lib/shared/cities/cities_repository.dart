@@ -12,7 +12,7 @@ class CitiesRepository {
 
     final map = <String, List<String>>{};
     for (final row in rows) {
-      if (row.length < 2) continue;
+      if (row.length < 2 || row.contains("=")) continue;
       final iso2 = row[0].toString().trim().toUpperCase();
       final city = row[1].toString().trim();
       if (iso2.isEmpty || city.isEmpty) continue;
