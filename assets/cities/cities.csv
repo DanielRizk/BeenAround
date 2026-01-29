@@ -40,6 +40,9 @@ AG,Bolans
 AG,Swetes
 AG,Codrington
 =================
+AI,The Valley
+AI,Blowing Point
+=================
 AL,Tirana
 AL,Durrës
 AL,Vlorë
@@ -137,6 +140,10 @@ AW,San Nicolas
 AW,Noord
 AW,Santa Cruz
 AW,Paradera
+=================
+AX,Mariehamn
+AX,Jomala
+AX,Finström
 =================
 AZ,Baku
 AZ,Ganja
@@ -236,6 +243,8 @@ BJ,Djougou
 BJ,Natitingou
 BJ,Ouidah
 =================
+BL,Gustavia
+=================
 BM,Hamilton
 BM,St. George's
 BM,Somerset Village
@@ -258,6 +267,10 @@ BO,Potosí
 BO,Tarija
 BO,Trinidad
 BO,Montero
+=================
+BQ,Kralendijk
+BQ,Oranjestad
+BQ,The Bottom
 =================
 BR,São Paulo
 BR,Rio de Janeiro
@@ -296,6 +309,8 @@ BT,Wangdue Phodrang
 BT,Gelephu
 BT,Mongar
 BT,Trashigang
+=================
+BV,Bouvet Island
 =================
 BW,Gaborone
 BW,Francistown
@@ -338,6 +353,9 @@ CA,London
 CA,Halifax
 CA,Victoria
 CA,Surrey
+=================
+CC,West Island
+CC,Home Island
 =================
 CD,Kinshasa
 CD,Lubumbashi
@@ -484,6 +502,9 @@ CW,Jan Thiel
 CW,Sint Michiel
 CW,Sabana Westpunt
 =================
+CX,Flying Fish Cove
+CX,Drumsite
+=================
 CY,Nicosia
 CY,Limassol
 CY,Larnaca
@@ -524,6 +545,7 @@ DE,Heidelberg
 DE,Freiburg
 DE,Karlsruhe
 DE,Augsburg
+DE,Sylt
 =================
 DJ,Djibouti
 DJ,Ali Sabieh
@@ -626,6 +648,10 @@ EG,Kharga
 EG,New Valley
 EG,Dahab
 EG,Siwa
+=================
+EH,Laayoune
+EH,Dakhla
+EH,Smara
 =================
 ER,Asmara
 ER,Keren
@@ -778,6 +804,9 @@ GF,Kourou
 GF,Saint-Laurent-du-Maroni
 GF,Remire-Montjoly
 =================
+GG,St. Peter Port
+GG,St. Sampson
+=================
 GH,Accra
 GH,Kumasi
 GH,Tamale
@@ -813,6 +842,8 @@ GN,Nzérékoré
 GN,Kindia
 GN,Boké
 GN,Mamou
+=================
+GO,Unknown Territory
 =================
 GP,Pointe-à-Pitre
 GP,Basse-Terre
@@ -878,6 +909,8 @@ HK,Tsuen Wan
 HK,Sha Tin
 HK,Tuen Mun
 HK,Yuen Long
+=================
+HM,Atlas Cove
 =================
 HN,Tegucigalpa
 HN,San Pedro Sula
@@ -984,6 +1017,8 @@ IN,Guwahati
 IN,Amritsar
 IN,Varanasi
 =================
+IO,Diego Garcia
+=================
 IQ,Baghdad
 IQ,Erbil
 IQ,Basra
@@ -1039,4291 +1074,1260 @@ IT,Cagliari
 IT,Ancona
 IT,Parma
 =================
+JE,St. Helier
+JE,Gorey
+=================
 JM,Kingston
-JM,Spanish Town
-JM,May Pen
 JM,Montego Bay
-JM,Half Way Tree
+JM,Spanish Town
+JM,Portmore
+JM,Ocho Rios
 JM,Mandeville
-JM,Savanna-la-Mar
-JM,Port Antonio
-JM,Saint Ann's Bay
-JM,Port Maria
-JM,Falmouth
-JM,Lucea
-JM,Black River
-JM,Morant Bay
-JM,Port Morant
+=================
 JO,Amman
-JO,Az Zarqa'
+JO,Zarqa
 JO,Irbid
-JO,As Salt
-JO,Al `Aqabah
-JO,Al Karak
-JO,Al Mafraq
-JO,Ma`an
-JO,At Tafilah
+JO,Aqaba
 JO,Madaba
-JO,Jarash
-JO,`Ajlun
+JO,Jerash
+JO,Ajloun
+JO,Karak
+JO,Ma'an
+=================
 JP,Tokyo
-JP,Osaka
 JP,Yokohama
+JP,Osaka
 JP,Nagoya
-JP,Fukuoka
 JP,Sapporo
-JP,Sendai
-JP,Hiroshima
-JP,Kyoto
+JP,Fukuoka
 JP,Kobe
-JP,Kawanakajima
-JP,Kitaku
+JP,Kyoto
+JP,Hiroshima
+JP,Sendai
+JP,Chiba
+JP,Kawasaki
+JP,Saitama
 JP,Hamamatsu
 JP,Naha
-JP,Okayama
-JP,Kumamoto
-JP,Shizuoka
-JP,Utsunomiya
-JP,Nagano
-JP,Hachioji
-JP,Niigata
-JP,Kagoshima
-JP,Kanazawa
-JP,Otsu
-JP,Matsuyama
-JP,Tsu
-JP,Oita
-JP,Tokushima
-JP,Wakayama
-JP,Nagasaki
-JP,Gifu
-JP,Iwaki
-JP,Asahikawa
-JP,Mito
-JP,Maebashi
-JP,Tamuramachi-moriyama
-JP,Kawagoe
-JP,Kochi
-JP,Takamatsu
-JP,Toyama
-JP,Miyazaki
-JP,Akita
-JP,Hakodate
-JP,Aomori
-JP,Morioka
-JP,Fukushima
-JP,Yamagata
-JP,Fukui
-JP,Shinozaki
-JP,Hachimancho
-JP,Sato
-JP,Minamiozuma
-JP,Ashino
-JP,Kofu
-JP,Kure
-JP,Naka
-JP,Obiraki
-JP,Takaoka
-JP,Beppucho
-JP,Takaoka
-JP,Matsue
-JP,Muroran
-JP,Tottori
-JP,Otaru
-JP,Koencho
-JP,Sakata
-JP,Saitama
-JP,Chiba
-JP,Nara
-JP,Saga
-JP,Tottori
-JP,Yamaguchi
-JP,Tsuruoka
-JP,Maizuru
-JP,Kaneyama
+=================
+JU,Unknown Territory
+=================
 KE,Nairobi
 KE,Mombasa
 KE,Kisumu
 KE,Nakuru
 KE,Eldoret
-KE,Kitale
-KE,Machakos
 KE,Thika
-KE,Kericho
 KE,Malindi
-KE,Kilifi
-KE,Garissa
-KE,Kakamega
-KE,Embu
-KE,Bungoma
+KE,Kitale
 KE,Nyeri
 KE,Meru
-KE,Wajir
-KE,Kisii
-KE,Moyale
-KE,Lamu
-KE,Maralal
-KE,Lodwar
-KE,Eldama Ravine
-KE,Marsabit
-KE,Kiambu
-KE,Busia
-KE,Kitui
-KE,Isiolo
-KE,Homa Bay
-KE,Kabarnet
-KE,Mandera
-KE,Migori
-KE,Kerugoya
-KE,Iten
-KE,Nyamira
-KE,Kapsabet
-KE,Murang'a
-KE,Sotik Post
-KE,Siaya
-KE,Kapenguria
-KE,Wote
-KE,Mwatate
-KE,Kajiado
-KE,Hola
-KE,Ol Kalou
-KE,Narok
-KE,Kwale
-KE,Rumuruti
-KE,Kathwana
-KE,Kendu Bay
-KE,Sotik
-KE,Naivasha
-KE,Voi
-KE,Nanyuki
-KE,Namanga
-KE,Mwingi
-KE,Karungu
-KE,Witu
-KE,Konza
-KE,Tsavo
+KE,Garissa
+=================
 KG,Bishkek
 KG,Osh
 KG,Jalal-Abad
-KG,Tokmok
 KG,Karakol
 KG,Naryn
 KG,Talas
-KG,Batken
-KG,Kara-Balta
-KG,Balykchy
-KG,Toktogul
-KG,Tash-Komur
-KG,Cholpon-Ata
-KG,At-Bashy
-KG,Kok-Janggak
+=================
 KH,Phnom Penh
-KH,Battambang
 KH,Siem Reap
-KH,Kampong Cham
-KH,Kampong Chhnang
-KH,Prey Veng
-KH,Pursat
-KH,Sisophon
-KH,Kampot
-KH,Kampong Speu
-KH,Koh Kong
-KH,Stung Treng
-KH,Tbeng Meanchey
-KH,Svay Rieng
-KH,Kratie
-KH,Takeo
-KH,Sen Monorom
-KH,Kampong Thom
-KH,Ta Khmau
-KH,Banlung
+KH,Battambang
 KH,Sihanoukville
-KH,Suong
-KH,Samraong
-KH,Pailin
-KH,Krong Kep
-KH,Kampong Thum
-KH,Lumphat
+KH,Kampong Cham
+KH,Poipet
+KH,Takeo
+=================
 KI,Tarawa
+KI,Bairiki
+KI,Betio
+KI,Tabiteuea
+=================
 KM,Moroni
-KM,Fomboni
 KM,Mutsamudu
+KM,Fomboni
+=================
 KN,Basseterre
+KN,Charlestown
+KN,Sandy Point Town
+=================
 KP,Pyongyang
-KP,Namp'o
 KP,Hamhung
-KP,Hungnam
-KP,Ch'ongjin
-KP,Sunch'on
-KP,Kaesong
-KP,Wonsan
-KP,Kanggye
+KP,Chongjin
+KP,Nampo
 KP,Sinuiju
+KP,Wonsan
 KP,Hyesan
-KP,Haeju
-KP,Kimch'aek-si
-KP,Manp'o
-KP,Sariwon
-KP,Chongju
-KP,P'yongsong
-KP,Rajin
-KP,Namsan
-KP,Munch'on
-KP,Ongjin
-KP,P'yongsan
-KP,Sonbong
-KP,Changyon
-KP,Sil-li
-KP,Ch'osan-up
-KP,P'ungsan
-KP,Tae-dong
+=================
 KR,Seoul
 KR,Busan
 KR,Incheon
 KR,Daegu
 KR,Daejeon
 KR,Gwangju
-KR,Changwon
-KR,Suwon
 KR,Ulsan
-KR,Songnam
+KR,Suwon
+KR,Changwon
+KR,Seongnam
 KR,Goyang
-KR,Bucheon
-KR,Cheongju
-KR,Ansan
-KR,Jeonju
-KR,Pohang
-KR,Jeju
-KR,Yeosu
-KR,Iksan
-KR,Mokpo
-KR,Kunsan
-KR,Wonju
-KR,Chuncheon
-KR,Gangneung
-KR,Kyongju
-KR,Andong
-KR,Sejong
-KR,Hongseong
-KR,Muan
-KR,Sokcho
-KR,Eumseong
+KR,Yongin
+=================
 KW,Kuwait City
-KW,Al Jahra'
 KW,Al Ahmadi
+KW,Hawalli
+KW,Farwaniya
+KW,Jahra
+KW,Mubarak Al-Kabeer
+=================
 KY,George Town
+KY,West Bay
+KY,Bodden Town
+KY,North Side
+KY,East End
+=================
 KZ,Almaty
-KZ,Nur-Sultan
+KZ,Astana
 KZ,Shymkent
-KZ,Qaraghandy
-KZ,Taraz
-KZ,Pavlodar
-KZ,Oskemen
-KZ,Semey
-KZ,Qyzylorda
-KZ,Aqtobe
-KZ,Qostanay
-KZ,Petropavl
-KZ,Oral
+KZ,Karaganda
+KZ,Aktobe
 KZ,Atyrau
-KZ,Temirtau
-KZ,Manghyshlaq
-KZ,Kokshetau
-KZ,Ekibastuz
-KZ,Rudnyy
-KZ,Zhezqazghan
-KZ,Turkistan
-KZ,Taldyqorghan
-KZ,Aqtau
-KZ,Balkhash
-KZ,Sarqan
-KZ,Kentau
-KZ,Ridder
-KZ,Arqalyq
-KZ,Zyryanovsk
-KZ,Zhitiqara
-KZ,Ayagoz
-KZ,Arys
-KZ,Shu
-KZ,Qapshaghay
-KZ,Qaratau
-KZ,Qulsary
-KZ,Zharkent
-KZ,Baikonur
-KZ,Atbasar
-KZ,Esik
-KZ,Aksay
-KZ,Aral
-KZ,Beyneu
-KZ,Balyqshy
-KZ,Shieli
-KZ,Alga
-KZ,Oktyabr'sk
-KZ,Shalqar
-KZ,Shemonaikha
-KZ,Ereymentau
-KZ,Khromtau
-KZ,Lengir
-KZ,Makinsk
-KZ,Oytal
-KZ,Qarazhal
-KZ,Boralday
-KZ,Ushtobe
-KZ,Zhosaly
-KZ,Atasu
-KZ,Emba
-KZ,Zaysan
-KZ,Derzhavinsk
-KZ,Uryzhar
-KZ,Maqat
-KZ,Esil
-KZ,Taiynsha
-KZ,Qulan
-KZ,Otar
-KZ,Bulaevo
-KZ,Qarabalyq
-KZ,Aqadyr
-KZ,Ertis
-KZ,Shar
-KZ,Qashyr
-KZ,Makhambet
-KZ,Zhangaozen
-KZ,Aqsu
-KZ,Zhanibek
-KZ,Qarqaraly
-KZ,Qusmuryn
-KZ,Bayghanin
-KZ,Osakarovka
-KZ,Bestobe
-KZ,Tobyl
-KZ,Zholymbet
-KZ,Kishkenekol
-KZ,Qazaly
-KZ,Chapaev
-KZ,Torghay
-KZ,Fort-Shevchenko
-KZ,Saryshagan
-KZ,Shongzhy
-KZ,Serebryansk
-KZ,Zhaltyr
-KZ,Sharbaqty
-KZ,Burylbaytal
+KZ,Semey
+KZ,Öskemen
+KZ,Kostanay
+KZ,Pavlodar
+KZ,Petropavl
+=================
 LA,Vientiane
-LA,Louangphabang
-LA,Pakxe
+LA,Luang Prabang
+LA,Pakse
 LA,Savannakhet
 LA,Thakhek
-LA,Xam Nua
-LA,Xaignabouli
-LA,Ban Houayxay
-LA,Phongsali
-LA,Salavan
-LA,Attapu
-LA,Louang Namtha
-LA,Phon-Hong
 LA,Phonsavan
-LA,Pakxan
-LA,Xai
-LA,Xekong
-LA,Anouvong
-LA,Champasak
-LA,Xiangkhoang
+LA,Luang Namtha
+=================
 LB,Beirut
 LB,Tripoli
 LB,Sidon
-LB,Nabatiye
+LB,Tyre
 LB,Zahle
-LB,Baabda
+LB,Jounieh
 LB,Baalbek
-LB,Halba
+LB,Byblos
+=================
 LC,Castries
+LC,Gros Islet
+LC,Vieux Fort
+LC,Soufrière
+LC,Dennery
+=================
 LI,Vaduz
-LI,Mauren
-LI,Eschen
-LI,Schellenberg
-LI,Ruggell
-LI,Gamprin
 LI,Schaan
 LI,Balzers
 LI,Triesen
-LI,Planken
-LI,Triesenberg
+LI,Eschen
+=================
 LK,Colombo
-LK,Sri Jayewardenepura Kotte
+LK,Kandy
+LK,Galle
 LK,Jaffna
-LK,Moratuwa
+LK,Negombo
+LK,Matara
+LK,Trincomalee
 LK,Batticaloa
 LK,Anuradhapura
-LK,Kandy
-LK,Trincomalee
-LK,Kilinochchi
-LK,Galle
-LK,Matara
-LK,Ratnapura
-LK,Badulla
-LK,Puttalam
-LK,Kurunegala
+=================
 LR,Monrovia
+LR,Buchanan
 LR,Gbarnga
 LR,Kakata
 LR,Harper
 LR,Voinjama
-LR,Zwedru
-LR,Robertsport
-LR,Sanniquellie
-LR,Greenville
-LR,Bensonville
-LR,Barclayville
-LR,Cestos City
-LR,Buchanan
-LR,Tubmanburg
-LR,Fish Town
-LR,Bopolu
-LR,Upper Buchanan
+=================
 LS,Maseru
 LS,Mafeteng
 LS,Leribe
 LS,Mohale's Hoek
-LS,Quthing
-LS,Butha-Buthe
-LS,Mokhotlong
-LS,Teyateyaneng
 LS,Qacha's Nek
-LS,Thaba-Tseka
+=================
 LT,Vilnius
 LT,Kaunas
-LT,Klaipeda
-LT,Siauliai
-LT,Panevezys
+LT,Klaipėda
+LT,Šiauliai
+LT,Panevėžys
 LT,Alytus
-LT,Visaginas
-LT,Palanga
-LT,Marijampole
-LT,Elektrenai
-LT,Jonava
-LT,Druskininkai
-LT,Mazeikiai
-LT,Kretinga
-LT,Trakai
-LT,Birstonas
-LT,Utena
-LT,Taurage
-LT,Plunge
-LT,Silute
-LT,Vilkaviskis
-LT,Telsiai
-LT,Kedainiai
-LT,Kaisiadorys
-LT,Nida
-LT,Prienai
-LT,Ukmerge
-LT,Akmene
-LT,Kalvarija
-LT,Radviliskis
-LT,Kazlu Ruda
-LT,Raseiniai
-LT,Silale
-LT,Sakiai
-LT,Salcininkai
-LT,Joniskis
-LT,Pasvalys
-LT,Skuodas
-LT,Sirvintos
-LT,Rokiskis
-LT,Jurbarkas
-LT,Kelme
-LT,Kupiskis
-LT,Birzai
-LT,Pagegiai
-LT,Pakruojis
-LT,Lazdijai
-LT,Svencionys
-LT,Anyksciai
-LT,Zarasai
-LT,Moletai
-LT,Rietavas
-LT,Ignalina
-LT,Varena
+LT,Marijampolė
+=================
 LU,Luxembourg
-LU,Diekirch
-LU,Grevenmacher
 LU,Esch-sur-Alzette
-LU,Remich
-LU,Capellen
-LU,Wiltz
-LU,Echternach
-LU,Vianden
-LU,Mersch
-LU,Clervaux
-LU,Redange-sur-Attert
+LU,Differdange
+LU,Dudelange
+LU,Ettelbruck
+=================
 LV,Riga
 LV,Daugavpils
-LV,Liepaja
+LV,Liepāja
 LV,Jelgava
+LV,Jūrmala
 LV,Ventspils
-LV,Rezekne
-LV,Valmiera
-LV,Jekabpils
-LV,Jurmala
-LV,Salaspils
-LV,Ulbroka
-LV,Marupe
-LV,Saulkrasti
-LV,Cesis
-LV,Aizkraukle
-LV,Carnikava
-LV,Kekava
-LV,Incukalns
-LV,Ikskile
-LV,Olaine
-LV,Adazi
-LV,Ozolnieki
-LV,Garkalne
-LV,Lielvarde
-LV,Sigulda
-LV,Pinki
-LV,Ogre
-LV,Skriveri
-LV,Bauska
-LV,Baldone
-LV,Preili
-LV,Iecava
-LV,Priekuli
-LV,Tukums
-LV,Dobele
-LV,Vilani
-LV,Ligatne
-LV,Roja
-LV,Livani
-LV,Ropazi
-LV,Grobina
-LV,Smarde
-LV,Talsi
-LV,Kraslava
-LV,Pilsrundale
-LV,Mersrags
-LV,Tervete
-LV,Malpils
-LV,Rujiena
-LV,Koknese
-LV,Saldus
-LV,Plavinas
-LV,Ragana
-LV,Auce
-LV,Limbazi
-LV,Ludza
-LV,Cesvaine
-LV,Aizpute
-LV,Kuldiga
-LV,Kandava
-LV,Smiltene
-LV,Balvi
-LV,Salacgriva
-LV,Ilukste
-LV,Sala
-LV,Broceni
-LV,Varaklani
-LV,Koceni
-LV,Jaunpils
-LV,Gulbene
-LV,Kegums
-LV,Madona
-LV,Rauna
-LV,Priekule
-LV,Burtnieki
-LV,Murmuiza
-LV,Aglona
-LV,Nica
-LV,Valka
-LV,Zilupe
-LV,Aluksne
-LV,Akniste
-LV,Vecumnieki
-LV,Strenci
-LV,Loja
-LV,Skrunda
-LV,Liegi
-LV,Karsava
-LV,Jaunpiebalga
-LV,Riebini
-LV,Jaunjelgava
-LV,Dagda
-LV,Vilaka
-LV,Aloja
-LV,Vainode
-LV,Ergli
-LV,Mazsalaca
-LV,Stalbe
-LV,Vecpiebalga
-LV,Alsunga
-LV,Drabesi
-LV,Vecvarkava
-LV,Lubana
-LV,Naukseni
-LV,Ape
-LV,Baltinava
-LV,Dundaga
-LV,Viesite
-LV,Nereta
-LV,Cibla
-LV,Pavilosta
-LV,Rugaji
-LV,Rucava
+LV,Rēzekne
+=================
 LY,Tripoli
 LY,Benghazi
-LY,Misratah
-LY,Tobruk
-LY,Al Khums
-LY,Az Zawiyah
-LY,Zuwarah
-LY,Al Marj
-LY,Gharyan
-LY,Ajdabiya
-LY,Surt
-LY,Darnah
+LY,Misrata
+LY,Sirte
 LY,Sabha
-LY,Nalut
-LY,Murzuq
-LY,Ghat
-LY,Hun
-LY,Al Bayda'
-LY,Al `Aziziyah
-LY,Awbari
-LY,Idri
-LY,Al Kufrah
-LY,Bani Walid
-LY,Birak
-LY,Shahhat
-LY,Mizdah
-LY,Al Jawf
-LY,Ghadamis
-LY,Awjilah
-LY,Qaminis
-LY,Maradah
-LY,Al Jaghbub
-LY,Tajarhi
-LY,Daraj
-LY,Tmassah
-LY,Umm al `Abid
-LY,Al `Uqaylah
-LY,As Sidrah
-LY,Zillah
-MA,Casablanca
+LY,Zawiya
+LY,Tobruk
+LY,Derna
+LY,Ghadames
+=================
 MA,Rabat
+MA,Casablanca
+MA,Marrakesh
 MA,Fes
-MA,Marrakech
-MA,Agadir
 MA,Tangier
+MA,Agadir
 MA,Meknes
+MA,Oujda
 MA,Kenitra
-MA,Oujda-Angad
+MA,Tetouan
 MA,Safi
-MA,Ksar El Kebir
-MA,Errachidia
-MA,Taza
-MA,El Jadid
-MA,Settat
-MA,Larache
-MA,Guelmim
-MA,Ouezzane
-MA,Beni Mellal
-MA,Tan-Tan
-MA,Tiznit
+MA,El Jadida
+MA,Laayoune
+MA,Dakhla
+=================
 MC,Monaco
-MD,Chisinau
+MC,Monte Carlo
+MC,La Condamine
+MC,Fontvieille
+=================
+MD,Chișinău
 MD,Tiraspol
-MD,Balti
-MD,Cahul
+MD,Bălți
 MD,Bender
-MD,Ialoveni
-MD,Drochia
-MD,Straseni
-MD,Anenii Noi
-MD,Soroca
-MD,Hincesti
+MD,Cahul
 MD,Orhei
-MD,Ungheni
-MD,Cocieri
-MD,Calarasi
-MD,Floresti
-MD,Singerei
-MD,Criuleni
-MD,Briceni
-MD,Edinet
-MD,Telenesti
-MD,Cimislia
-MD,Falesti
-MD,Ocnita
-MD,Glodeni
-MD,Soldanesti
-MD,Nisporeni
-MD,Basarabeasca
-MD,Leova
 MD,Comrat
-MD,Causeni
-MD,Taraclia
-MD,Rezina
-MD,Stefan Voda
-MD,Riscani
-MD,Cantemir
-MD,Donduseni
-MD,Dubasari
+=================
 ME,Podgorica
-ME,Tivat
+ME,Nikšić
 ME,Budva
-ME,Tuzi
-ME,Herceg-Novi
-ME,Bar
 ME,Kotor
-ME,Ulcinj
-ME,Rozaje
-ME,Bijelo Polje
-ME,Berane
-ME,Petnjica
-ME,Danilovgrad
-ME,Niksic
-ME,Plav
-ME,Gusinje
-ME,Mojkovac
+ME,Herceg Novi
+ME,Bar
 ME,Pljevlja
-ME,Cetinje
-ME,Andrijevica
-ME,Kolasin
-ME,Zabljak
-ME,Savnik
-ME,Pluzine
+ME,Bijelo Polje
+=================
+MF,Marigot
+MF,Grand-Case
+MF,Quartier d'Orléans
+=================
 MG,Antananarivo
-MG,Antsirabe
 MG,Toamasina
+MG,Antsirabe
 MG,Fianarantsoa
-MG,Mahajanga
+MG,Majunga
 MG,Toliara
 MG,Antsiranana
-MG,Antalaha
-MG,Sambava
-MG,Ambatondrazaka
-MG,Maroantsetra
-MG,Morondava
-MG,Marovoay
-MG,Ambanja
-MG,Mananjary
-MG,Farafangana
-MG,Andoany
-MG,Antsohihy
-MG,Miandrivazo
-MG,Ihosy
-MG,Tolanaro
-MG,Morombe
-MG,Maintirano
-MG,Mandritsara
-MG,Bekily
-MG,Manja
-MG,Besalampy
-MG,Androka
+=================
 MH,Majuro
+MH,Ebeye
+MH,Jaluit
+MH,Wotje
+=================
 MK,Skopje
-MK,Tetovo
 MK,Bitola
-MK,Sopiste
-MK,Kicevo
-MK,Aracinovo
-MK,Brvenica
-MK,Bogovinje
 MK,Kumanovo
-MK,Vrapciste
-MK,Ilinden
-MK,Gostivar
-MK,Strumica
-MK,Petrovec
-MK,Studenicani
-MK,Debar
-MK,Tearce
-MK,Jegunovce
-MK,Zelino
-MK,Ohrid
-MK,Struga
-MK,Veles
-MK,Caska
-MK,Lipkovo
-MK,Kocani
-MK,Oblesevo
-MK,Bosilovo
-MK,Vevcani
-MK,Stip
-MK,Bogdanci
-MK,Plasnica
 MK,Prilep
-MK,Krivogastani
-MK,Vasilevo
-MK,Radovis
-MK,Centar Zupa
-MK,Zrnovci
-MK,Novo Selo
-MK,Gevgelija
-MK,Krusevo
-MK,Probistip
-MK,Negotino
-MK,Vinica
-MK,Cucer-Sandevo
-MK,Kavadarci
-MK,Kriva Palanka
-MK,Delcevo
-MK,Makedonska Kamenica
-MK,Sveti Nikole
-MK,Valandovo
-MK,Dolneni
-MK,Rosoman
-MK,Zelenikovo
-MK,Resen
-MK,Kratovo
-MK,Mogila
-MK,Pehcevo
-MK,Berovo
-MK,Karbinci
-MK,Demir Hisar
-MK,Konce
-MK,Rankovce
-MK,Lozovo
-MK,Rostusa
-MK,Gradsko
-MK,Demir Kapija
-MK,Belcista
-MK,Staro Nagoricane
-MK,Makedonski Brod
-MK,Novaci
-MK,Star Dojran
+MK,Tetovo
+MK,Ohrid
+MK,Štip
+MK,Veles
+=================
 ML,Bamako
 ML,Sikasso
-ML,Segou
-ML,Gao
+ML,Ségou
 ML,Mopti
 ML,Koutiala
-ML,Kayes
+ML,Gao
 ML,Timbuktu
-ML,Koulikoro
-ML,Kidal
-ML,Kati
-ML,Markala
-ML,Kita
-ML,San
-ML,Bougouni
-ML,Djenne
-ML,Banamba
-ML,Bourem Guindou
-ML,Bafoulabe
-ML,Nara
-ML,Kangaba
-ML,Nioro
-ML,Menaka
-ML,Goundam
-ML,Tessalit
-ML,Yelimane
-ML,Aguelhok
-ML,Sokolo
-ML,Araouane
-ML,Taoudenni
-ML,Satadougou
-MM,Rangoon
+ML,Kayes
+=================
+MM,Yangon
 MM,Mandalay
-MM,Nay Pyi Taw
-MM,Mawlamyine
+MM,Naypyidaw
 MM,Bago
-MM,Myeik
-MM,Pathein
-MM,Monywa
-MM,Hinthada
-MM,Sittwe
-MM,Letpandan
-MM,Myingyan
+MM,Mawlamyine
 MM,Taunggyi
-MM,Mudon
-MM,Dawei
-MM,Myitkyina
+MM,Pathein
 MM,Pyay
-MM,Pakokku
-MM,Magway
-MM,Yenangyaung
-MM,Taungoo
-MM,Sagaing
-MM,Hpa-An
-MM,Hakha
-MM,Loikaw
-MM,Chauk
-MM,Shwebo
-MM,Pyapon
-MM,Allanmyo
-MM,Thongwa
-MM,Ye
-MM,Namtu
-MM,Wakema
-MM,Pyu
-MM,Nyaungdon
-MM,Kyaukpyu
-MM,Labutta
+MM,Sittwe
+=================
 MN,Ulaanbaatar
 MN,Erdenet
-MN,Ulaangom
-MN,Olgiy
-MN,Choybalsan
-MN,Hovd
-MN,Arvayheer
-MN,Moron
-MN,Bayanhongor
-MN,Suhbaatar
-MN,Tsetserleg
-MN,Dzuunmod
-MN,Bulgan
-MN,Baruun-Urt
-MN,Ondorhaan
-MN,Saynshand
-MN,Uliastay
-MN,Mandalgovi
-MN,Darhan
-MN,Dalandzadgad
-MN,Altay
-MN,Choyr
-MN,Darhan
-MN,Dzuunharaa
-MN,Dalanzadgad
-MN,Ulaan-Uul
-MN,Hodrogo
+MN,Darkhan
+MN,Choibalsan
+MN,Mörön
+MN,Bayankhongor
+=================
 MO,Macau
-MP,Capitol Hill
+MO,Taipa
+MO,Coloane
+=================
+MP,Saipan
+MP,Tinian
+MP,Rota
+=================
 MQ,Fort-de-France
+MQ,Le Lamentin
+MQ,Le Robert
+MQ,Sainte-Marie
+=================
 MR,Nouakchott
-MR,Nema
 MR,Nouadhibou
-MR,Kiffa
-MR,Zouerate
+MR,Kaédi
 MR,Rosso
 MR,Atar
-MR,Tidjikja
-MR,Aleg
-MR,Aioun
-MR,Selibaby
-MR,Akjoujt
-MR,Arafat
-MR,Tevragh Zeina
-MR,Dar Naim
-MR,Kaedi
-MR,Boutilimit
-MR,Bogue
-MR,Fderik
-MR,Timbedgha
-MR,Bir Mogrein
-MR,Chegga
+MR,Kiffa
+=================
+MS,Plymouth
+MS,Brades
+MS,Little Bay
+=================
 MT,Valletta
 MT,Sliema
-MT,Fgura
+MT,St. Julian's
 MT,Birkirkara
-MT,Hamrun
-MT,Senglea
-MT,Tarxien
-MT,Floriana
-MT,Imsida
-MT,Santa Venera
-MT,Pieta
-MT,Ta' Xbiex
-MT,Gzira
-MT,San Gwann
-MT,San Giljan
-MT,Vittoriosa
-MT,Balzan
-MT,Qormi
 MT,Mosta
-MT,Zabbar
-MT,Swieqi
-MT,Kalkara
-MT,Cospicua
-MT,Marsaskala
-MT,Lija
 MT,Victoria
-MT,Zejtun
-MT,Fontana
-MT,Paola
-MT,Xghajra
-MT,Iklin
-MT,Kirkop
-MT,Pembroke
-MT,Attard
-MT,Marsa
-MT,Gharghur
-MT,Zebbug
-MT,Gudja
-MT,Imqabba
-MT,Saint Paul's Bay
-MT,Marsaxlokk
-MT,Ghaxaq
-MT,Birzebbuga
-MT,Zurrieq
-MT,Naxxar
-MT,Safi
-MT,Imtarfa
-MT,Kercem
-MT,Luqa
-MT,Qrendi
-MT,Xewkija
-MT,Ghasri
-MT,Dingli
-MT,Xaghra
-MT,Imdina
-MT,Nadur
-MT,Munxar
-MT,Sannat
-MT,Siggiewi
-MT,Rabat
-MT,Mellieha
-MT,Ghajnsielem
-MT,Qala
-MT,Santa Lucija
-MT,Zebbug
-MT,Imgarr
-MT,Gharb
-MT,San Lawrenz
+=================
 MU,Port Louis
+MU,Beau Bassin-Rose Hill
+MU,Vacoas-Phoenix
 MU,Curepipe
+MU,Quatre Bornes
+MU,Grand Baie
+=================
 MV,Male
-MV,Un'goofaaru
-MV,Naifaru
-MV,Mahibadhoo
-MV,Eydhafushi
-MV,Thinadhoo
-MV,Funadhoo
-MV,Kulhudhuffushi
-MV,Dhihdhoo
-MV,Kudahuvadhoo
-MV,Rasdhoo
-MV,Thulusdhoo
-MV,Viligili
-MV,Hithadhoo
-MV,Veymandoo
-MV,Felidhoo
-MV,Nilandhoo
-MV,Foammulah
-MV,Muli
-MV,Fonadhoo
-MV,Manadhoo
+MV,Hulhumale
+MV,Addu City
+MV,Fuvahmulah
+=================
 MW,Lilongwe
 MW,Blantyre
 MW,Mzuzu
-MW,Mangochi
 MW,Zomba
-MW,Salima
-MW,Nkhotakota
-MW,Karonga
-MW,Nkhata Bay
-MW,Nsanje
-MW,Mzimba
-MW,Mchinji
-MW,Mulanje
-MW,Dedza
-MW,Chitipa
-MW,Mwanza
-MW,Ntcheu
-MW,Chiradzulu
-MW,Machinga
-MW,Rumphi
-MW,Balaka
-MW,Thyolo
-MW,Phalombe
-MW,Chikwawa
 MW,Kasungu
-MW,Dowa
-MW,Neno
-MW,Ntchisi
-MW,Chiromo
+MW,Karonga
+=================
 MX,Mexico City
 MX,Guadalajara
 MX,Monterrey
 MX,Puebla
 MX,Tijuana
+MX,León
+MX,Cancún
+MX,Mérida
+MX,Querétaro
 MX,Toluca
-MX,Leon de los Aldama
-MX,Juarez
-MX,Torreon
-MX,Ciudad Nezahualcoyotl
-MX,San Luis Potosi
-MX,Merida
-MX,Queretaro
-MX,Mexicali
-MX,Aguascalientes
-MX,Tampico
-MX,Cuernavaca
-MX,Culiacan
 MX,Chihuahua
-MX,Saltillo
-MX,Acapulco de Juarez
-MX,Morelia
-MX,Hermosillo
-MX,Veracruz
-MX,Cancun
-MX,Heroica Matamoros
+MX,Ciudad Juárez
+MX,San Luis Potosí
 MX,Oaxaca
-MX,Tlaxcala
-MX,Mazatan
-MX,Reynosa
-MX,Tuxtla
+MX,Veracruz
+MX,Tuxtla Gutiérrez
+MX,Hermosillo
+MX,Mazatlán
+MX,Morelia
+MX,Aguascalientes
 MX,Durango
-MX,Xalapa
-MX,Villahermosa
-MX,Gomez Palacio
-MX,Celaya
-MX,Mazatlan
-MX,Orizaba
-MX,Nuevo Laredo
-MX,Irapuato
-MX,Pachuca
-MX,Tepic
-MX,Ciudad Obregon
-MX,Coatzacoalcos
-MX,Ciudad Victoria
-MX,Uruapan
-MX,Ensenada
-MX,Poza Rica de Hidalgo
-MX,Zumpango
-MX,Los Mochis
-MX,Tehuacan
-MX,Monclova
-MX,Zacatecas
-MX,Colima
-MX,Tapachula
-MX,Cordoba
-MX,Zamora
-MX,Campeche
-MX,Minatitlan
-MX,Salamanca
-MX,Ciudad Madero
-MX,La Paz
-MX,Puerto Vallarta
-MX,San Cristobal
-MX,Chilpancingo
-MX,Heroica Nogales
-MX,Teziutlan
-MX,Ciudad Lazaro Cardenas
-MX,Ciudad del Carmen
-MX,Chetumal
-MX,San Juan del Rio
-MX,Piedras Negras
-MX,Navojoa
-MX,Ciudad Valles
-MX,Las Delicias
-MX,Guanajuato
-MX,Iguala de la Independencia
-MX,Manzanillo
-MX,Tuxpam de Rodriguez Cano
-MX,Escuintla
-MX,Fresnillo
-MX,Heroica Guaymas
-MX,Parral
-MX,Apatzingan de la Constitucion
-MX,Ciudad de Atlixco
-MX,Guasave
-MX,Lagos de Moreno
-MX,Ciudad Guzman
-MX,Tecoman
-MX,Cuauhtemoc
-MX,Agua Prieta
-MX,Salina Cruz
-MX,Ciudad Mante
-MX,Cozumel
-MX,Tamazunchale
-MX,Rioverde
-MX,Matehuala
-MX,Juchitan de Zaragoza
-MX,Jaltipan de Morelos
-MX,Ciudad Hidalgo
-MX,Guamuchil
-MX,Linares
-MX,Nuevo Casas Grandes
-MX,San Pedro
-MX,Taxco de Alarcon
-MX,Valladolid
-MX,Ciudad de Huajuapam de Leon
-MX,Autlan de Navarro
-MX,Progreso
-MX,Santo Domingo Tehuantepec
-MX,Montemorelos
-MX,Cabo San Lucas
-MX,Tizimin
-MX,Ciudad Constitucion
-MX,Camargo
-MX,Nueva Rosita
-MX,La Barca
-MX,Panuco
-MX,Cananea
-MX,Tenosique
-MX,Parras de la Fuente
-MX,Ciudad Sabinas Hidalgo
-MX,Petatlan
-MX,Ticul
-MX,Huatabampo
-MX,Ometepec
-MX,San Fernando
-MX,Escuinapa
-MX,Champoton
-MX,Tuxpan
-MX,Felipe Carrillo Puerto
-MX,Ciudad Altamirano
-MX,San Pedro Pochutla
-MX,Paraiso
-MX,Pijijiapan
-MX,Magdalena de Kino
-MX,Tecax
-MX,Frontera
-MX,Ojinaga
-MX,Heroica Ciudad de Tlaxiaco
-MX,Motul
-MX,Atoyac de Alvarez
-MX,Allende
-MX,Puerto Escondido
-MX,Acatlan de Osorio
-MX,Santiago Ixcuintla
-MX,Miahuatlan de Porfirio Diaz
-MX,Peto
-MX,El Dorado
-MX,Compostela
-MX,Santiago Tuxtla
-MX,Villa Union
-MX,Cardenas
-MX,Izamal
-MX,Tecuala
-MX,Tamuin
-MX,Tecpan de Galeana
-MX,Juan Aldama
-MX,Guerrero Negro
-MX,Vicente Guerrero
-MX,Isla Mujeres
-MX,Aldama
-MX,La Cruz
-MX,Santa Rosalia
-MX,Balancan
-MX,Ascension
-MX,Loreto
-MX,El Fuerte
-MX,Villanueva
-MX,Santa Barbara
-MX,Coalcoman de Vazquez Pallares
-MX,Valparaiso
-MX,Canatlan
-MX,Ayutla de los Libres
-MX,Ahumada
-MX,Halacho
-MX,Ciudad Tula
-MX,Cuencame de Ceniceros
-MX,Esperanza
-MX,Heroica Caborca
-MX,San Miguel de Papasquiaro
-MX,San Felipe
-MX,Nacozari Viejo
-MX,San Pablo Villa de Mitla
-MX,Nautla
-MX,San Quintin
-MX,Altata
-MX,Punta Prieta
-MY,George Town
+MX,Culiacán
+MX,Acapulco
+MX,Guadalajara
+=================
 MY,Kuala Lumpur
-MY,Klang
+MY,George Town
 MY,Johor Bahru
-MY,Butterworth
-MY,Melaka
 MY,Ipoh
-MY,Kuching
 MY,Kota Kinabalu
-MY,Kota Bharu
+MY,Kuching
+MY,Malacca City
 MY,Shah Alam
-MY,Sandakan
-MY,Seremban
-MY,Kuantan
-MY,Sungai Petani
-MY,Kuala Terengganu
+MY,Petaling Jaya
 MY,Alor Setar
-MY,Tawau
-MY,Taiping
-MY,Miri
-MY,Sibu
-MY,Batu Pahat
-MY,Muar
-MY,Kluang
-MY,Bintulu
-MY,Lahad Datu
-MY,Teluk Intan
-MY,Cukai
-MY,Putrajaya
-MY,Kangar
-MY,Labuan
-MY,Raub
-MY,Kuala Lipis
+MY,Kuantan
+=================
 MZ,Maputo
-MZ,Matola
 MZ,Beira
 MZ,Nampula
-MZ,Chimoio
-MZ,Cidade de Nacala
 MZ,Quelimane
 MZ,Tete
-MZ,Xai-Xai
-MZ,Maxixe
-MZ,Inhambane
+MZ,Chimoio
 MZ,Pemba
-MZ,Lichinga
-MZ,Dondo
-MZ,Cuamba
-MZ,Montepuez
-MZ,Mocuba
-MZ,Antonio Enes
-MZ,Ilha de Mocambique
-MZ,Moatize
-MZ,Mocimboa
-MZ,Macia
-MZ,Manica
-MZ,Marrupa
-MZ,Nicoadala
-MZ,Ligonha
-MZ,Regedor Quissico
-MZ,Massangena
-MZ,Panda
-MZ,Chiramba
-MZ,Espungabera
-MZ,Mapai
-MZ,Vilankulo
+MZ,Xai-Xai
+=================
 NA,Windhoek
-NA,Rundu
 NA,Swakopmund
-NA,Rehoboth
+NA,Walvis Bay
+NA,Rundu
 NA,Katima Mulilo
 NA,Otjiwarongo
 NA,Keetmanshoop
-NA,Gobabis
-NA,Luderitz
-NA,Mariental
-NA,Oshikango
-NA,Opuwo
-NA,Oshakati
-NA,Outapi
-NA,Omuthiya
-NA,Nkurenkuru
-NA,Eenhana
-NA,Walvisbaai
-NA,Ongwediva
-NA,Grootfontein
-NA,Okahandja
-NA,Tsumeb
-NA,Omaruru
-NA,Bethanie
-NA,Oranjemund
-NA,Karasburg
-NA,Maltahohe
-NA,Usakos
-NA,Karibib
-NA,Outjo
-NA,Otavi
-NC,Noumea
-NC,Kone
-NC,We
+=================
+NC,Nouméa
+NC,Mont-Dore
+NC,Dumbéa
+NC,Païta
+NC,Koné
+=================
 NE,Niamey
-NE,Maradi
 NE,Zinder
-NE,Agadez
+NE,Maradi
 NE,Tahoua
+NE,Agadez
 NE,Dosso
 NE,Diffa
-NE,Tillaberi
-NE,Arlit
-NE,Birnin Konni
-NE,Gaya
-NE,Ayorou
-NE,Madaoua
-NE,Nguigmi
-NE,Goure
-NE,Djado
+=================
+NF,Kingston
+NF,Burnt Pine
+=================
 NG,Lagos
-NG,Kano
-NG,Ibadan
 NG,Abuja
-NG,Kaduna
-NG,Benin City
-NG,Ikare
 NG,Port Harcourt
-NG,Ogbomoso
-NG,Aba
-NG,Maiduguri
-NG,Zaria
-NG,Warri
-NG,Jos
-NG,Ilorin
-NG,Oyo
-NG,Sokoto
-NG,Enugu
-NG,Abeokuta
-NG,Uyo
-NG,Awka
-NG,Ile-Ife
-NG,Calabar
-NG,Ado-Ekiti
-NG,Katsina
-NG,Akure
-NG,Osogbo
-NG,Bauchi
-NG,Sapele
-NG,Makurdi
-NG,Minna
-NG,Owo
-NG,Gombe
-NG,Umuahia
-NG,Ondo
-NG,Damaturu
-NG,Iwo
-NG,Gusau
-NG,Mubi
-NG,Owerri
-NG,Ijebu-Ode
-NG,Funtua
-NG,Bida
-NG,Lafia
-NG,Gashua
-NG,Bama
-NG,Jalingo
-NG,Nsukka
-NG,Nguru
-NG,Birnin Kebbi
-NG,Azare
-NG,Yola
-NG,Lokoja
-NG,Dutse
-NG,Ikeja
-NG,Asaba
-NG,Yenagoa
-NG,Abakaliki
-NG,Kontagora
-NG,Iseyin
-NG,Biu
-NG,Wukari
-NG,Potiskum
-NG,Keffi
-NG,Numan
-NG,Idah
+NG,Ibadan
+NG,Benin City
 NG,Onitsha
-NG,Otukpo
-NG,Kumo
-NG,Ikot Abasi
-NG,Koko
-NG,Orlu
+NG,Aba
+NG,Enugu
+NG,Kano
+NG,Kaduna
+NG,Jos
+NG,Maiduguri
+NG,Ilorin
+NG,Uyo
+NG,Calabar
+NG,Owerri
+NG,Akure
+NG,Ado-Ekiti
+NG,Ogbomosho
+=================
 NI,Managua
-NI,Leon
-NI,Chinandega
-NI,Masaya
-NI,Matagalpa
-NI,Esteli
+NI,León
 NI,Granada
-NI,Juigalpa
+NI,Masaya
+NI,Chinandega
+NI,Estelí
+NI,Matagalpa
 NI,Jinotega
 NI,Bluefields
-NI,Bilwi
-NI,Ocotal
-NI,Rivas
-NI,Jinotepe
-NI,Boaco
-NI,Somoto
-NI,San Carlos
-NI,San Juan del Sur
-NI,Greytown
-NL,The Hague
+=================
 NL,Amsterdam
 NL,Rotterdam
+NL,The Hague
 NL,Utrecht
 NL,Eindhoven
-NL,Haarlem
 NL,Groningen
-NL,Arnhem
-NL,'s-Hertogenbosch
-NL,Leeuwarden
 NL,Maastricht
-NL,Zwolle
-NL,Assen
-NL,Middelburg
-NL,Lelystad
+NL,Arnhem
+NL,Nijmegen
+NL,Haarlem
+NL,Leiden
+NL,Enschede
+=================
 NO,Oslo
 NO,Bergen
-NO,Stavanger
 NO,Trondheim
-NO,Sorum
-NO,Drammen
-NO,Skien
+NO,Stavanger
 NO,Kristiansand
-NO,Tromso
-NO,Bodo
-NO,Arendal
-NO,Hamar
-NO,Lillehammer
-NO,Molde
-NO,Steinkjer
-NO,Vadso
-NO,Tonsberg
-NO,Sarpsborg
-NO,Hermansverk
-NO,Alesund
-NO,Sandnes
-NO,Haugesund
-NO,Tonsberg
-NO,Moss
-NO,Gjovik
-NO,Mo i Rana
-NO,Narvik
-NO,Harstad
-NO,Alta
-NO,Hammerfest
-NO,Namsos
-NO,Svolvaer
-NO,Finnsnes
-NO,Kirkenes
-NO,Rorvik
-NO,Vossevangen
-NO,Kaupanger
+NO,Tromsø
+NO,Bodø
+NO,Ålesund
+NO,Drammen
+=================
 NP,Kathmandu
-NP,Jitpur
-NP,Hetauda
 NP,Pokhara
+NP,Lalitpur
+NP,Bhaktapur
 NP,Biratnagar
-NP,Birganj
-NP,Nepalganj
-NP,Janakpur
+NP,Birgunj
+NP,Bharatpur
 NP,Butwal
-NP,Birendranagar
-NP,Godawari
-NP,Dhangadhi
-NP,Bhairahawa
-NP,Hanumannagar
-NP,Baglung
-NP,Dadeldhura
-NP,Ilam
-NP,Salyan
-NP,Ramechhap
-NP,Bhimphedi
-NP,Jumla
+NP,Nepalgunj
+NP,Dharan
+=================
+NR,Yaren
+NR,Aiwo
+NR,Anabar
+NR,Meneng
+=================
+NU,Alofi
+NU,Hakupu
+NU,Avatele
+=================
 NZ,Auckland
 NZ,Wellington
-NZ,Manukau City
 NZ,Christchurch
-NZ,Waitakere
-NZ,Northcote
 NZ,Hamilton
 NZ,Tauranga
 NZ,Dunedin
-NZ,Lower Hutt
-NZ,Palmerston North
-NZ,Nelson
+NZ,Queenstown
 NZ,Napier
-NZ,Whangarei
-NZ,Invercargill
-NZ,Upper Hutt
-NZ,Gisborne
-NZ,Blenheim
-NZ,Whakatane
-NZ,Greymouth
-NZ,Waitangi
-NZ,Richmond
-NZ,Stratford
-NZ,Rotorua
+NZ,Palmerston North
 NZ,New Plymouth
-NZ,Porirua
-NZ,Whanganui
-NZ,Timaru
-NZ,Pukekohe East
-NZ,Paraparaumu
-NZ,Taupo
-NZ,Masterton
-NZ,Levin
-NZ,Ashton
-NZ,Macetown
-NZ,Cambridge
-NZ,Tokoroa
-NZ,Hawera
-NZ,Kairaki
-NZ,Thames
-NZ,Kerikeri
-NZ,Kaitaia
-NZ,Wanaka
-NZ,Turangi
-NZ,Hokitika
-NZ,Renwick
-NZ,Kaikoura
-NZ,Te Anau
-NZ,Halfmoon Bay
-NZ,Glencoe
-NZ,Westport
+NZ,Invercargill
+=================
 OM,Muscat
-OM,As Sib
 OM,Salalah
-OM,As Suwayhirah as Sahil
-OM,`Ibri
+OM,Sohar
 OM,Nizwa
-OM,Al Buraymi
-OM,Suhar
-OM,Ar Rustaq
 OM,Sur
-OM,Ibra'
-OM,Khasab
-OM,Hayma'
-OM,Al Madrah Sama'il
-OM,Dawwah
-OM,Mirbat
+OM,Ibra
+OM,Rustaq
+OM,Buraimi
+=================
 PA,Panama City
-PA,Colon
+PA,Colón
 PA,David
 PA,Santiago
-PA,Chitre
-PA,Penonome
-PA,Las Tablas
-PA,Bocas del Toro
-PA,La Palma
-PA,Gaigirgordub
+PA,Chitré
 PA,La Chorrera
-PA,Buabidi
-PA,Union Choco
-PA,Balboa
-PA,Puerto Armuelles
-PA,Almirante
-PA,Jaque
+PA,Penonomé
+=================
 PE,Lima
-PE,Callao
 PE,Arequipa
 PE,Trujillo
 PE,Chiclayo
-PE,Iquitos
-PE,Huancayo
 PE,Piura
 PE,Cusco
-PE,Chimbote
-PE,Pucallpa
+PE,Iquitos
+PE,Huancayo
 PE,Tacna
-PE,Ica
 PE,Juliaca
-PE,Ayacucho
-PE,Sullana
-PE,Huanuco
-PE,Chincha Alta
-PE,Cajamarca
-PE,Cerro de Pasco
 PE,Puno
-PE,Tumbes
-PE,Huaraz
-PE,Pisco
-PE,Huacho
-PE,Puerto Maldonado
-PE,Abancay
-PE,Moquegua
-PE,Moyobamba
-PE,Huancavelica
-PE,Chachapoyas
-PE,Talara
-PE,Chosica
-PE,Chulucanas
-PE,Paita
-PE,Ilo
-PE,Tingo Maria
-PE,Jaen
-PE,Tarma
-PE,Ferrenafe
-PE,Mollendo
-PE,Huaura
-PE,Pacasmayo
-PE,Juanjui
-PE,Sicuani
-PE,Forbe Oroya
-PE,Pativilca
-PE,Huamachuco
-PE,Casma
-PE,Tocache Nuevo
-PE,Chancay
-PE,Nazca
-PE,Sechura
-PE,Jauja
-PE,Camana
-PE,Ayaviri
-PE,Contamana
-PE,Huanta
-PE,Requena
-PE,Huarmey
-PE,Ilave
-PE,Puerto Pimentel
-PE,Satipo
-PE,Junin
-PE,San Ramon
-PE,Chota
-PE,Lamas
-PE,Motupe
-PE,Cajabamba
-PE,Chilca
-PE,Puquio
-PE,Santiago
-PE,Otuzco
-PE,Salaverry
-PE,Tarapoto
-PE,Olmos
-PE,Putina
-PE,Urubamba
-PE,Coracora
-PE,Desaguadero
-PE,Santo Tomas
-PE,Caballococha
-PE,Nauta
-PE,Tournavista
-PE,Gueppi
-PE,Rocafuerte
-PE,Andoas
-PE,Puca Urco
-PE,Soldado Bartra
+PE,Chimbote
+=================
 PF,Papeete
+PF,Faaa
+PF,Punaauia
+PF,Uturoa
+=================
 PG,Port Moresby
 PG,Lae
-PG,Madang
 PG,Mount Hagen
 PG,Goroka
-PG,Popondetta
-PG,Mendi
-PG,Wewak
-PG,Kavieng
+PG,Madang
 PG,Kimbe
-PG,Daru
-PG,Alotau
-PG,Vanimo
-PG,Kundiawa
-PG,Lorengau
-PG,Kerema
-PG,Wabag
-PG,Kokopo
-PG,Kurumul
-PG,Tari
-PG,Buka
-PG,Arawa
 PG,Rabaul
-PG,Kieta
-PG,Sohano
-PG,Hoskins
-PG,Amau
+PG,Kokopo
+=================
 PH,Manila
 PH,Quezon City
-PH,Davao
-PH,Cagayan de Oro
-PH,General Santos
-PH,Bacolod
 PH,Cebu City
+PH,Davao City
+PH,Makati
+PH,Baguio
+PH,Iloilo City
+PH,Cagayan de Oro
+PH,Bacolod
 PH,Zamboanga City
-PH,Naga City
-PH,Iligan
-PH,Baguio City
-PH,Batangas
-PH,Pasay City
-PH,Iloilo
-PH,Legazpi City
-PH,Angeles City
-PH,Olongapo
-PH,Cadiz
-PH,Tacloban
-PH,Cotabato
-PH,San Pablo
-PH,Cabanatuan City
-PH,Laoag
-PH,Butuan
-PH,Tarlac City
-PH,Ormoc
-PH,Dagupan City
-PH,Pagadian
-PH,Puerto Princesa
-PH,Tuguegarao
-PH,Roxas City
-PH,Ozamiz City
-PH,Surigao
-PH,Calbayog City
-PH,Vigan
-PH,Magugpo Poblacion
-PH,San Carlos
-PH,Gingoog
-PH,Antipolo
-PH,Navotas
-PH,Mandaluyong City
-PH,Mandaue City
-PH,Pasig City
-PH,Caloocan City
-PH,San Juan
-PH,Valenzuela
-PH,City of Paranaque
-PH,Lucena
-PH,Masbate
-PH,Tandag
-PH,Malabon
-PH,Oroquieta
-PH,Catarman
-PH,La Trinidad
-PH,Marawi City
-PH,Taguig City
-PH,Lapu-Lapu City
-PH,Balanga
-PH,Santiago
-PH,Dumaguete City
-PH,Marikina City
-PH,Sorsogon
-PH,Kalibo
-PH,Kidapawan
-PH,San Jose
-PH,Daet
-PH,Virac
-PH,Bayombong
-PH,Jolo
-PH,Bongao
-PH,Calapan
-PH,Tagum
-PH,Muntinlupa City
-PH,Catbalogan
-PH,Digos
-PH,Makati City
-PH,Isulan
-PH,Trece Martires City
-PH,Boac
-PH,Tubod
-PH,Mamburao
-PH,Nabunturan
-PH,Malita
-PH,Maasin
-PH,Bangued
-PH,Mambajao
-PH,Naval
-PH,Dipolog
-PH,San Fernando
-PH,Iba
-PH,Malolos
-PH,Lingayen
-PH,Romblon
-PH,Alabel
-PH,Baler
-PH,Siquijor
-PH,Borongan
-PH,City of Isabela
-PH,San Fernando
-PH,Lagawe
-PH,Malaybalay
-PH,Ipil
-PH,Palayan City
-PH,Ilagan
-PH,Basco
-PH,Shariff Aguak
-PH,Cabarroguis
-PH,Jordan
-PH,Bontoc
-PH,Kabugao
-PH,Prosperidad
-PH,Cabadbaran
-PH,Santa Cruz
-PH,Mati
-PH,Koronadal
-PH,San Jose
-PH,Tabuk
-PH,Pili
+PH,General Santos
+PH,Taguig
+PH,Pasig
+=================
+PK,Islamabad
 PK,Karachi
 PK,Lahore
 PK,Faisalabad
-PK,Saidu Sharif
 PK,Rawalpindi
+PK,Peshawar
+PK,Quetta
 PK,Multan
 PK,Gujranwala
-PK,Hyderabad City
-PK,Peshawar
-PK,Abbottabad
-PK,Islamabad
-PK,Quetta
-PK,Bannu
-PK,Bahawalpur
-PK,Sargodha
-PK,Sialkot City
+PK,Hyderabad
+PK,Sialkot
 PK,Sukkur
-PK,Larkana
-PK,Shekhupura
-PK,Mirpur Khas
-PK,Rahimyar Khan
-PK,Kohat
-PK,Jhang City
-PK,Gujrat
-PK,Mardan
-PK,Kasur
-PK,Dera Ghazi Khan
-PK,Sahiwal
-PK,Nawabshah
-PK,Okara
-PK,Gilgit
-PK,Chiniot
-PK,Saddiqabad
-PK,Turbat
-PK,Dera Ismail Khan
-PK,Chaman
-PK,Zhob
-PK,Mansehra
-PK,Parachinar
-PK,Gwadar
-PK,Kundian
-PL,Katowice
+PK,Bahawalpur
+=================
 PL,Warsaw
-PL,Lodz
-PL,Krakow
-PL,Gdansk
-PL,Bytom
-PL,Wroclaw
-PL,Poznan
-PL,Gliwice
+PL,Kraków
+PL,Łódź
+PL,Wrocław
+PL,Poznań
+PL,Gdańsk
 PL,Szczecin
 PL,Bydgoszcz
 PL,Lublin
+PL,Katowice
+PL,Białystok
 PL,Gdynia
-PL,Bialystok
-PL,Rzeszow
-PL,Kielce
-PL,Olsztyn
-PL,Opole
-PL,Elblag
-PL,Zielona Gora
-PL,Koszalin
-PL,Grudziadz
-PL,Inowroclaw
-PL,Elk
-PL,Torun
-PL,Gorzow Wielkopolski
+PL,Sopot
+=================
+PM,Saint-Pierre
+PM,Miquelon
+=================
+PN,Adamstown
+=================
 PR,San Juan
-PR,Bayamon
+PR,Bayamón
 PR,Carolina
 PR,Ponce
 PR,Caguas
-PR,Guaynabo
-PR,Trujillo Alto
-PR,Levittown
-PR,Catano
-PR,Guayama
-PR,Yauco
-PR,Cayey
-PR,Manati
-PR,Rio Grande
-PR,Coamo
-PR,Pajaros
-PR,Sabana Grande
-PR,Aibonito
-PR,Sabana Seca
-PR,San Lorenzo
-PR,Luquillo
-PR,Gurabo
-PR,Juncos
-PR,Las Piedras
-PR,San Isidro
-PR,Yabucoa
-PR,Puerto Real
-PR,Santa Isabel
-PR,Campanilla
-PR,Arroyo
-PR,Ceiba
-PR,Anasco
-PR,Penuelas
-PR,Salinas
-PR,Santa Barbara
-PR,Mayaguez
+PR,Mayagüez
 PR,Arecibo
+PR,Guaynabo
 PR,Fajardo
-PR,Vega Baja
-PR,Humacao
-PR,Candelaria
-PR,Dorado
-PR,Isabela
-PR,Aguadilla
-PR,San German
-PR,Hormigueros
-PR,Vega Alta
-PR,Corozal
-PR,Cabo Rojo
-PR,San Sebastian
-PR,Canovanas
-PR,San Antonio
-PR,Utuado
-PR,Guanica
-PR,Juana Diaz
-PR,Coco
-PR,Cidra
-PR,Punta Santiago
+=================
+PS,Gaza City
+PS,Ramallah
+PS,Hebron
+PS,Nablus
+PS,Bethlehem
+PS,Jenin
+PS,Tulkarm
+PS,Jericho
+PS,Qalqilya
+PS,Rafah
+=================
 PT,Lisbon
 PT,Porto
 PT,Braga
-PT,Funchal
-PT,Setubal
 PT,Coimbra
-PT,Ponta Delgada
-PT,Portimao
-PT,Evora
 PT,Aveiro
-PT,Leiria
 PT,Faro
-PT,Beja
-PT,Braganca
-PT,Castelo Branco
-PT,Guarda
-PT,Santarem
+PT,Funchal
+PT,Ponta Delgada
+PT,Setúbal
+PT,Guimarães
+PT,Leiria
 PT,Viseu
-PT,Covilha
-PT,Vila Real
-PT,Portalegre
-PT,Viana do Castelo
-PT,Angra do Heroismo
-PT,Horta
+=================
 PW,Ngerulmud
 PW,Koror
 PW,Melekeok
-PY,Asuncion
-PY,San Lorenzo
-PY,Encarnacion
+=================
+PY,Asunción
 PY,Ciudad del Este
+PY,Encarnación
+PY,San Lorenzo
+PY,Luque
 PY,Pedro Juan Caballero
-PY,Coronel Oviedo
-PY,Concepcion
-PY,Villarrica
-PY,Pilar
-PY,Caacupe
-PY,Paraguari
-PY,Villa Hayes
-PY,Filadelfia
-PY,San Pedro de Ycuamandiyu
-PY,San Juan Bautista
-PY,Caazapa
-PY,Fuerte Olimpo
-PY,Aregua
-PY,Salto del Guaira
-PY,Ita
-PY,Ypacarai
-PY,Bella Vista
-PY,Horqueta
-PY,Coronel Jose Felix Bogado
-PY,Belen
-PY,Hohenau
-PY,Villa del Rosario
-PY,Puerto La Victoria
-PY,Arroyos y Esteros
-PY,Abai
-PY,Ygatimi
-PY,Mariscal Estigarribia
-PY,Pozo Colorado
-PY,Nacunday
-PY,Capitan Pablo Lagerenza
-PY,General Eugenio A. Garay
-PY,Ype Jhu
-PY,Puerto Pinasco
+PY,Concepción
+=================
 QA,Doha
+QA,Al Rayyan
 QA,Al Wakrah
-QA,Ar Rayyan
-QA,Al Khawr
-QA,Ash Shihaniyah
-QA,Umm Salal `Ali
-QA,Az Za`ayin
-QA,Madinat ash Shamal
+QA,Umm Salal
+QA,Al Khor
+QA,Dukhan
+=================
 RE,Saint-Denis
-RE,Saint-Benoit
+RE,Saint-Paul
+RE,Saint-Pierre
+RE,Saint-André
+RE,Le Tampon
+=================
 RO,Bucharest
-RO,Iasi
 RO,Cluj-Napoca
-RO,Timisoara
-RO,Galati
-RO,Brasov
+RO,Timișoara
+RO,Iași
+RO,Constanța
 RO,Craiova
-RO,Constanta
-RO,Ploiesti
+RO,Brașov
+RO,Galați
+RO,Ploiești
 RO,Oradea
-RO,Braila
-RO,Bacau
-RO,Pitesti
-RO,Arad
 RO,Sibiu
-RO,Targu-Mures
-RO,Baia Mare
-RO,Buzau
-RO,Botosani
-RO,Satu Mare
-RO,Ramnicu Valcea
-RO,Drobeta-Turnu Severin
-RO,Suceava
-RO,Focsani
-RO,Piatra Neamt
-RO,Targu Jiu
-RO,Tulcea
-RO,Targoviste
-RO,Resita
-RO,Bistrita
-RO,Slatina
-RO,Calarasi
-RO,Vaslui
-RO,Giurgiu
-RO,Alba Iulia
-RO,Zalau
-RO,Sfantu-Gheorghe
-RO,Slobozia
-RO,Alexandria
-RO,Miercurea-Ciuc
-RO,Hunedoara
-RO,Deva
+RO,Arad
+RO,Bacău
+RO,Târgu Mureș
+=================
 RS,Belgrade
-RS,Nis
 RS,Novi Sad
+RS,Niš
 RS,Kragujevac
-RS,Cacak
 RS,Subotica
-RS,Zrenjanin
+RS,Čačak
 RS,Kraljevo
-RS,Leskovac
-RS,Uzice
-RS,Jagodina
-RS,Vranje
-RS,Valjevo
-RS,Sabac
-RS,Gornji Milanovac
-RS,Bajina Basta
-RS,Pozega
-RS,Krupanj
-RS,Lebane
-RS,Aleksinac
-RS,Vladicin Han
-RS,Knjazevac
-RS,Ljubovija
-RS,Smederevska Palanka
-RS,Mali Zvornik
-RS,Surdulica
-RS,Pozarevac
-RS,Zajecar
-RS,Bor
-RS,Loznica
-RS,Paracin
-RS,Lucani
-RS,Smederevo
-RS,Krusevac
-RS,Despotovac
-RS,Kladovo
-RS,Pancevo
-RS,Pirot
-RS,Vlasotince
-RS,Trstenik
-RS,Prokuplje
-RS,Batocina
-RS,Vrnjacka Banja
-RS,Dimitrovgrad
-RS,Sremski Karlovci
-RS,Doljevac
-RS,Kanjiza
-RS,Velika Plana
-RS,Svilajnac
-RS,Svrljig
-RS,Sid
-RS,Negotin
-RS,Bojnik
-RS,Vrsac
-RS,Kikinda
-RS,Topola
-RS,Sokobanja
-RS,Bela Crkva
-RS,Senta
-RS,Backa Palanka
-RS,Blace
-RS,Ada
-RS,Apatin
-RS,Novi Pazar
-RS,Sombor
-RS,Odzaci
-RS,Cuprija
-RS,Arilje
-RS,Kovin
-RS,Boljevac
-RS,Kosjeric
-RS,Backa Topola
-RS,Cicevac
-RS,Plandiste
-RS,Bogatic
-RS,Varvarin
-RS,Razanj
-RS,Mionica
-RS,Arandelovac
-RS,Kula
-RS,Novi Becej
-RS,Becej
-RS,Zitorada
-RS,Titel
-RS,Merosina
-RS,Stara Pazova
-RS,Beocin
-RS,Bosilegrad
-RS,Knic
-RS,Secanj
-RS,Backi Petrovac
-RS,Kovacica
-RS,Coka
-RS,Zabalj
-RS,Medveda
-RS,Vrbas
-RS,Zitiste
-RS,Cajetina
-RS,Sremska Mitrovica
-RS,Ivanjica
-RS,Indija
-RS,Zabari
-RS,Petrovac na Mlavi
-RS,Mali Idos
-RS,Ub
-RS,Raca
-RS,Srbobran
-RS,Ljig
-RS,Rekovac
-RS,Novi Knezevac
-RS,Lajkovac
-RS,Priboj
-RS,Aleksandrovac
-RS,Malo Crnice
-RS,Kursumlija
-RS,Raska
-RS,Golubac
-RS,Pecinci
-RS,Nova Crnja
-RS,Bac
-RS,Irig
-RS,Majdanpek
-RS,Ruma
-RS,Alibunar
-RS,Vladimirci
-RS,Tutin
-RS,Babusnica
-RS,Brus
-RS,Osecina
-RS,Veliko Gradiste
-RS,Kucevo
-RS,Koceljeva
-RS,Temerin
-RS,Gadzin Han
-RS,Lapovo
-RS,Opovo
-RS,Zagubica
-RS,Trgoviste
-RS,Prijepolje
-RS,Sjenica
-RS,Nova Varos
-RS,Bela Palanka
-RS,Crna Trava
-RS,Bujanovac
-RS,Presevo
+RS,Zrenjanin
+RS,Pančevo
+=================
 RU,Moscow
 RU,Saint Petersburg
 RU,Novosibirsk
 RU,Yekaterinburg
-RU,Nizhniy Novgorod
-RU,Samara
-RU,Omsk
-RU,Kazan'
+RU,Kazan
+RU,Nizhny Novgorod
 RU,Chelyabinsk
-RU,Rostov-na-Donu
+RU,Samara
+RU,Rostov-on-Don
 RU,Ufa
-RU,Perm'
-RU,Volgograd
 RU,Krasnoyarsk
-RU,Voronezh
-RU,Saratov
-RU,Tol'yatti
-RU,Krasnodar
-RU,Ul'yanovsk
-RU,Izhevsk
-RU,Yaroslavl'
-RU,Barnaul
+RU,Perm
+RU,Volgograd
 RU,Vladivostok
-RU,Irkutsk
 RU,Khabarovsk
-RU,Makhachkala
-RU,Orenburg
-RU,Novokuznetsk
+RU,Irkutsk
+RU,Omsk
 RU,Tomsk
-RU,Ryazan'
-RU,Tyumen'
-RU,Lipetsk
-RU,Penza
-RU,Astrakhan'
-RU,Tula
-RU,Kemerovo
-RU,Naberezhnyye Chelny
-RU,Kirov
-RU,Cheboksary
-RU,Kaliningrad
-RU,Bryansk
-RU,Ivanovo
-RU,Magnitogorsk
-RU,Kursk
-RU,Tver'
-RU,Surgut
-RU,Nizhniy Tagil
-RU,Vladikavkaz
-RU,Stavropol'
-RU,Ulan-Ude
-RU,Arkhangel'sk
-RU,Belgorod
-RU,Kurgan
-RU,Kaluga
-RU,Orel
-RU,Sochi
-RU,Yoshkar-Ola
-RU,Volzhskiy
-RU,Smolensk
-RU,Podol'sk
-RU,Murmansk
-RU,Vladimir
-RU,Cherepovets
-RU,Chita
-RU,Nal'chik
-RU,Saransk
-RU,Tambov
-RU,Vologda
-RU,Taganrog
-RU,Kostroma
-RU,Komsomol'sk-na-Amure
-RU,Prokop'yevsk
-RU,Sterlitamak
-RU,Petrozavodsk
-RU,Dzerzhinsk
-RU,Orsk
-RU,Bratsk
-RU,Nizhnevartovsk
-RU,Angarsk
-RU,Novorossiysk
-RU,Yakutsk
-RU,Nizhnekamsk
-RU,Syktyvkar
-RU,Noginsk
-RU,Noginsk
-RU,Staryy Oskol
-RU,Groznyy
-RU,Kolpino
-RU,Shakhty
-RU,Blagoveshchensk
-RU,Velikiy Novgorod
-RU,Rybinsk
-RU,Biysk
-RU,Pskov
-RU,Balakovo
-RU,Armavir
-RU,Engel's
-RU,Severodvinsk
-RU,Zlatoust
-RU,Syzran'
-RU,Petropavlovsk-Kamchatskiy
-RU,Kamensk-Ural'skiy
-RU,Yuzhno-Sakhalinsk
-RU,Berezniki
-RU,Volgodonsk
-RU,Miass
-RU,Abakan
-RU,Novocherkassk
-RU,Noril'sk
-RU,Rubtsovsk
-RU,Salavat
-RU,Nakhodka
-RU,Nakhodka
-RU,Maykop
-RU,Ussuriysk
-RU,Kovrov
-RU,Novokuybyshevsk
-RU,Kolomna
-RU,Pyatigorsk
-RU,Arzamas
-RU,Al'met'yevsk
-RU,Orekhovo-Zuyevo
-RU,Serpukhov
-RU,Nevinnomyssk
-RU,Pervoural'sk
-RU,Kislovodsk
-RU,Dimitrovgrad
-RU,Murom
-RU,Novomoskovsk
-RU,Kamyshin
-RU,Neftekamsk
-RU,Achinsk
-RU,Vyborg
-RU,Cherkessk
-RU,Yelets
-RU,Tobol'sk
-RU,Nefteyugansk
-RU,Noyabr'sk
-RU,Bataysk
-RU,Sergiyev Posad
-RU,Leninsk-Kuznetskiy
-RU,Kyzyl
-RU,Oktyabr'skiy
-RU,Obninsk
-RU,Chapayevsk
-RU,Elista
-RU,Kandalaksha
-RU,Novotroitsk
-RU,Derbent
-RU,Kiselevsk
-RU,Velikiye Luki
-RU,Ukhta
-RU,Kansk
-RU,Sarapul
-RU,Solikamsk
-RU,Glazov
-RU,Ust'-Ilimsk
-RU,Kuznetsk
-RU,Magadan
-RU,Michurinsk
-RU,Kaspiysk
-RU,Birobidzhan
-RU,Buynaksk
-RU,Georgiyevsk
-RU,Khanty-Mansiysk
-RU,Gorno-Altaysk
-RU,Kanash
-RU,Morshansk
-RU,Mtsensk
-RU,Salekhard
-RU,Shumerlya
-RU,Kotovsk
-RU,Nar'yan-Mar
-RU,Kirsanov
-RU,Anadyr'
-RU,Magas
-RU,Perm'
-RU,Zelenodol'sk
-RU,Novoshakhtinsk
-RU,Tuapse
-RU,Votkinsk
-RU,Serov
-RU,Balashov
-RU,Zheleznogorsk
-RU,Novyy Urengoy
-RU,Nazran'
-RU,Kineshma
-RU,Bugul'ma
-RU,Novoaltaysk
-RU,Gatchina
-RU,Kirovo-Chepetsk
-RU,Yegor'yevsk
-RU,Yeysk
-RU,Buzuluk
-RU,Shchekino
-RU,Usol'ye-Sibirskoye
-RU,Yurga
-RU,Anzhero-Sudzhensk
-RU,Troitsk
-RU,Asbest
-RU,Klin
-RU,Vorkuta
-RU,Kropotkin
-RU,Shadrinsk
-RU,Kamensk-Shakhtinskiy
-RU,Chusovoy
-RU,Chernogorsk
-RU,Vol'sk
-RU,Belogorsk
-RU,Tuymazy
-RU,Borisoglebsk
-RU,Ishim
-RU,Oktyabr'skiy
-RU,Apatity
-RU,Aleksin
-RU,Kungur
-RU,Klintsy
-RU,Neryungri
-RU,Leninogorsk
-RU,Lesosibirsk
-RU,Polevskoy
-RU,Kumertau
-RU,Krasnotur'insk
-RU,Tikhoretsk
-RU,Svobodnyy
-RU,Rzhev
-RU,Novaya Balakhna
-RU,Belebey
-RU,Chistopol'
-RU,Tikhvin
-RU,Labinsk
-RU,Iskitim
-RU,Vyksa
-RU,Sibay
-RU,Sal'sk
-RU,Shuya
-RU,Zima
-RU,Kotlas
-RU,Mikhaylovka
-RU,Solnechnogorsk
-RU,Arsen'yev
-RU,Borovichi
-RU,Cheremkhovo
-RU,Roslavl'
-RU,Lesnoy
-RU,Sayanogorsk
-RU,Gelendzhik
-RU,Vyaz'ma
-RU,Krasnokamensk
-RU,Severomorsk
-RU,Vyshniy Volochek
-RU,Buguruslan
-RU,Livny
-RU,Krasnokamsk
-RU,Tayshet
-RU,Nyagan'
-RU,Kimry
-RU,Tulun
-RU,Kyshtym
-RU,Otradnyy
-RU,Monchegorsk
-RU,Ruzayevka
-RU,Verkhnyaya Salda
-RU,Slobodskoy
-RU,Megion
-RU,Torzhok
-RU,Belaya Kalitva
-RU,Gryazi
-RU,Mozhga
-RU,Amursk
-RU,Safonovo
-RU,Alatyr'
-RU,Nadym
-RU,Pechora
-RU,Spassk-Dal'niy
-RU,Apsheronsk
-RU,Mozdok
-RU,Volkhov
-RU,Yefremov
-RU,Shebekino
-RU,Chernyakhovsk
-RU,Parma
-RU,Strezhevoy
-RU,Artemovskiy
-RU,Kamen'-na-Obi
-RU,Akhtubinsk
-RU,Timashevsk
-RU,Alapayevsk
-RU,Novozybkov
-RU,Nizhneudinsk
-RU,Sovetsk
-RU,Mariinsk
-RU,Krasnoufimsk
-RU,Partizansk
-RU,Sokol
-RU,Yemanzhelinsk
-RU,Lesozavodsk
-RU,Uryupinsk
-RU,Gay
-RU,Zelenokumsk
-RU,Birsk
-RU,Frolovo
-RU,Mirnyy
-RU,Luga
-RU,Ob'
-RU,Uray
-RU,Alekseyevka
-RU,Bogoroditsk
-RU,Tavda
-RU,Kirov
-RU,Vichuga
-RU,Asha
-RU,Gur'yevsk
-RU,Millerovo
-RU,Uglich
-RU,Tynda
-RU,Kasimov
-RU,Serdobsk
-RU,Slantsy
-RU,Severoural'sk
-RU,Blagodarnyy
-RU,Boyarka
-RU,Yalutorovsk
-RU,Valuyki
-RU,Shar'ya
-RU,Korsakov
-RU,Bezhetsk
-RU,Kondopoga
-RU,Staraya Russa
-RU,Slavgorod
-RU,Verkhniy Ufaley
-RU,Zaozernyy
-RU,Rostov
-RU,Dyat'kovo
-RU,Segezha
-RU,Velikiy Ustyug
-RU,Kholmsk
-RU,Omutninsk
-RU,Kudymkar
-RU,Barabinsk
-RU,Gubakha
-RU,Sasovo
-RU,Karpinsk
-RU,Mednogorsk
-RU,Borzya
-RU,Svetogorsk
-RU,Sovetskaya Gavan'
-RU,Kirovsk
-RU,Sosnogorsk
-RU,Karasuk
-RU,Kartaly
-RU,Zheleznogorsk-Ilimskiy
-RU,Kotel'nich
-RU,Dal'nerechensk
-RU,Nev'yansk
-RU,Aleysk
-RU,Kolpashevo
-RU,Atkarsk
-RU,Sol'-Iletsk
-RU,Nikolayevsk-na-Amure
-RU,Asino
-RU,Zeya
-RU,Tara
-RU,Pugachev
-RU,Okha
-RU,Bakal
-RU,Buy
-RU,Vel'sk
-RU,Krasnoarmeysk
-RU,Severobaykal'sk
-RU,Lensk
-RU,Ust'-Kut
-RU,Nelidovo
-RU,Tatarsk
-RU,Bologoye
-RU,Topki
-RU,Aldan
-RU,Gusinoozersk
-RU,Kalachinsk
-RU,Bogotol
-RU,Dudinka
-RU,L'gov
-RU,Inta
-RU,Tashtagol
-RU,Onega
-RU,Kizel
-RU,Toguchin
-RU,Shimanovsk
-RU,Palatka
-RU,Isil'kul'
-RU,Petrovsk-Zabaykal'skiy
-RU,Krasnoural'sk
-RU,Cherepanovo
-RU,Rayevskiy
-RU,Yeniseysk
-RU,Bikin
-RU,Ivdel'
-RU,Uzhur
-RU,Polyarnyy
-RU,Slyudyanka
-RU,Kavalerovo
-RU,Vanino
-RU,Kyakhta
-RU,Abaza
-RU,Kurtamysh
-RU,Sovetsk
-RU,Pallasovka
-RU,Plast
-RU,Nevel'sk
-RU,Poronaysk
-RU,Kamenka
-RU,Kupino
-RU,Nikolayevsk
-RU,Bodaybo
-RU,Nikel'
-RU,Kodinsk
-RU,Gornyak
-RU,Nerchinsk
-RU,Kulunda
-RU,Udachnyy
-RU,Vyazemskiy
-RU,Chegdomyn
-RU,Ust'-Ordynskiy
-RU,Shilka
-RU,Kem'
-RU,Golyshmanovo
-RU,Kirensk
-RU,Uyar
-RU,Uglegorsk
-RU,Mogocha
-RU,Nazyvayevsk
-RU,Belomorsk
-RU,Cherlak
-RU,Aleksandrovsk-Sakhalinskiy
-RU,Dolinsk
-RU,Magdagachi
-RU,Severnyy
-RU,Zmeinogorsk
-RU,Aginskoye
-RU,Kirs
-RU,Kargat
-RU,Khilok
-RU,Taksimo
-RU,Nogliki
-RU,Skovorodino
-RU,Progress
-RU,Obluch'ye
-RU,Olekminsk
-RU,Vilyuysk
-RU,Pokrovsk
-RU,Biryusinsk
-RU,Dombarovskiy
-RU,Igrim
-RU,Shira
-RU,Ust'-Nera
-RU,Suntar
-RU,Olovyannaya
-RU,Dal'negorsk
-RU,Igarka
-RU,Susuman
-RU,Khandyga
-RU,Makarov
-RU,Verkhnevilyuysk
-RU,Umba
-RU,Tazovskiy
-RU,Mundybash
-RU,Bilibino
-RU,Tiksi
-RU,Okhotsk
-RU,Tura
-RU,Chernyshevskiy
-RU,Artemovsk
-RU,Ust'-Kamchatsk
-RU,Pevek
-RU,Turukhansk
-RU,Bagdarin
-RU,Sangar
-RU,Batagay
-RU,Omsukchan
-RU,Novyy Uoyan
-RU,Vitim
-RU,Teeli
-RU,Cherskiy
-RU,Mezen'
-RU,Palana
-RU,Zyryanka
-RU,De-Kastri
-RU,Srednekolymsk
-RU,Bukachacha
-RU,Ugol'nyye Kopi
-RU,Krasnogorsk
-RU,Zhigansk
-RU,Khatanga
-RU,Ust'-Maya
-RU,Saranpaul'
-RU,Provideniya
-RU,Chokurdakh
-RU,Severo-Kuril'sk
-RU,Egvekinot
-RU,Evensk
-RU,Saskylakh
-RU,Beringovskiy
-RU,Novyy Port
-RU,Ust'-Kuyga
-RU,El'dikan
-RU,Verkhoyansk
-RU,Chumikan
-RU,Ayan
-RU,Lavrentiya
-RU,Dikson
-RU,Klyuchi
-RU,Omolon
-RU,Uelen
-RU,Yerema
-RU,Mikhalkino
-RU,Sherlovaya Gora
-RU,Nizhneyansk
-RU,Korf
-RU,Shoyna
-RU,Bugrino
-RU,Put' Lenina
-RU,Enurmino
-RU,Amderma
-RU,Gubkin
-RU,Vikhorevka
-RU,Gyda
-RU,Tiyerbes
-RU,Yessey
-RU,Manily
-RU,Zhilinda
-RU,Ust'-Olenek
-RU,Logashkino
-RU,Vorontsovo
-RU,Mukhomornoye
-RU,Kovda
-RU,Numto
-RU,Peregrebnoye
-RU,Lar'yak
-RU,Ul'kan
-RU,Bol'sheretsk
-RU,Karamken
-RU,Strelka
-RU,Ust'-Nyukzha
-RU,Khorgo
-RU,Varnek
-RU,Indiga
-RU,Podkamennaya Tunguska
-RU,Komsa
-RU,Omchak
-RU,Trofimovsk
-RU,Sagastyr
-RU,Utkholok
-RU,Siglan
-RU,Pakhachi
-RU,Tunguskhaya
-RU,Chagda
-RU,Il'pyrskiy
-RU,Shalaurova
-RU,Olenek
-RU,Matochkin Shar
-RU,Zvezdnyy
-RU,Agapa
-RU,Starorybnoye
-RU,Menkerya
-RU,Tukchi
-RU,Khakhar'
-RU,Zemlya Bunge
-RU,Ambarchik
-RU,Nordvik
+RU,Yaroslavl
+=================
 RW,Kigali
+RW,Huye
+RW,Musanze
+RW,Rubavu
+RW,Rusizi
 RW,Nyanza
-RW,Ruhengeri
-RW,Gisenyi
-RW,Byumba
-RW,Kibuye
-RW,Rwamagana
-RW,Gitarama
-RW,Butare
-RW,Kibungo
-RW,Cyangugu
-RW,Gikongoro
+=================
 SA,Riyadh
 SA,Jeddah
-SA,Ad Dammam
 SA,Mecca
 SA,Medina
-SA,At Ta'if
-SA,Al Hufuf
-SA,Al Hillah
-SA,Tabuk
-SA,Buraydah
-SA,Ha'il
-SA,Najran
-SA,Al Qatif
-SA,Al Mubarraz
-SA,Al Kharj
-SA,Yanbu`
-SA,Hafar al Batin
-SA,Al Jubayl
-SA,`Ar`ar
-SA,Abha
-SA,Sakaka
-SA,Jazan
-SA,Al Bahah
+SA,Dammam
+SA,Khobar
 SA,Dhahran
-SA,Qal`at Bishah
-SA,Rafha
-SA,Al Wajh
-SA,As Sulayyil
-SA,Dawmat al Jandal
-SA,Al Qurayyat
-SA,Al Quway`iyah
-SA,Al Qunfudhah
+SA,Taif
+SA,Abha
+SA,Tabuk
+SA,Buraidah
+SA,Hail
+SA,Jazan
+SA,Najran
+SA,Sakaka
+=================
 SB,Honiara
 SB,Gizo
-SB,Lata
 SB,Auki
-SB,Kirakira
-SB,Taro
-SB,Tulagi
 SB,Buala
-SB,Tigoa
+SB,Tulagi
+=================
 SC,Victoria
+SC,Anse Royale
+SC,Beau Vallon
+SC,Takamaka
+=================
 SD,Khartoum
 SD,Omdurman
+SD,Bahri
 SD,Port Sudan
 SD,Kassala
 SD,El Obeid
 SD,Nyala
-SD,Kusti
-SD,Wad Medani
-SD,El Fasher
-SD,Gedaref
-SD,Shendi
-SD,Ed Damazin
-SD,Kadugli
-SD,Madent Atbara
-SD,El Geneina
-SD,Al Manaqil
-SD,Sannar
-SD,An Nuhud
-SD,Ed Damer
-SD,Dongola
-SD,Rabak
-SD,Singa
-SD,Ed Daein
-SD,Zalingei
-SD,El Fula
-SD,Ad Diwem
-SD,Tokar
-SD,Umm Ruwaba
-SD,Berber
-SD,Haya
-SD,Al Mijlad
-SD,Babanusah
-SD,Wadi Halfa'
-SD,Marawi
-SD,Karmah an Nuzul
+SD,Al-Fashir
+SD,Wad Madani
+SD,Atbara
+=================
 SE,Stockholm
-SE,Goteborg
-SE,Malmo
+SE,Gothenburg
+SE,Malmö
 SE,Uppsala
-SE,Vasteras
-SE,Orebro
-SE,Linkoping
+SE,Västerås
+SE,Örebro
+SE,Linköping
+SE,Norrköping
 SE,Helsingborg
-SE,Jonkoping
-SE,Umea
+SE,Jönköping
+SE,Umeå
+SE,Lund
 SE,Karlstad
-SE,Gavle
-SE,Vaxjo
-SE,Halmstad
-SE,Lulea
-SE,Ostersund
-SE,Trollhattan
-SE,Falun
-SE,Karlskrona
-SE,Kalmar
-SE,Nykoping
-SE,Visby
-SE,Harnosand
-SE,Uppsala
-SE,Norrkoping
-SE,Sundsvall
-SE,Boras
-SE,Borlange
-SE,Kristianstad
-SE,Skelleftea
-SE,Ornskoldsvik
-SE,Vanersborg
-SE,Kiruna
-SE,Mariestad
-SE,Bollnas
+=================
 SG,Singapore
-SH,Georgetown
-SH,Edinburgh of the Seven Seas
+=================
+SH,Jamestown
+=================
 SI,Ljubljana
 SI,Maribor
-SI,Piran
-SI,Koper
-SI,Skofja Loka
-SI,Domzale
-SI,Ravne na Koroskem
-SI,Izola
-SI,Velenje
-SI,Slovenske Konjice
-SI,Mezica
 SI,Celje
-SI,Kamnik
-SI,Radlje ob Dravi
 SI,Kranj
-SI,Grosuplje
-SI,Zagorje ob Savi
-SI,Slovenj Gradec
-SI,Dravograd
-SI,Zalec
-SI,Litija
-SI,Krsko
-SI,Jesenice
-SI,Radovljica
-SI,Prevalje
-SI,Trbovlje
-SI,Ivancna Gorica
-SI,Rogaska Slatina
-SI,Lasko
-SI,Ruse
-SI,Nova Gorica
-SI,Zirovnica
-SI,Store
-SI,Cerklje na Gorenjskem
-SI,Sostanj
-SI,Murska Sobota
-SI,Slovenska Bistrica
-SI,Gornja Radgona
+SI,Koper
 SI,Novo Mesto
 SI,Ptuj
-SI,Sentjur
-SI,Prebold
-SI,Miklavz na Dravskem Polju
-SI,Sempeter pri Gorici
-SI,Mozirje
-SI,Smartno ob Paki
-SI,Trebnje
-SI,Trzic
-SI,Polzela
-SI,Brezice
-SI,Kocevje
-SI,Hrastnik
-SI,Ankaran
-SI,Lendava
-SI,Spodnje Hoce
-SI,Selnica ob Dravi
-SI,Smartno pri Litiji
-SI,Lenart v Slovenskih Goricah
-SI,Moravce
-SI,Kanal
-SI,Nazarje
-SI,Menges
-SI,Brezovica
-SI,Zrece
-SI,Preddvor
-SI,Vuzenica
-SI,Vrhnika
-SI,Sevnica
-SI,Poljcane
-SI,Ziri
-SI,Smarje pri Jelsah
-SI,Komenda
-SI,Metlika
-SI,Vojnik
-SI,Medvode
-SI,Skofljica
-SI,Muta
-SI,Radenci
-SI,Bled
-SI,Spodnji Duplek
-SI,Borovnica
-SI,Ljutomer
-SI,Idrija
-SI,Log pri Brezovici
-SI,Naklo
-SI,Oplotnica
-SI,Ormoz
-SI,Sencur
-SI,Mirna
-SI,Race
-SI,Crnomelj
-SI,Vitanje
-SI,Sentjernej
-SI,Majsperk
-SI,Horjul
-SI,Postojna
-SI,Luce
-SI,Spodnja Hajdina
-SI,Zgornje Gorje
-SI,Pivka
-SI,Braslovce
-SI,Lovrenc na Pohorju
-SI,Pesnica pri Mariboru
-SI,Cerknica
-SI,Vodice
-SI,Dobrna
-SI,Sentilj
-SI,Vransko
-SI,Sentrupert
-SI,Odranci
-SI,Logatec
-SI,Bohinjska Bistrica
-SI,Ajdovscina
-SI,Trzin
-SI,Gorisnica
-SI,Volcja Draga
-SI,Dornava
-SI,Beltinci
-SI,Zelezniki
-SI,Dol pri Ljubljani
-SI,Ig
-SI,Sezana
-SI,Gorenja Vas
-SI,Cerkno
-SI,Stari Trg pri Lozu
-SI,Sveti Jurij ob Scavnici
-SI,Recica ob Savinji
-SI,Videm
-SI,Ljubno
-SI,Straza
-SI,Tisina
-SI,Smarjeske Toplice
-SI,Kidricevo
-SI,Semic
-SI,Starse
-SI,Dobrovo
-SI,Turnisce
-SI,Tabor
-SI,Krizevci pri Ljutomeru
-SI,Sveta Trojica v Slovenskih Goricah
-SI,Sveta Ana v Slovenskih Goricah
-SI,Tolmin
-SI,Benedikt v Slovenskih Goricah
-SI,Mirna Pec
-SI,Radece
-SI,Destrnik
-SI,Verzej
-SI,Zgornja Kungota
-SI,Crensovci
-SI,Kobarid
-SI,Markovci
-SI,Vipava
-SI,Ilirska Bistrica
-SI,Zuzemberk
-SI,Dobrova
-SI,Velike Lasce
-SI,Puconci
-SI,Skocjan
-SI,Dolenjske Toplice
-SI,Mokronog
-SI,Rogasovci
-SI,Kozina
-SI,Cankova
-SI,Velika Polana
-SI,Sredisce ob Dravi
-SI,Nova Vas
-SI,Apace
-SI,Cerkvenjak
-SI,Lukovica pri Domzalah
-SI,Jursinci
-SI,Gornji Grad
-SI,Videm pri Ptuju
-SI,Cirkulane
-SI,Ribnica
-SI,Miren
-SI,Podlehnik
-SI,Bovec
-SI,Zavrc
-SI,Ribnica na Pohorju
-SI,Tomaz pri Ormozu
-SI,Kostanjevica na Krki
-SI,Vitomarci
-SI,Komen
-SI,Kuzma
-SI,Divaca
-SI,Kozje
-SI,Jurovski Dol
-SI,Dobje pri Planini
-SI,Gornji Petrovci
-SI,Moravske-Toplice
-SI,Podvelka
-SI,Makole
-SI,Razkrizje
-SI,Rogatec
-SI,Crna na Koroskem
-SI,Osilnica
-SI,Grad
-SI,Sodrazica
-SI,Dobrovnik
-SI,Mislinja
-SI,Trnovska Vas
-SI,Podcetrtek
-SI,Hrib-Loski Potok
-SI,Kobilje
-SI,Kranjska Gora
-SI,Zetale
-SI,Salovci
-SI,Bistrica ob Sotli
-SI,Solcava
-SI,Hodos
-SI,Kostel
-SI,Zgornje Jezersko
+=================
+SJ,Longyearbyen
+=================
 SK,Bratislava
-SK,Kosice
-SK,Presov
-SK,Zilina
-SK,Banska Bystrica
-SK,Trnava
+SK,Košice
+SK,Prešov
 SK,Nitra
-SK,Trencin
-SK,Zvolen
+SK,Žilina
+SK,Banská Bystrica
+SK,Trnava
+SK,Trenčín
+=================
 SL,Freetown
 SL,Bo
 SL,Kenema
 SL,Makeni
-SL,Port Loko
-SL,Koidu-Bulma
+SL,Koidu
+=================
 SM,San Marino
-SM,Serravalle
 SM,Borgo Maggiore
+SM,Serravalle
 SM,Domagnano
-SM,Acquaviva
-SM,Fiorentino
-SM,Montegiardino
-SM,Chiesanuova
-SM,Faetano
+=================
 SN,Dakar
-SN,Thies
+SN,Thiès
+SN,Saint-Louis
 SN,Kaolack
 SN,Ziguinchor
+SN,Touba
 SN,Diourbel
-SN,Tambacounda
 SN,Louga
-SN,Kolda
-SN,Fatick
-SN,Kedougou
-SN,Saint-Louis
-SN,Kaffrine
-SN,Sedhiou
-SN,Matam
-SN,Kobilo
+=================
 SO,Mogadishu
-SO,Kismaayo
-SO,Jamaame
+SO,Hargeisa
+SO,Bosaso
+SO,Kismayo
 SO,Baidoa
-SO,Jawhar
 SO,Beledweyne
-SO,Gaalkacyo
-SO,Boosaaso
-SO,Garbahaarrey
-SO,Garoowe
-SO,Marka
-SO,Xuddur
-SO,Bu'aale
-SO,Dhuusamarreeb
-SO,Hargeysa
-SO,Burco
-SO,Baki
-SO,Laascaanood
-SO,Ceerigaabo
-SO,Luuq
-SO,Buurhakaba
-SO,Eyl
-SO,Bandarbeyla
-SO,Buur Gaabo
-SO,Qardho
-SO,Mereeg
-SO,Caluula
-SO,Hurdiyo
+SO,Galkayo
+=================
 SR,Paramaribo
 SR,Nieuw Nickerie
-SR,Brokopondo
-SR,Nieuw Amsterdam
-SR,Groningen
-SR,Onverwacht
-SR,Totness
-SR,Lelydorp
-SR,Albina
-SR,Cottica
 SR,Moengo
-SR,Brownsweg
+SR,Albina
+=================
 SS,Juba
-SS,Yei
-SS,Malakal
 SS,Wau
-SS,Aweil
-SS,Yambio
-SS,Rumbek
+SS,Malakal
 SS,Bor
-SS,Bentiu
-SS,Kuacjok
-SS,Torit
-SS,Gogrial
-SS,Maridi
-SS,Kapoeta
-SS,Melut
-SS,Nasir
-SS,Nimule
-ST,Sao Tome
+SS,Yambio
+SS,Aweil
+=================
+ST,São Tomé
 ST,Trindade
-ST,Guadalupe
-ST,Santana
 ST,Neves
-ST,Santo Antonio
-ST,Sao Joao dos Angolares
-ST,Santo Antonio
+=================
 SV,San Salvador
 SV,Santa Ana
 SV,San Miguel
-SV,Sonsonate
+SV,Soyapango
+SV,Mejicanos
 SV,Santa Tecla
-SV,Usulutan
-SV,Cojutepeque
-SV,Zacatecoluca
-SV,San Vicente
-SV,Ahuachapan
-SV,Chalatenango
-SV,Sensuntepeque
-SV,La Union
-SV,San Francisco
+SV,Usulután
+=================
 SX,Philipsburg
-SY,Aleppo
+SX,Cole Bay
+SX,Simpson Bay
+=================
 SY,Damascus
+SY,Aleppo
 SY,Homs
+SY,Hama
 SY,Latakia
-SY,Duma
-SY,Hamah
-SY,Dayr az Zawr
-SY,Ar Raqqah
 SY,Tartus
-SY,Dar`a
-SY,Idlib
-SY,Al Hasakah
-SY,Manbij
-SY,Al Qamishli
-SY,Ath Thawrah
-SY,As Suwayda'
-SY,Al Qunaytirah
-SY,Albu Kamal
-SY,Tadmur
-SY,An Nabk
-SY,I`zaz
+SY,Daraa
+SY,Deir ez-Zor
+SY,Raqqa
+=================
 SZ,Mbabane
-SZ,Lobamba
 SZ,Manzini
-SZ,Siteki
 SZ,Nhlangano
-SZ,Piggs Peak
-SZ,Lavumisa
-SZ,Hlatikulu
+SZ,Siteki
+=================
+TC,Cockburn Town
+TC,Providenciales
 TC,Grand Turk
+=================
 TD,N'Djamena
-TD,Bongor
-TD,Sarh
-TD,Abeche
 TD,Moundou
-TD,Am Timan
+TD,Sarh
+TD,Abéché
+TD,Kélo
 TD,Doba
-TD,Mongo
-TD,Ati
-TD,Lai
-TD,Mao
-TD,Faya
-TD,Biltine
-TD,Bol
-TD,Fada
-TD,Pala
-TD,Koumra
-TD,Massakory
-TD,Goz Beida
-TD,Moussoro
-TD,Massenya
-TD,Am Djarass
-TD,Bardai
-TD,Kelo
-TD,Pala Oua
-TD,Oum Hadjer
-TD,Zouar
-TG,Lome
-TG,Sokode
-TG,Kpalime
-TG,Atakpame
-TG,Dapaong
+=================
+TF,Port-aux-Français
+=================
+TG,Lomé
+TG,Sokodé
 TG,Kara
-TG,Bassar
-TG,Sansanne-Mango
-TG,Sotouboua
+TG,Atakpamé
+TG,Dapaong
+=================
 TH,Bangkok
 TH,Chiang Mai
-TH,Samut Prakan
-TH,Nakhon Ratchasima
+TH,Phuket
+TH,Pattaya
+TH,Chonburi
 TH,Hat Yai
-TH,Ubon Ratchathani
-TH,Nonthaburi
 TH,Khon Kaen
 TH,Udon Thani
-TH,Nakhon Si Thammarat
-TH,Chon Buri
-TH,Lampang
-TH,Si Racha
-TH,Phitsanulok
+TH,Nakhon Ratchasima
 TH,Surat Thani
-TH,Pathum Thani
-TH,Pattani
-TH,Yala
-TH,Trang
-TH,Phra Nakhon Si Ayutthaya
-TH,Phuket
-TH,Nakhon Pathom
-TH,Chiang Rai
-TH,Nakhon Sawan
-TH,Ratchaburi
-TH,Nong Khai
-TH,Chanthaburi
-TH,Phetchaburi
-TH,Chumphon
-TH,Nan
-TH,Prachin Buri
-TH,Uttaradit
-TH,Sakon Nakhon
-TH,Saraburi
-TH,Narathiwat
-TH,Kanchanaburi
-TH,Samut Sakhon
-TH,Surin
-TH,Kamphaeng Phet
-TH,Chaiyaphum
-TH,Lop Buri
-TH,Nakhon Phanom
-TH,Kalasin
-TH,Suphan Buri
-TH,Maha Sarakham
-TH,Phetchabun
-TH,Chachoengsao
-TH,Songkhla
-TH,Buri Ram
-TH,Si Sa Ket
-TH,Phatthalung
-TH,Roi Et
-TH,Phrae
-TH,Rayong
-TH,Phichit
-TH,Loei
-TH,Samut Songkhram
-TH,Satun
-TH,Prachuap Khiri Khan
-TH,Tak
 TH,Krabi
-TH,Ranong
-TH,Uthai Thani
-TH,Yasothon
-TH,Trat
-TH,Nakhon Nayok
-TH,Phayao
-TH,Sing Buri
-TH,Chai Nat
-TH,Lamphun
-TH,Ang Thong
-TH,Sukhothai
-TH,Phangnga
-TH,Mae Hong Son
-TH,Mukdahan
-TH,Nong Bua Lamphu
-TH,Amnat Charoen
-TH,Sa Kaeo
-TH,Bueng Kan
-TH,Hua Hin
-TH,Mae Sot
-TH,Thung Song
-TH,Aranyaprathet
-TH,Bua Yai
+TH,Ayutthaya
+=================
 TJ,Dushanbe
 TJ,Khujand
-TJ,Qurghonteppa
-TJ,Konibodom
-TJ,Istaravshan
 TJ,Kulob
-TJ,Khorugh
-TJ,Abdurahmoni Jomi
+TJ,Bokhtar
+TJ,Istaravshan
+=================
+TK,Fakaofo
+TK,Nukunonu
+TK,Atafu
+=================
 TL,Dili
 TL,Baucau
-TL,Gleno
 TL,Maliana
-TL,Liquica
-TL,Manatuto
-TL,Aileu
-TL,Ainaro
-TL,Pante Macassar
 TL,Suai
 TL,Lospalos
-TL,Same
-TL,Viqueque
+=================
 TM,Ashgabat
 TM,Turkmenabat
-TM,Dasoguz
+TM,Dashoguz
 TM,Mary
 TM,Balkanabat
-TM,Anew
-TM,Turkmenbasy
-TM,Tejen
-TM,Serdar
-TM,Abadan
-TM,Kaka
-TM,Atamyrat
-TM,Koneurgench
-TM,Celeken
+=================
 TN,Tunis
 TN,Sfax
 TN,Sousse
-TN,Gabes
-TN,Zarzis
-TN,Kairouan
+TN,Gabès
 TN,Bizerte
-TN,Gafsa
-TN,Nabeul
-TN,Ariana
-TN,Kasserine
+TN,Kairouan
 TN,Monastir
-TN,Tataouine
-TN,Medenine
-TN,Beja
-TN,Jendouba
-TN,El Kef
-TN,Mahdia
-TN,Sidi Bouzid
-TN,Tozeur
-TN,Siliana
-TN,Kebili
-TN,Zaghouan
-TN,Ben Arous
-TN,Manouba
-TN,Ben Gardane
-TN,Dehiba
-TO,Nuku`alofa
+TN,Nabeul
+TN,Gafsa
+TN,Djerba
+=================
+TO,Nukuʻalofa
 TO,Neiafu
+TO,Pangai
+=================
 TR,Istanbul
 TR,Ankara
 TR,Izmir
 TR,Bursa
+TR,Antalya
 TR,Adana
 TR,Gaziantep
 TR,Konya
-TR,Tarsus
-TR,Antalya
-TR,Trabzon
-TR,Diyarbakir
-TR,Samsun
-TR,Kayseri
-TR,Eskisehir
-TR,Kocaeli
-TR,Malatya
-TR,Sanliurfa
-TR,Erzurum
-TR,Kahramanmaras
-TR,Denizli
-TR,Van
-TR,Hatay
-TR,Batman
-TR,Iskenderun
-TR,Rize
-TR,Elazig
-TR,Sivas
-TR,Balikesir
-TR,Sakarya
-TR,Manisa
-TR,Adiyaman
-TR,Kirikkale
-TR,Aydin
-TR,Kutahya
-TR,Corum
-TR,Isparta
-TR,Afyonkarahisar
-TR,Zonguldak
-TR,Ordu
-TR,Usak
-TR,Nusaybin
-TR,Tokat
-TR,Erzincan
-TR,Karabuk
-TR,Edirne
-TR,Tekirdag
-TR,Karaman
-TR,Siirt
-TR,Giresun
-TR,Bolu
-TR,Kirsehir
-TR,Nigde
-TR,Yozgat
-TR,Agri
-TR,Canakkale
-TR,Amasya
-TR,Mus
-TR,Kilis
-TR,Bingol
-TR,Hakkari
-TR,Kars
-TR,Nevsehir
-TR,Cankiri
-TR,Mardin
-TR,Kastamonu
-TR,Burdur
-TR,Bitlis
-TR,Kirklareli
-TR,Mugla
-TR,Bilecik
-TR,Sinop
-TR,Artvin
-TR,Gumushane
-TR,Tunceli
 TR,Mersin
-TR,Yalova
-TR,Osmaniye
-TR,Duzce
-TR,Bartin
-TR,Igdir
-TR,Aksaray
-TR,Ardahan
-TR,Sirnak
-TR,Bayburt
-TR,Bafra
-TR,Samandag
-TR,Polatli
-TR,Eregli
-TR,Luleburgaz
-TR,Soke
-TR,Tatvan
+TR,Diyarbakır
+TR,Kayseri
+TR,Samsun
+TR,Trabzon
+TR,Eskişehir
+TR,Denizli
+TR,Şanlıurfa
+=================
 TT,Port of Spain
 TT,San Fernando
-TT,Arima
 TT,Chaguanas
-TT,Scarborough
-TT,Diego Martin
+TT,Arima
 TT,Point Fortin
-TT,Aranguez
-TT,Tunapuna
-TT,Debe
 TT,Couva
-TT,Siparia
-TT,Princes Town
-TT,Sangre Grande
-TT,Rio Claro
+=================
 TV,Funafuti
+=================
 TW,Taipei
-TW,Kaohsiung
+TW,New Taipei
 TW,Taichung
+TW,Kaohsiung
 TW,Tainan
-TW,Zhongli
 TW,Hsinchu
-TW,Changhua
-TW,Pingtung
-TW,Taoyuan District
+TW,Taoyuan
 TW,Keelung
-TW,Chiayi
-TW,Hualien
-TW,Pingzhen
-TW,Zhubei
-TW,Yangmei
-TW,Taitung
-TW,Bade
-TW,Nantou
-TW,Yilan
-TW,Miaoli
-TW,Douliu
-TW,Magong
-TW,Taibao
-TW,Banqiao
-TW,Nangan
-TW,Jincheng
-TW,Pozi
-TZ,Dar es Salaam
+=================
 TZ,Dodoma
-TZ,Moshi
-TZ,Mwanza
-TZ,Zanzibar
+TZ,Dar es Salaam
 TZ,Arusha
+TZ,Mwanza
+TZ,Zanzibar City
 TZ,Mbeya
 TZ,Morogoro
 TZ,Tanga
-TZ,Kigoma
-TZ,Tabora
-TZ,Musoma
-TZ,Tukuyu
-TZ,Songea
 TZ,Iringa
-TZ,Shinyanga
-TZ,Bukoba
-TZ,Mtwara
-TZ,Kilosa
-TZ,Sumbawanga
-TZ,Mpanda
-TZ,Singida
-TZ,Chake Chake
-TZ,Njombe
-TZ,Lindi
-TZ,Kasulu
-TZ,Kahama
-TZ,Babati
-TZ,Wete
-TZ,Kibaha
-TZ,Geita
-TZ,Bariadi
-TZ,Mahonda
-TZ,Vwawa
-TZ,Koani
-TZ,Bagamoyo
-TZ,Uvinza
-TZ,Korogwe
-TZ,Ifakara
-TZ,Tunduma
-TZ,Masasi
-TZ,Biharamulo
-TZ,Kibiti
-TZ,Sikonge
-TZ,Nzega
-TZ,Kakonko
-TZ,Mpwapwa
-TZ,Itigi
-TZ,Same
-TZ,Ngara
-TZ,Mikumi
-TZ,Karema
-TZ,Nyahanga
-TZ,Mbulu
-TZ,Kilindoni
-TZ,Ngorongoro
-TZ,Mkokotoni
-TZ,Mbamba Bay
-TZ,Oldeani
-TZ,Kipili
-TZ,Tunduru
-TZ,Manyoni
-TZ,Kanyato
+TZ,Moshi
+=================
 UA,Kyiv
 UA,Kharkiv
-UA,Dnipro
 UA,Odesa
-UA,Donets'k
-UA,L'viv
-UA,Zaporizhzhya
-UA,Kryvyy Rih
-UA,Mykolayiv
-UA,Mariupol'
-UA,Luhans'k
-UA,Khmel'nyts'kyy
-UA,Horlivka
-UA,Makiyivka
-UA,Vinnytsya
+UA,Dnipro
+UA,Lviv
+UA,Zaporizhzhia
+UA,Donetsk
+UA,Mariupol
+UA,Mykolaiv
 UA,Kherson
 UA,Poltava
 UA,Chernihiv
-UA,Chernivtsi
 UA,Cherkasy
-UA,Sumy
-UA,Zhytomyr
-UA,Rivne
-UA,Kropyvnyts'kyy
-UA,Ternopil'
-UA,Ivano-Frankivs'k
-UA,Kremenchuk
-UA,Luts'k
-UA,Bila Tserkva
-UA,Kramators'k
-UA,Melitopol'
-UA,Uzhhorod
-UA,Nikopol'
-UA,Lysychans'k
-UA,Drohobych
-UA,Berdyans'k
-UA,Nizhyn
-UA,Kam'yanets'-Podil's'kyy
-UA,Konotop
-UA,Shostka
-UA,Brovary
-UA,Uman'
-UA,Chornomors'k
-UA,Simferopol'
-UA,Sevastopol'
-UA,Izmayil
-UA,Kup'yans'k
-UA,Korosten'
-UA,Kovel'
-UA,Voznesens'k
-UA,Cheremoshna
+=================
 UG,Kampala
-UG,Mbale
-UG,Jinja
-UG,Arua
-UG,Entebbe
-UG,Tororo
 UG,Gulu
-UG,Lira
 UG,Mbarara
-UG,Kasese
-UG,Masaka
-UG,Kitgum
-UG,Busia
-UG,Iganga
-UG,Kabale
+UG,Jinja
+UG,Entebbe
+UG,Arua
+UG,Mbale
 UG,Fort Portal
-UG,Mityana
-UG,Adjumani
-UG,Masindi
-UG,Pallisa
-UG,Nebbi
-UG,Moyo
-UG,Kayunga
-UG,Mubende
-UG,Pakwach
-UG,Ntungamo
-UG,Kiboga
-UG,Sironko
-UG,Kumi
-UG,Kisoro
-UG,Kamuli
-UG,Mpigi
-UG,Katakwi
-UG,Nakasongola
-UG,Kibale
-UG,Kalangala
-UG,Kaberamaido
-UG,Kaabong
-UG,Soroti
-UG,Moroto
-UG,Koboko
-UG,Bugiri
-UG,Kapchorwa
-UG,Bundibugyo
-UG,Hoima
-UG,Mukono
-UG,Yumbe
-UG,Bududa
-UG,Wakiso
-UG,Lyantonde
-UG,Mayuge
-UG,Bulambuli
-UG,Maracha
-UG,Luwero
-UG,Namayingo
-UG,Luuka Town
-UG,Kibuku
-UG,Bupoto
-UG,Apac
-UG,Rubirizi
-UG,Buikwe
-UG,Kagadi
-UG,Bushenyi
-UG,Kaliro
-UG,Butebo
-UG,Namutumba
-UG,Manafwa
-UG,Ibanda
-UG,Rukungiri
-UG,Gombe
-UG,Kyenjojo
-UG,Mitoma
-UG,Kalungu
-UG,Bukomansimbi
-UG,Rubanda
-UG,Kasaali
-UG,Butaleja
-UG,Serere
-UG,Amuria
-UG,Kibiito
-UG,Kibingo
-UG,Bukedea
-UG,Nakaseke
-UG,Binyin
-UG,Mparo
-UG,Kole
-UG,Zombo
-UG,Rakai
-UG,Lwengo
-UG,Bukwa
-UG,Dokolo
-UG,Kamwenge
-UG,Ngora
-UG,Alebtong
-UG,Kanungu
-UG,Kanoni
-UG,Oyam
-UG,Sembabule
-UG,Kakumiro
-UG,Buyende
-UG,Isingiro
-UG,Kyegegwa
-UG,Buhweju
-UG,Amolatar
-UG,Lamwo
-UG,Palenga
-UG,Kotido
-UG,Pader
-UG,Agago
-UG,Bulisa
-UG,Amudat
-UG,Napak
-UG,Kiryandongo
-UG,Kiruhura
-UG,Abim
-UG,Ntoroko
-UG,Otuke
-UG,Amuru
-UG,Nakapiripirit
-UG,Kyankwanzi
-UG,Nwoya
-UG,Kitamilo
-UG,Bombo
-UG,Katwe
-UG,Masindi Port
-US,New York
+=================
+UM-DQ,Jarvis Island
+UM-FQ,Midway Atoll
+UM-HQ,Howland Island
+UM-JQ,Johnston Atoll
+UM-MQ,Kingman Reef
+UM-WQ,Wake Island
+=================
+US,New York City
+US,Buffalo
+US,Albany
 US,Los Angeles
+US,San Diego
+US,San Francisco
+US,San Jose
+US,Sacramento
 US,Chicago
-US,Miami
+US,Springfield
+US,Houston
 US,Dallas
+US,Austin
+US,San Antonio
+US,Miami
+US,Orlando
+US,Tampa
+US,Tallahassee
+US,Atlanta
+US,Savannah
+US,Boston
+US,Worcester
+US,Seattle
+US,Spokane
+US,Denver
+US,Colorado Springs
+US,Phoenix
+US,Tucson
+US,Las Vegas
+US,Reno
+US,Detroit
+US,Grand Rapids
+US,Minneapolis
+US,St. Paul
+US,Philadelphia
+US,Pittsburgh
+US,Washington, D.C.
+US,Baltimore
+US,Nashville
+US,Memphis
+US,New Orleans
+US,Baton Rouge
+US,Portland
+US,Salem
+US,Kansas City
+US,St. Louis
+US,Cleveland
+US,Columbus
+US,Cincinnati
+US,Charlotte
+US,Raleigh
+US,Indianapolis
+US,Milwaukee
+US,Madison
+US,Salt Lake City
+US,Provo
+US,Honolulu
+US,Hilo
+US,Anchorage
+US,Fairbanks
+US,San Bernardino
+US,Riverside
+US,Fresno
+US,Oakland
+US,San Mateo
+US,Santa Monica
+US,Long Beach
+US,Pasadena
+US,San Mateo
+US,San Rafael
+US,San Luis Obispo
+US,San Mateo
+US,San Antonio
+US,El Paso
+US,Lubbock
+US,Amarillo
+US,Oklahoma City
+US,Tulsa
+US,Wichita
+US,Topeka
+US,Omaha
+US,Lincoln
+US,Des Moines
+US,Cedar Rapids
+US,Sioux Falls
+US,Bismarck
+US,Fargo
+US,Boise
+US,Missoula
+US,Helena
+US,Cheyenne
+US,Jackson
+US,Billings
+US,Albuquerque
+US,Santa Fe
+US,Las Cruces
+US,Little Rock
+US,Fayetteville
+US,Birmingham
+US,Montgomery
+US,Mobile
+US,Jacksonville
+US,Fort Lauderdale
+US,West Palm Beach
+US,Key West
+US,Charleston
+US,Columbia
+US,Greenville
+US,Knoxville
+US,Chattanooga
+US,Louisville
+US,Lexington
+US,Frankfort
+US,Richmond
+US,Norfolk
+US,Arlington
+US,Newark
+US,Trenton
+US,Atlantic City
+US,Providence
+US,Hartford
+US,New Haven
+US,Manchester
+US,Concord
+US,Burlington
+US,Montpelier
+US,Portsmouth
+US,New Haven
+US,Bridgeport
+US,Newport
+US,San Juan
+US,Juneau
+US,Sitka
+US,Flagstaff
+US,Scottsdale
+US,Tempe
+US,Plano
+US,Irving
+US,Frisco
+US,Aurora
+US,Boulder
+US,Fort Collins
+US,Tacoma
+US,Bellevue
+US,Everett
+US,Redmond
+=================
 UY,Montevideo
-UY,Rivera
 UY,Punta del Este
 UY,Salto
-UY,Paysandu
-UY,Melo
+UY,Paysandú
+UY,Las Piedras
 UY,Maldonado
-UY,Tacuarembo
-UY,Mercedes
-UY,Artigas
-UY,Minas
-UY,San Jose
-UY,Durazno
-UY,Florida
-UY,Treinta y Tres
-UY,Rocha
-UY,Fray Bentos
-UY,Bella Union
 UY,Colonia del Sacramento
-UY,Canelones
-UY,Carmelo
-UY,Santa Lucia
-UY,Castillos
-UY,Lascano
-UY,Trinidad
-UY,Trinidad
-UY,Paso de los Toros
-UY,Vergara
-UY,La Paloma
-UY,Aigua
-UY,Baltasar Brum
-UY,Tranqueras
-UY,Jose Batlle y Ordonez
+=================
 UZ,Tashkent
-UZ,Farg`ona
-UZ,Namangan
 UZ,Samarkand
-UZ,Andijon
-UZ,Shahrisabz
-UZ,Qarshi
-UZ,Qo`qon
 UZ,Bukhara
-UZ,Kattaqo`rg`on
-UZ,Jizzax
+UZ,Khiva
+UZ,Namangan
+UZ,Andijan
+UZ,Fergana
 UZ,Nukus
-UZ,Denov
-UZ,Navoiy
-UZ,Angren
-UZ,Iskandar
-UZ,Termiz
-UZ,Chirchiq
-UZ,Urganch
-UZ,Khiwa
-UZ,Olmaliq
-UZ,Kogon
-UZ,Guliston
-UZ,Navoiy
-UZ,Urgut
-UZ,Zarafshon Shahri
-UZ,Xo`jayli Shahri
-UZ,Qunghirot
-UZ,Chimboy Shahri
-UZ,Muynoq
+=================
+VA,Vatican City
+=================
 VC,Kingstown
+VC,Georgetown
+VC,Barrouallie
+VC,Port Elizabeth
+=================
 VE,Caracas
 VE,Maracaibo
 VE,Valencia
 VE,Barquisimeto
 VE,Maracay
-VE,Ciudad Guayana
-VE,Barcelona
 VE,Puerto La Cruz
-VE,Cabimas
-VE,San Cristobal
-VE,Maturin
-VE,Merida
-VE,Ciudad Bolivar
-VE,Cumana
-VE,Maiquetia
-VE,Los Teques
-VE,Barinas
-VE,Acarigua
-VE,Punto Fijo
-VE,El Tigre
-VE,Porlamar
-VE,Coro
-VE,Valera
-VE,Puerto Cabello
-VE,Ocumare del Tuy
-VE,Guanare
-VE,Carora
-VE,Carupano
-VE,San Fernando
-VE,Anaco
-VE,Calabozo
-VE,San Juan de los Morros
-VE,San Carlos
-VE,San Felipe
-VE,Puerto Ayacucho
-VE,Tucupita
-VE,Trujillo
-VE,La Asuncion
-VE,La Guaira
-VE,San Carlos del Zulia
-VE,Valle de La Pascua
-VE,Machiques
-VE,Upata
-VE,Zaraza
-VE,Altagracia de Orituco
-VE,Santa Rita
-VE,Guasdualito
-VE,Chaguarama
-VE,La Esmeralda
-VE,El Dorado
-VE,El Manteco
-VN,Ho Chi Minh City
+VE,Barcelona
+VE,Ciudad Guayana
+VE,San Cristóbal
+VE,Mérida
+=================
+VG,Road Town
+VG,Spanish Town
+VG,Virgin Gorda
+=================
+VI,Charlotte Amalie
+VI,Christiansted
+VI,Fredensborg
+=================
 VN,Hanoi
-VN,Haiphong
-VN,Can Tho
-VN,Quang Ha
-VN,Hue
-VN,Quy Nhon
-VN,Bien Hoa
-VN,Vinh
-VN,Thai Nguyen
-VN,Nha Trang
-VN,Ca Mau
-VN,Long Xuyen
-VN,Viet Tri
-VN,Buon Ma Thuot
-VN,Phan Thiet
-VN,Rach Gia
-VN,Soc Trang
-VN,Ap Da Loi
-VN,Quang Ngai
-VN,Vung Tau
-VN,Thu Dau Mot
-VN,Nam Dinh
-VN,Bac Lieu
-VN,Thai Binh
-VN,Thanh Hoa
-VN,Son Tay
-VN,Dong Hoi
-VN,Phan Rang-Thap Cham
-VN,Ha Long
-VN,Ha Tinh
-VN,Cao Lanh
-VN,Lang Son
-VN,Cam Ranh
-VN,Pleiku
-VN,Tan An
-VN,Cam Pha
-VN,Tra Vinh
-VN,Ninh Binh
-VN,Tay Ninh
-VN,My Tho
-VN,Kon Tum
-VN,Hoa Binh
-VN,Vinh Long
-VN,Yen Bai
-VN,Tuy Hoa
-VN,Lao Cai
-VN,Ben Tre
-VN,Hai Duong
-VN,Bac Giang
-VN,Cao Bang
-VN,Ha Giang
-VN,Tuyen Quang
-VN,Bac Kan
-VN,Son La
-VN,Dong Ha
+VN,Ho Chi Minh City
 VN,Da Nang
-VN,Bac Ninh
-VN,Hung Yen
-VN,Phu Ly
-VN,Vinh Yen
-VN,Tam Ky
-VN,Ba Ria
-VN,Dien Bien Phu
-VN,Dong Xoai
-VN,Da Lat
-VN,Vi Thanh
-VN,Lai Chau
-VN,Kon Tum
-VN,Gia Nghia
-VN,Quang Tri
-VN,Chau Doc
-VN,Binh Long
-VN,Luan Chau
-VU,Port-Vila
+VN,Hai Phong
+VN,Can Tho
+VN,Hue
+VN,Nha Trang
+VN,Dalat
+VN,Vung Tau
+VN,Ha Long
+=================
+VU,Port Vila
 VU,Luganville
-VU,Isangel
-VU,Saratamata
-VU,Lakatoro
-VU,Sola
+=================
+WF,Mata-Utu
 WF,Leava
+=================
 WS,Apia
-WS,Afega
-WS,Leulumoega
-WS,Mulifanua
-WS,Lufilufi
-WS,Safotulafai
-WS,Samamea
-WS,Satupa`itea
-WS,Asau
+WS,Vaitele
+WS,Faleula
 WS,Safotu
-WS,Vailoa
-WS,Saleaula
+=================
 XK,Pristina
-XK,Mamushe
-XK,Novoberde
-XK,Gracanice
-XK,Ferizaj
 XK,Prizren
-XK,Mitrovice
-XK,Partesh
-XK,Gllogovc
-XK,Rahovec
-XK,Fushe Kosove
-XK,Obiliq
-XK,Shtime
-XK,Vushtrri
-XK,Malisheve
-XK,Lipjan
-XK,Suhareke
-XK,Viti
-XK,Kllokot
-XK,Gjakove
-XK,Peje
-XK,Kacanik
-XK,Hani i Elezit
-XK,Skenderaj
-XK,Decan
-XK,Podujeve
-XK,Kline
-XK,Junik
-XK,Istog
-XK,Kamenice
-XK,Dragash
-XK,Zvecan
-XK,Ranillug
+XK,Peja
+XK,Gjakova
+XK,Mitrovica
+XK,Ferizaj
 XK,Gjilan
-XK,Shterpce
-XK,Leposaviq
-XK,Zubin Potok
-YE,Sanaa
+=================
+YE,Sana'a
 YE,Aden
-YE,Al Hudaydah
-YE,Ta`izz
-YE,Al Mukalla
+YE,Taiz
+YE,Hodeidah
+YE,Mukalla
 YE,Ibb
-YE,Hajjah
-YE,Dhamar
-YE,Zabid
-YE,Sa`dah
-YE,Lahij
-YE,Al Bayda'
-YE,`Ataq
-YE,Al Ghayzah
-YE,Ma'rib
-YE,Hadibu
-YE,Ibb
-YE,Al Mahwit
-YE,`Amran
-YE,Zinjibar
-YE,Al Jabin
-YE,Ad Dali`
-YE,Al Hazm
-YE,Say'un
-YE,Ash Shihr
-YE,Rada`
-YE,Sayhut
+YE,Marib
+YE,Sa'dah
+=================
 YT,Mamoudzou
+YT,Dzaoudzi
+YT,Koungou
+=================
 ZA,Johannesburg
 ZA,Cape Town
-ZA,Benoni
-ZA,Durban
 ZA,Pretoria
-ZA,Vereeniging
-ZA,Port Elizabeth
+ZA,Durban
 ZA,Bloemfontein
-ZA,Pietermaritzburg
-ZA,Welkom
+ZA,Port Elizabeth
+ZA,Gqeberha
 ZA,East London
-ZA,Thohoyandou
-ZA,Springs
-ZA,Uitenhage
 ZA,Polokwane
-ZA,Paarl
-ZA,Klerksdorp
-ZA,George
+ZA,Nelspruit
 ZA,Rustenburg
 ZA,Kimberley
-ZA,Bhisho
-ZA,Middelburg
-ZA,Vryheid
-ZA,Umtata
-ZA,Worcester
-ZA,Potchefstroom
-ZA,Brits
-ZA,Queenstown
-ZA,Mmabatho
-ZA,Kroonstad
-ZA,Bethal
-ZA,Upington
-ZA,Graaff-Reinet
-ZA,Vryburg
-ZA,Cradock
-ZA,Mahikeng
-ZA,Nelspruit
-ZA,Grahamstown
-ZA,Bethlehem
-ZA,Oudtshoorn
-ZA,Standerton
-ZA,Saldanha
-ZA,Tzaneen
-ZA,Knysna
-ZA,Port Shepstone
-ZA,Ladysmith
-ZA,Beaufort West
-ZA,Aliwal North
-ZA,Volksrust
-ZA,Lebowakgomo
-ZA,De Aar
-ZA,Hermanus
-ZA,Ulundi
-ZA,Komatipoort
-ZA,Musina
-ZA,Middelburg
-ZA,Port Alfred
-ZA,Bloemhof
-ZA,Mossel Bay
-ZA,Bredasdorp
-ZA,Swellendam
-ZA,Colesberg
-ZA,Brandfort
-ZA,Prieska
-ZA,Springbok
-ZA,Kuruman
-ZA,Port Saint John's
-ZA,Carnarvon
-ZA,Pofadder
-ZA,Vanrhynsdorp
-ZA,Alexander Bay
-ZA,Ubombo
+=================
 ZM,Lusaka
-ZM,Kitwe
 ZM,Ndola
-ZM,Kasama
-ZM,Kabwe
-ZM,Chingola
+ZM,Kitwe
 ZM,Livingstone
+ZM,Chingola
 ZM,Mufulira
-ZM,Luanshya
-ZM,Chipata
 ZM,Solwezi
-ZM,Mongu
-ZM,Choma
-ZM,Mansa
-ZM,Chinsali
-ZM,Chililabombwe
-ZM,Mazabuka
-ZM,Kafue
-ZM,Kapiri Mposhi
-ZM,Mpika
-ZM,Nchelenge
-ZM,Kawambwa
-ZM,Mbala
-ZM,Sesheke
-ZM,Mumbwa
-ZM,Kaoma
-ZM,Mwinilunga
-ZM,Lundazi
-ZM,Senanga
-ZM,Kalabo
-ZM,Zambezi
-ZM,Kasempa
-ZM,Lukulu
-ZM,Nyimba
+=================
 ZW,Harare
 ZW,Bulawayo
-ZW,Chitungwiza
 ZW,Mutare
 ZW,Gweru
 ZW,Masvingo
-ZW,Chinhoyi
-ZW,Gwanda
-ZW,Bindura
-ZW,Marondera
-ZW,Lupane
 ZW,Kwekwe
-ZW,Kadoma
-ZW,Zvishavane
-ZW,Victoria Falls
-ZW,Hwange
-ZW,Chiredzi
-ZW,Beitbridge
-ZW,Kariba
-ZW,Karoi
-ZW,Shamva
-ZW,Mazoe
-ZW,Plumtree
+=================
