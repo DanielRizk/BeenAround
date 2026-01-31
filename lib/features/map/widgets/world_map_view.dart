@@ -226,6 +226,9 @@ class WorldMapViewState extends State<WorldMapView>
                             selectedIds: ids,
                             controller: _tc,
                             selectedColor: settings.selectedCountryColor,
+                            multicolor: settings.selectedCountryColorMode ==
+                                SelectedCountryColorMode.multicolor,
+                            palette: AppSettingsController.countryColorPalette,
                             borderColor: borderColor,
                           ),
                         ),

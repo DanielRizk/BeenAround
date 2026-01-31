@@ -528,7 +528,6 @@ CZ,Zlín
 DE,Berlin
 DE,Hamburg
 DE,Munich
-DE,Cologne
 DE,Frankfurt
 DE,Stuttgart
 DE,Düsseldorf
@@ -546,6 +545,16 @@ DE,Freiburg
 DE,Karlsruhe
 DE,Augsburg
 DE,Sylt
+DE,Köln
+DE,Rostock
+DE,Lübeck
+DE,Kiel
+DE,Schwerin
+DE,Flensburg
+DE,Heidelberg
+DE,Stade
+DE,Lüneberg
+DE,Neumünster
 =================
 DJ,Djibouti
 DJ,Ali Sabieh
@@ -563,6 +572,7 @@ DK,Kolding
 DK,Vejle
 DK,Roskilde
 DK,Horsens
+DK,Tilst
 =================
 DM,Roseau
 DM,Portsmouth
@@ -648,6 +658,10 @@ EG,Kharga
 EG,New Valley
 EG,Dahab
 EG,Siwa
+EG,Al Mahala
+EG,Nuweibaa
+EG,Ras Shitan
+EG,Ain Al Sokhna
 =================
 EH,Laayoune
 EH,Dakhla
@@ -1281,6 +1295,9 @@ LY,Zawiya
 LY,Tobruk
 LY,Derna
 LY,Ghadames
+LY,Al Bayda
+LY,Sousa
+LY,Al Kobba
 =================
 MA,Rabat
 MA,Casablanca
@@ -1650,18 +1667,20 @@ PK,Sukkur
 PK,Bahawalpur
 =================
 PL,Warsaw
-PL,Kraków
-PL,Łódź
-PL,Wrocław
-PL,Poznań
-PL,Gdańsk
+PL,Krakow
+PL,Lodz
+PL,Wroclaw
+PL,Poznan
+PL,Gdansk
 PL,Szczecin
 PL,Bydgoszcz
 PL,Lublin
 PL,Katowice
-PL,Białystok
+PL,Bialystok
 PL,Gdynia
 PL,Sopot
+PL,Czestochowa
+PL,Lajski
 =================
 PM,Saint-Pierre
 PM,Miquelon

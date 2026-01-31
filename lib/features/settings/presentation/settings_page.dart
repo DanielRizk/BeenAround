@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../../shared/i18n/app_strings.dart';
+import '../../../shared/map/world_map_models.dart';
 import 'account_page.dart';
 import 'appearance_page.dart';
 import 'language_page.dart';
 
-
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key, required this.onResetAll});
+  const SettingsPage({super.key, required this.onResetAll, required this.worldMapData});
 
   final Future<void> Function() onResetAll;
+  final WorldMapData worldMapData;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,9 @@ class SettingsPage extends StatelessWidget {
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const AccountPage()),
+                      MaterialPageRoute(
+                        builder: (_) => AccountPage(worldMapData: worldMapData),
+                      ),
                     );
                   },
                 ),
@@ -59,6 +62,7 @@ class SettingsPage extends StatelessWidget {
                   },
                 ),
                 const Divider(height: 1),
+
                 const SizedBox(height: 12),
               ],
             ),

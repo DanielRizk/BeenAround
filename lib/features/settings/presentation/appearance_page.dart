@@ -5,16 +5,7 @@ import '../../../shared/i18n/app_strings.dart';
 class AppearancePage extends StatelessWidget {
   const AppearancePage({super.key});
 
-  static const List<Color> _palette = <Color>[
-    Colors.blue,
-    Colors.teal,
-    Colors.green,
-    Colors.amber,
-    Colors.orange,
-    Colors.pink,
-    Colors.purple,
-    Colors.red,
-  ];
+  static const List<Color> _palette = AppSettingsController.countryColorPalette;
 
   @override
   Widget build(BuildContext context) {
@@ -76,14 +67,17 @@ class AppearancePage extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.public),
                 title: Text(S.t(context, 'selected_country_color')),
-                subtitle: Text(_colorName(context, settings.selectedCountryColor)),
-                trailing: _colorDot(settings.selectedCountryColor),
-                onTap: () => _pickColor(
-                  context,
-                  title: S.t(context, 'selected_country_color'),
-                  current: settings.selectedCountryColor,
-                  onPick: settings.setSelectedCountryColor,
+                subtitle: Text(
+                  settings.selectedCountryColorMode ==
+                      SelectedCountryColorMode.multicolor
+                      ? S.t(context, 'multicolor')
+                      : _colorName(context, settings.selectedCountryColor),
                 ),
+                trailing: settings.selectedCountryColorMode ==
+                    SelectedCountryColorMode.multicolor
+                    ? _multiColorDot(_palette)
+                    : _colorDot(settings.selectedCountryColor),
+                onTap: () => _pickSelectedCountryColor(context, settings),
               ),
             ],
           );
@@ -112,6 +106,18 @@ class AppearancePage extends StatelessWidget {
         color: c,
         shape: BoxShape.circle,
         border: Border.all(color: Colors.black12),
+      ),
+    );
+  }
+
+  Widget _multiColorDot(List<Color> palette) {
+    return Container(
+      width: 18,
+      height: 18,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.black12),
+        gradient: SweepGradient(colors: palette),
       ),
     );
   }
@@ -179,4 +185,104 @@ class AppearancePage extends StatelessWidget {
 
     if (picked != null) onPick(picked);
   }
+
+  Future<void> _pickSelectedCountryColor(
+      BuildContext context,
+      AppSettingsController settings,
+      ) async {
+    final picked = await showDialog<_SelectedColorPick>(
+      context: context,
+      builder: (ctx) {
+        final currentMode = settings.selectedCountryColorMode;
+        final currentColor = settings.selectedCountryColor;
+
+        return AlertDialog(
+          title: Text(S.t(context, 'selected_country_color')),
+          content: Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              // Multicolor option
+              InkWell(
+                borderRadius: BorderRadius.circular(999),
+                onTap: () =>
+                    Navigator.pop(ctx, const _SelectedColorPick.multicolor()),
+                child: Container(
+                  width: 34,
+                  height: 34,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: SweepGradient(colors: _palette),
+                    border: Border.all(
+                      width:
+                      (currentMode == SelectedCountryColorMode.multicolor)
+                          ? 3
+                          : 1,
+                      color:
+                      (currentMode == SelectedCountryColorMode.multicolor)
+                          ? Theme.of(ctx).colorScheme.onSurface
+                          : Colors.black26,
+                    ),
+                  ),
+                ),
+              ),
+
+              // Single-color options
+              for (final c in _palette)
+                InkWell(
+                  borderRadius: BorderRadius.circular(999),
+                  onTap: () =>
+                      Navigator.pop(ctx, _SelectedColorPick.single(c)),
+                  child: Container(
+                    width: 34,
+                    height: 34,
+                    decoration: BoxDecoration(
+                      color: c,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        width: (currentMode ==
+                            SelectedCountryColorMode.single &&
+                            c.value == currentColor.value)
+                            ? 3
+                            : 1,
+                        color: (currentMode ==
+                            SelectedCountryColorMode.single &&
+                            c.value == currentColor.value)
+                            ? Theme.of(ctx).colorScheme.onSurface
+                            : Colors.black26,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(S.t(context, 'cancel')),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (picked == null) return;
+    if (picked.mode == SelectedCountryColorMode.multicolor) {
+      settings.setSelectedCountryColorMode(SelectedCountryColorMode.multicolor);
+    } else if (picked.color != null) {
+      settings.setSelectedCountryColor(picked.color!);
+    }
+  }
+}
+
+class _SelectedColorPick {
+  final SelectedCountryColorMode mode;
+  final Color? color;
+
+  const _SelectedColorPick.multicolor()
+      : mode = SelectedCountryColorMode.multicolor,
+        color = null;
+
+  const _SelectedColorPick.single(this.color)
+      : mode = SelectedCountryColorMode.single;
 }

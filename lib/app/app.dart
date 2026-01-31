@@ -349,7 +349,7 @@ class _HomeShellState extends State<HomeShell> {
           ),
 
           const FriendsPage(),
-          SettingsPage(onResetAll: _resetAllAppData),
+          SettingsPage(onResetAll: _resetAllAppData, worldMapData: mapData),
         ];
 
         return Scaffold(

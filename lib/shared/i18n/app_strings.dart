@@ -126,6 +126,7 @@ class S {
       'pink': 'Pink',
       'purple': 'Purple',
       'red': 'Red',
+      'multicolor': 'Multicolor',
 
     },
     AppLang.de: {
@@ -238,6 +239,7 @@ class S {
       'pink': 'Rosa',
       'purple': 'Lila',
       'red': 'Rot',
+      'multicolor': 'Mehrfarbig',
     },
   };
 }
