@@ -5,6 +5,8 @@ import '../../../shared/map/world_map_models.dart';
 import '../../countries/presentation/countries_page.dart';
 import '../widgets/world_map_view.dart';
 import 'widgets/country_picker_sheet.dart';
+import 'package:flutter/rendering.dart';
+
 
 class MapPage extends StatefulWidget {
   final WorldMapData worldMap;
@@ -28,6 +30,8 @@ class MapPage extends StatefulWidget {
     required this.cityVisitedOn,
     required this.cityNotes,
   });
+
+  static final GlobalKey mapRepaintKey = GlobalKey();
 
   @override
   State<MapPage> createState() => _MapPageState();
@@ -140,13 +144,15 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       body: Stack(
         children: [
-          WorldMapView(
-            key: _mapKey,
-            map: widget.worldMap,
-            selectedIds: widget.selectedIds,
-            onCountryTap: _onCountryTap,
+          RepaintBoundary(
+            key: MapPage.mapRepaintKey,
+            child: WorldMapView(
+              key: _mapKey,
+              map: widget.worldMap,
+              selectedIds: widget.selectedIds,
+              onCountryTap: _onCountryTap,
+            ),
           ),
-
           // Overlay details
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 220),

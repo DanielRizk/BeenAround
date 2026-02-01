@@ -30,6 +30,8 @@ class TravelPdfExporter {
     required String appName,
     required String displayName,
     String logoAssetPath = defaultLogoAssetPath,
+    Uint8List? worldMapPngBytes,
+    bool includeMemos = true,
   }) async {
     final selectedIds = await LocalStore.loadSelectedCountries();
     final citiesByCountry = await LocalStore.loadCitiesByCountry();
@@ -78,6 +80,11 @@ class TravelPdfExporter {
               visitedCount: countries.length,
             ),
             pw.SizedBox(height: 16),
+
+            if (worldMapPngBytes != null) ...[
+              _buildWorldMapPreview(worldMapPngBytes),
+              pw.SizedBox(height: 16),
+            ],
           ];
 
           if (countries.isEmpty) {
@@ -110,6 +117,7 @@ class TravelPdfExporter {
                 accent: accent,
                 cityVisitedOn: cityVisitedMap,
                 cityNotes: cityNotesMap,
+                includeMemos: includeMemos,
               ),
             );
 
@@ -141,6 +149,45 @@ class TravelPdfExporter {
 
     return doc.save();
   }
+
+  static pw.Widget _buildWorldMapPreview(Uint8List pngBytes) {
+    final img = pw.MemoryImage(pngBytes);
+
+    return pw.Container(
+      padding: const pw.EdgeInsets.all(10),
+      decoration: pw.BoxDecoration(
+        color: PdfColors.white,
+        border: pw.Border.all(color: PdfColors.grey300, width: 0.8),
+      ),
+      child: pw.Column(
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        children: [
+          pw.Text(
+            'World map',
+            style: pw.TextStyle(
+              fontSize: 12,
+              fontWeight: pw.FontWeight.bold,
+              color: PdfColors.grey900,
+            ),
+          ),
+          pw.SizedBox(height: 8),
+
+          // ✅ CRITICAL: constrain height so MultiPage can paginate safely
+          pw.Container(
+            height: 350, // tweak: 200..320 depending on how big you want it
+            width: double.infinity,
+            alignment: pw.Alignment.center,
+            child: pw.Image(
+              img,
+              fit: pw.BoxFit.cover,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
 
   static pw.Widget _buildHeader({
     required String appName,
@@ -237,6 +284,7 @@ class TravelPdfExporter {
     required PdfColor accent,
     required Map<String, String> cityVisitedOn,
     required Map<String, String> cityNotes,
+    required bool includeMemos,
   }) {
     final visitedOn = _formatDate(country.visitedOnIso);
     final cities = country.cities.toList()..sort();
@@ -300,7 +348,7 @@ class TravelPdfExporter {
                     ),
                 ],
               ),
-              if (memo != null && memo.isNotEmpty) ...[
+              if (includeMemos && memo != null && memo.isNotEmpty) ...[
                 pw.SizedBox(height: 4),
                 pw.Container(
                   margin: const pw.EdgeInsets.only(left: 12),

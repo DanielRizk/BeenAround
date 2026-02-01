@@ -48,21 +48,26 @@ dependencies:
   lottie: ^3.1.0
   pdf: ^3.10.8
   printing: ^5.12.0
+  #auth0_flutter: ^1.7.0
+  http: ^1.2.2
+  file_picker: ^8.0.0
+  path_provider: ^2.1.0
+  share_plus: ^10.0.0
 
 dev_dependencies:
-  flutter_native_splash: ^2.4.0
+  #flutter_native_splash: ^2.4.0
   flutter_test:
     sdk: flutter
 
-flutter_native_splash:
-  color: "#FFFFFF"        # your background
-  image: assets/splash/logo.png  # your logo (PNG)
-  android: true
-  ios: true
+#flutter_native_splash:
+#  color: "#FFFFFF"        # your background
+#  image: assets/splash/logo.png  # your logo (PNG)
+#  android: true
+#  ios: true
 
-  android_12:
-    color: "#FFFFFF"
-    image: assets/splash/logo.png
+#  android_12:
+#    color: "#FFFFFF"
+#    image: assets/splash/logo.png
 
 
 
@@ -89,7 +94,7 @@ flutter:
     - assets/cities/cities.csv
     - assets/geo/country_continents.csv
     #- assets/animations/loading.json
-    - assets/splash/logo.png
+    #- assets/splash/logo.png
     - assets/fonts/NotoSans-Regular.ttf
     - assets/fonts/NotoSans-Bold.ttf
 
