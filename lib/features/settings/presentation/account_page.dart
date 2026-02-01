@@ -5,9 +5,11 @@ import 'package:printing/printing.dart';
 import '../../../shared/export/travel_pdf_exporter.dart';
 import '../../../shared/export/user_data_file_transfer.dart';
 import '../../../shared/export/user_data_saf_save.dart';
-import '../../../shared/export/widget_capture.dart';
+import '../../../shared/export/world_map_image_renderer.dart';
 import '../../../shared/i18n/app_strings.dart';
 import '../../../shared/map/world_map_models.dart';
+import '../../../shared/settings/app_settings.dart';
+import '../../../shared/storage/local_store.dart';
 import '../../map/presentation/map_page.dart';
 
 class AccountPage extends StatelessWidget {
@@ -24,8 +26,25 @@ class AccountPage extends StatelessWidget {
       final includeMemos = await _askIncludeMemos(context);
       if (includeMemos == null) return; // user canceled
 
-      final mapPng = await captureRepaintBoundary(
-        MapPage.mapRepaintKey,
+      final theme = Theme.of(context);
+      final cs = theme.colorScheme;
+      final settings = AppSettingsScope.of(context);
+
+      final borderColor = theme.brightness == Brightness.dark
+          ? cs.outlineVariant.withAlpha(125)
+          : cs.outlineVariant.withAlpha(180);
+
+      final selectedIds = await LocalStore.loadSelectedCountries();
+
+      final mapPng = await WorldMapImageRenderer.renderPng(
+        map: worldMapData,
+        selectedIds: selectedIds,
+        selectedColor: settings.selectedCountryColor,
+        multicolor: settings.selectedCountryColorMode ==
+            SelectedCountryColorMode.multicolor,
+        palette: AppSettingsController.countryColorPalette,
+        borderColor: borderColor,
+        pixelSize: const Size(2400, 1200),
       );
 
       final pdfBytes = await TravelPdfExporter.buildPdf(
