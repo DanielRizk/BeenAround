@@ -1,16 +1,12 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:printing/printing.dart';
 
 import '../../../shared/export/travel_pdf_exporter.dart';
-import '../../../shared/export/user_data_file_transfer.dart';
-import '../../../shared/export/user_data_saf_save.dart';
 import '../../../shared/export/world_map_image_renderer.dart';
 import '../../../shared/i18n/app_strings.dart';
 import '../../../shared/map/world_map_models.dart';
 import '../../../shared/settings/app_settings.dart';
 import '../../../shared/storage/local_store.dart';
-import '../../map/presentation/map_page.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key, required this.worldMapData});
@@ -26,13 +22,16 @@ class AccountPage extends StatelessWidget {
       final includeMemos = await _askIncludeMemos(context);
       if (includeMemos == null) return; // user canceled
 
-      final theme = Theme.of(context);
-      final cs = theme.colorScheme;
       final settings = AppSettingsScope.of(context);
+      final lightScheme = ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF4F46E5),
+          brightness: Brightness.light,
+        ),
+      ).colorScheme;
 
-      final borderColor = theme.brightness == Brightness.dark
-          ? cs.outlineVariant.withAlpha(125)
-          : cs.outlineVariant.withAlpha(180);
+      final borderColor = lightScheme.outlineVariant.withAlpha(180);
+
 
       final selectedIds = await LocalStore.loadSelectedCountries();
 
@@ -68,43 +67,13 @@ class AccountPage extends StatelessWidget {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Export failed: $e')),
-      );
-    }
-  }
-
-  Future<void> _exportUserDataSaveAs(BuildContext context) async {
-    try {
-      final msg = await UserDataSafSave.saveAsDocument();
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
-    } catch (e) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Save failed: $e')),
-      );
-    }
-  }
-
-  Future<void> _importUserData(BuildContext context) async {
-    try {
-      final msg = await UserDataFileTransfer.importFromPickedFile();
-
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(msg)),
-      );
-    } catch (e) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Import user data failed: $e')),
+        SnackBar(content: Text('${S.t(context, 'export_failed')} $e')),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    bool _debug = false;
     return Scaffold(
       appBar: AppBar(title: Text(S.t(context, 'settings_account'))),
       body: ListView(
@@ -115,34 +84,10 @@ class AccountPage extends StatelessWidget {
           // Existing PDF export
           ListTile(
             leading: const Icon(Icons.picture_as_pdf_outlined),
-            title: const Text('Export travel data'),
-            subtitle: const Text('Generate a PDF with visited countries & cities.'),
+            title: Text(S.t(context, 'export_travel_data')),
+            subtitle: Text(S.t(context, 'export_travel_data_sub')),
             onTap: () => _exportTravelPdf(context),
           ),
-
-          // Debug-only: export/import full user data file
-          if (_debug) ...[
-            const Divider(height: 24),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
-              child: Text(
-                'Debug tools',
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.save_alt),
-              title: const Text('Export user data (file)'),
-              subtitle: const Text('Export all settings, countries, cities, dates, notes…'),
-              onTap: () => _exportUserDataSaveAs(context),
-            ),
-            ListTile(
-              leading: const Icon(Icons.folder_open),
-              title: const Text('Import user data (file)'),
-              subtitle: const Text('Load export file and replace current local data.'),
-              onTap: () => _importUserData(context),
-            ),
-          ],
 
           const Divider(height: 24),
           const Padding(
@@ -167,20 +112,18 @@ class AccountPage extends StatelessWidget {
         return StatefulBuilder(
           builder: (ctx, setState) {
             return AlertDialog(
-              title: const Text('Export options'),
+              title: Text(S.t(context, 'export_options')),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    'Choose what to include in the PDF:',
-                  ),
+                  Text(S.t(context, 'export_option_msg'),),
                   const SizedBox(height: 12),
                   CheckboxListTile(
                     value: includeMemos,
                     onChanged: (v) => setState(() {
                       includeMemos = v ?? true;
                     }),
-                    title: const Text('Include notes'),
+                    title: Text(S.t(context, 'include_notes')),
                     controlAffinity: ListTileControlAffinity.leading,
                   ),
                 ],
@@ -188,11 +131,11 @@ class AccountPage extends StatelessWidget {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(ctx).pop(null),
-                  child: const Text('Cancel'),
+                  child: Text(S.t(context, 'cancel')),
                 ),
                 ElevatedButton(
                   onPressed: () => Navigator.of(ctx).pop(includeMemos),
-                  child: const Text('Export'),
+                  child: Text(S.t(context, 'export')),
                 ),
               ],
             );

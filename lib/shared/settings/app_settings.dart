@@ -16,6 +16,21 @@ class AppSettingsController extends ChangeNotifier {
   static const _kShowLabels = 'showCountryLabels';
   static const _kLocale = 'locale';
 
+  static const _kPrivacyNotifications = 'privacyNotifications';
+  static const _kPrivacyLocation = 'privacyLocation';
+  static const _kPrivacyCountryDetection = 'privacyCountryDetection';
+  static const _kDevModeEnabled = 'devModeEnabled';
+
+  bool _privacyNotifications = false;
+  bool _privacyLocation = false;
+  bool _privacyCountryDetection = false;
+  bool _devModeEnabled = false;
+
+  bool get privacyNotifications => _privacyNotifications;
+  bool get privacyLocation => _privacyLocation;
+  bool get privacyCountryDetection => _privacyCountryDetection;
+  bool get devModeEnabled => _devModeEnabled;
+
   /// The palette used when the "multicolor" option is enabled.
   /// Keep this in one place so UI + painter stay in sync.
   static const List<Color> countryColorPalette = <Color>[
@@ -32,16 +47,14 @@ class AppSettingsController extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;
   Color _colorSchemeSeed = Colors.blue;
   Color _selectedCountryColor = Colors.orange;
-  SelectedCountryColorMode _selectedCountryColorMode =
-      SelectedCountryColorMode.single;
+  SelectedCountryColorMode _selectedCountryColorMode = SelectedCountryColorMode.single;
   bool _showCountryLabels = true;
   Locale _locale = const Locale('en');
 
   ThemeMode get themeMode => _themeMode;
   Color get colorSchemeSeed => _colorSchemeSeed;
   Color get selectedCountryColor => _selectedCountryColor;
-  SelectedCountryColorMode get selectedCountryColorMode =>
-      _selectedCountryColorMode;
+  SelectedCountryColorMode get selectedCountryColorMode => _selectedCountryColorMode;
   bool get showCountryLabels => _showCountryLabels;
   Locale get locale => _locale;
 
@@ -51,19 +64,21 @@ class AppSettingsController extends ChangeNotifier {
 
     _themeMode = ThemeMode.values[
     sp.getInt(_kThemeMode) ?? ThemeMode.system.index];
-    _colorSchemeSeed =
-        Color(sp.getInt(_kSeedColor) ?? Colors.blue.toARGB32());
-    _selectedCountryColor = Color(
-        sp.getInt(_kSelectedCountryColor) ?? Colors.orange.toARGB32());
+    _colorSchemeSeed = Color(sp.getInt(_kSeedColor) ?? Colors.blue.toARGB32());
+    _selectedCountryColor = Color(sp.getInt(_kSelectedCountryColor) ?? Colors.orange.toARGB32());
     _selectedCountryColorMode = SelectedCountryColorMode.values[
-    sp.getInt(_kSelectedCountryColorMode) ??
-        SelectedCountryColorMode.single.index];
+    sp.getInt(_kSelectedCountryColorMode) ?? SelectedCountryColorMode.single.index];
     _showCountryLabels = sp.getBool(_kShowLabels) ?? true;
 
     final lang = sp.getString(_kLocale);
     if (lang != null) {
       _locale = Locale(lang);
     }
+
+    _privacyNotifications = sp.getBool(_kPrivacyNotifications) ?? false;
+    _privacyLocation = sp.getBool(_kPrivacyLocation) ?? false;
+    _privacyCountryDetection = sp.getBool(_kPrivacyCountryDetection) ?? false;
+    _devModeEnabled = sp.getBool(_kDevModeEnabled) ?? false;
 
     notifyListeners();
   }
@@ -73,10 +88,15 @@ class AppSettingsController extends ChangeNotifier {
     await sp.setInt(_kThemeMode, _themeMode.index);
     await sp.setInt(_kSeedColor, _colorSchemeSeed.toARGB32());
     await sp.setInt(_kSelectedCountryColor, _selectedCountryColor.toARGB32());
-    await sp.setInt(
-        _kSelectedCountryColorMode, _selectedCountryColorMode.index);
+    await sp.setInt(_kSelectedCountryColorMode, _selectedCountryColorMode.index);
     await sp.setBool(_kShowLabels, _showCountryLabels);
     await sp.setString(_kLocale, _locale.languageCode);
+
+    await sp.setBool(_kPrivacyNotifications, _privacyNotifications);
+    await sp.setBool(_kPrivacyLocation, _privacyLocation);
+    await sp.setBool(_kPrivacyCountryDetection, _privacyCountryDetection);
+    await sp.setBool(_kDevModeEnabled, _devModeEnabled);
+
   }
 
   void setThemeMode(ThemeMode mode) {
@@ -123,6 +143,34 @@ class AppSettingsController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setPrivacyNotifications(bool v) {
+    if (_privacyNotifications == v) return;
+    _privacyNotifications = v;
+    _save();
+    notifyListeners();
+  }
+
+  void setPrivacyLocation(bool v) {
+    if (_privacyLocation == v) return;
+    _privacyLocation = v;
+    _save();
+    notifyListeners();
+  }
+
+  void setPrivacyCountryDetection(bool v) {
+    if (_privacyCountryDetection == v) return;
+    _privacyCountryDetection = v;
+    _save();
+    notifyListeners();
+  }
+
+  void setDevModeEnabled(bool v) {
+    if (_devModeEnabled == v) return;
+    _devModeEnabled = v;
+    _save();
+    notifyListeners();
+  }
+
   Future<void> resetToDefaults() async {
     final sp = await SharedPreferences.getInstance();
     await sp.remove('themeMode');
@@ -131,6 +179,11 @@ class AppSettingsController extends ChangeNotifier {
     await sp.remove('selectedCountryColorMode');
     await sp.remove('showCountryLabels');
     await sp.remove('locale');
+    await sp.remove(_kPrivacyNotifications);
+    await sp.remove(_kPrivacyLocation);
+    await sp.remove(_kPrivacyCountryDetection);
+    await sp.remove(_kDevModeEnabled);
+
 
     // defaults
     _themeMode = ThemeMode.system;
@@ -139,6 +192,10 @@ class AppSettingsController extends ChangeNotifier {
     _selectedCountryColorMode = SelectedCountryColorMode.single;
     _showCountryLabels = true;
     _locale = const Locale('en');
+    _privacyNotifications = false;
+    _privacyLocation = false;
+    _privacyCountryDetection = false;
+    _devModeEnabled = false;
 
     notifyListeners();
   }

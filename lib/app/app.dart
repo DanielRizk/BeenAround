@@ -13,11 +13,23 @@ import '../shared/map/world_map_loader.dart';
 import '../shared/map/world_map_models.dart';
 import '../shared/settings/app_settings.dart';
 import '../shared/storage/local_store.dart';
+import '../features/map/presentation/widgets/city_picker_sheet.dart';
+import '../shared/i18n/app_strings.dart';
+
 
 class BeenAroundApp extends StatelessWidget {
   const BeenAroundApp({super.key, required this.settings});
 
   final AppSettingsController settings;
+
+  static final GlobalKey<HomeShellState> homeKey = GlobalKey<HomeShellState>();
+
+  static void handleNotificationPayload(Map<String, dynamic> payload) {
+    if (payload['type'] != 'enter_country') return;
+    final iso2 = (payload['iso2'] as String?)?.trim().toUpperCase();
+    if (iso2 == null || iso2.isEmpty) return;
+    homeKey.currentState?.handleEnterCountry(iso2);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,21 +41,13 @@ class BeenAroundApp extends StatelessWidget {
           return MaterialApp(
             title: 'Been Around',
             debugShowCheckedModeBanner: false,
-
-            // ✅ required for Localizations.localeOf(context) to work + update
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const [
-              Locale('en'),
-              Locale('de'),
-            ],
-
-            // ✅ your controller-driven locale
+            supportedLocales: const [Locale('en'), Locale('de')],
             locale: settings.locale,
-
             themeMode: settings.themeMode,
             theme: ThemeData(
               useMaterial3: true,
@@ -56,24 +60,26 @@ class BeenAroundApp extends StatelessWidget {
               brightness: Brightness.dark,
             ),
 
-            home: const HomeShell(),
+            home: HomeShell(key: homeKey),
           );
-
         },
       ),
     );
   }
 }
 
+
 class HomeShell extends StatefulWidget {
   const HomeShell({super.key});
 
   @override
-  State<HomeShell> createState() => _HomeShellState();
+  State<HomeShell> createState() => HomeShellState();
 }
 
-class _HomeShellState extends State<HomeShell> {
+class HomeShellState extends State<HomeShell> {
   int _index = 0;
+  String? _pendingIso2ToAdd;
+  WorldMapData? _worldMapData;
 
   final ValueNotifier<Set<String>> selectedCountryIds =
       ValueNotifier<Set<String>>(<String>{});
@@ -280,6 +286,87 @@ class _HomeShellState extends State<HomeShell> {
     cityNotes.value = <String, Map<String, String>>{};
   }
 
+  void handleEnterCountry(String iso2) {
+    // Queue it if bootstrap isn't done yet (map/cities not ready)
+    _pendingIso2ToAdd = iso2;
+
+    // Jump to Countries tab
+    setState(() => _index = 1);
+
+    // If UI already built with data, try opening now
+    _tryOpenPendingCountryAdd();
+  }
+
+  void _tryOpenPendingCountryAdd() {
+    final iso2 = _pendingIso2ToAdd;
+    if (iso2 == null) return;
+
+    // Only open if assets are loaded (bootstrap finished)
+    if (!_bootstrapReady) return;
+
+    _pendingIso2ToAdd = null;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _openCityPickerAndAddCountry(iso2);
+    });
+  }
+
+  bool _bootstrapReady = false;
+
+  Future<void> _openCityPickerAndAddCountry(String iso2) async {
+    final name = _worldMapData?.nameById[iso2] ?? iso2;
+    final allCities = _iso2ToCities[iso2] ?? const <String>[];
+
+    if (allCities.isEmpty) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(S.t(context, 'no_available_cities'))),
+      );
+      return;
+    }
+
+    final picked = await showModalBottomSheet<List<String>>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      showDragHandle: true,
+      builder: (_) => CityPickerSheet(
+        iso2: iso2,
+        countryName: name,
+        flag: _flagEmojiFromIso2(iso2),
+        allCities: allCities,
+        initiallySelected: const [],
+      ),
+    );
+
+    if (!mounted || picked == null) return;
+
+    if (picked.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(S.t(context, 'minimum_one_city'))),
+      );
+      return;
+    }
+
+    // Commit exactly like CountryPickerSheet does
+    final nextCities = Map<String, List<String>>.from(citiesByCountry.value);
+    nextCities[iso2] = picked;
+    citiesByCountry.value = nextCities;
+
+    final nextSel = Set<String>.from(selectedCountryIds.value)..add(iso2);
+    selectedCountryIds.value = nextSel;
+  }
+
+  String _flagEmojiFromIso2(String iso2) {
+    final s = iso2.toUpperCase();
+    if (s.length != 2) return '🏳️';
+    final a = s.codeUnitAt(0);
+    final b = s.codeUnitAt(1);
+    if (a < 65 || a > 90 || b < 65 || b > 90) return '🏳️';
+    return String.fromCharCode(0x1F1E6 + (a - 65)) +
+        String.fromCharCode(0x1F1E6 + (b - 65));
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<(WorldMapData, Map<String, List<String>>)>(
@@ -306,6 +393,10 @@ class _HomeShellState extends State<HomeShell> {
         }
 
         final (mapData, iso2ToCities) = snap.data!; // ✅ unpack tuple
+
+        _worldMapData = mapData;
+        _bootstrapReady = true;
+        _tryOpenPendingCountryAdd();
 
         if (mapData.labelAnchorById.isEmpty) {
           return const Scaffold(

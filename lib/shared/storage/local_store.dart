@@ -9,6 +9,9 @@ class LocalStore {
   static const _kCountryVisitedOn = 'countryVisitedOn'; // Map<String, String ISO>
   static const _kCityVisitedOn = 'cityVisitedOn'; // Map<String, Map<String, String ISO>>
   static const _kCityNotes = 'cityNotes'; // Map<String, Map<String, String>>
+  static const _kLastNotifyIso2 = 'last_notify_iso2';
+  static const _kLastNotifyTs = 'last_notify_ts';
+
 
   static Future<void> saveSelectedCountries(Set<String> ids) async {
     final sp = await SharedPreferences.getInstance();
@@ -87,6 +90,24 @@ class LocalStore {
     return out;
   }
 
+  static Future<LastCountryNotify?> loadLastCountryNotify() async {
+    final sp = await SharedPreferences.getInstance();
+    final iso2 = sp.getString(_kLastNotifyIso2);
+    final ts = sp.getInt(_kLastNotifyTs);
+    if (iso2 == null || ts == null) return null;
+    return LastCountryNotify(iso2: iso2, timestampMs: ts);
+  }
+
+  static Future<void> saveLastCountryNotify({
+    required String iso2,
+    required int timestampMs,
+  }) async {
+    final sp = await SharedPreferences.getInstance();
+    await sp.setString(_kLastNotifyIso2, iso2);
+    await sp.setInt(_kLastNotifyTs, timestampMs);
+  }
+
+
   static Future<void> clearSelectionData() async {
     final sp = await SharedPreferences.getInstance();
     await sp.remove(_kSelectedCountries);
@@ -96,5 +117,16 @@ class LocalStore {
     await sp.remove(_kCountryVisitedOn);
     await sp.remove(_kCityVisitedOn);
     await sp.remove(_kCityNotes);
+
+    await sp.remove(_kLastNotifyIso2);
+    await sp.remove(_kLastNotifyTs);
+
   }
 }
+
+class LastCountryNotify {
+  final String iso2;
+  final int timestampMs;
+  LastCountryNotify({required this.iso2, required this.timestampMs});
+}
+

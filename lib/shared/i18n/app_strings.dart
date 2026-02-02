@@ -86,6 +86,60 @@ class S {
       'reset_everything_confirm': 'This will clear ALL locally saved data and return the app to defaults.',
       'reset_confirmation': 'App data cleared.',
 
+      'settings_privacy': 'Privacy',
+      'settings_privacy_sub': 'Notifications and location',
+      'privacy_title': 'Privacy',
+      'privacy_notifications': 'Notifications',
+      'privacy_notifications_sub': 'Allow travel notifications',
+      'privacy_location': 'Location',
+      'privacy_location_sub': 'Allow GPS / location access',
+      'privacy_detection': 'Country detection',
+      'privacy_detection_sub': 'Notify when you enter a new country',
+      'privacy_hint': 'Country detection requires both notifications and location.',
+      'privacy_location_services_off': 'Location services are OFF. Please enable them.',
+      'privacy_location_denied': 'Location permission is not granted.',
+      'privacy_notifications_denied': 'Notifications are not enabled for this app.',
+      'privacy_detection_enabled': 'Country detection enabled.',
+
+      'export_failed': 'Export failed:',
+      'export_travel_data': 'Export travel data',
+      'export_travel_data_sub': 'Generate a PDF with visited countries & cities.',
+      'export_options': 'Export options',
+      'export_option_msg': 'Choose what to include in the PDF:',
+      'include_notes': 'Include notes',
+
+      //===========================================
+      //              Dev Page
+      //===========================================
+      'dev_mode_title': 'Developer mode',
+      'dev_mode_sub': 'Debug and maintenance tools',
+      'dev_mode_enable_title': 'Enable Developer Mode?',
+      'dev_mode_enable_msg': 'This page is hidden. Enter the 6-digit PIN to enable it.',
+      'dev_mode_pin': 'PIN (6 digits)',
+      'dev_mode_pin_wrong': 'Wrong PIN',
+      'dev_mode_enabled': 'Developer mode enabled',
+      'dev_mode_disabled': 'Developer mode disabled',
+      'dev_mode_hide': 'Hide',
+      'dev_tools_title': 'Debug tools',
+      'dev_export_title': 'Export user data (file)',
+      'dev_export_sub': 'Export all settings, countries, cities, dates, notes…',
+      'dev_import_title': 'Import user data (file)',
+      'dev_import_sub': 'Load export file and replace current local data.',
+      'dev_test_notification': 'Test Notification',
+
+      //===========================================
+      //              Notifications
+      //===========================================
+      // 'new_country_detection': 'New Country, Yaaay!!!',
+      // 'new_country_you_made_it': 'You made it to',
+      // 'new_country_tab_to_add_it': '. Tap to add it.',
+
+      //===========================================
+      //              PDF Export
+      //===========================================
+      // 'no_travel_data_yet': 'No travel data yet.',
+      // 'page': 'Page',
+      // 'world_map': 'World map',
 
 
       // Appearance section
@@ -116,6 +170,8 @@ class S {
       'close': 'Close',
       'done': 'Done',
       'reset': 'Reset',
+      'enable': 'Enable',
+      'export': 'Export',
 
       // Colors
       'blue': 'Blue',
@@ -201,6 +257,49 @@ class S {
       'reset_everything_confirm': 'Dadurch werden ALLE lokal gespeicherten Daten gelöscht und die App auf die Standardeinstellungen zurückgesetzt.',
       'reset_confirmation': 'App-Daten gelöscht.',
 
+      'settings_privacy': 'Privatsphäre',
+      'settings_privacy_sub': 'Benachrichtigungen & Standort',
+      'privacy_title': 'Privatsphäre',
+      'privacy_notifications': 'Benachrichtigungen',
+      'privacy_notifications_sub': 'Reise-Benachrichtigungen erlauben',
+      'privacy_location': 'Standort',
+      'privacy_location_sub': 'GPS/Standortzugriff erlauben',
+      'privacy_detection': 'Länder-Erkennung',
+      'privacy_detection_sub': 'Hinweis beim Betreten eines neuen Landes',
+      'privacy_hint': 'Länder-Erkennung benötigt Benachrichtigungen und Standort.',
+      'privacy_location_services_off': 'Standortdienste sind AUS. Bitte aktivieren.',
+      'privacy_location_denied': 'Standort-Berechtigung ist nicht erteilt.',
+      'privacy_notifications_denied': 'Benachrichtigungen sind für diese App nicht aktiviert.',
+      'privacy_detection_enabled': 'Länder-Erkennung aktiviert.',
+
+      'export_failed': 'Export fehlgeschlagen:',
+      'export_travel_data': 'Reisedaten exportieren',
+      'export_travel_data_sub': 'PDF mit besuchten Ländern und Städten erstellen.',
+      'export_options': 'Exportoptionen',
+      'export_option_msg': 'Wählen Sie aus, was im PDF enthalten sein soll:',
+      'include_notes': 'Notizen einbeziehen',
+
+      //===========================================
+      //              Dev Page
+      //===========================================
+
+      'dev_mode_title': 'Entwicklermodus',
+      'dev_mode_sub': 'Debug- und Wartungs-Tools',
+      'dev_mode_enable_title': 'Entwicklermodus aktivieren?',
+      'dev_mode_enable_msg': 'Diese Seite ist versteckt. Bitte 6-stellige PIN eingeben.',
+      'dev_mode_pin': 'PIN (6 Ziffern)',
+      'dev_mode_pin_wrong': 'Falsche PIN',
+      'dev_mode_enabled': 'Entwicklermodus aktiviert',
+      'dev_mode_disabled': 'Entwicklermodus deaktiviert',
+      'dev_mode_hide': 'Ausblenden',
+      'dev_tools_title': 'Debug Tools',
+      'dev_export_title': 'Benutzerdaten exportieren (Datei)',
+      'dev_export_sub': 'Exportiert Einstellungen, Länder, Städte, Daten, Notizen…',
+      'dev_import_title': 'Benutzerdaten importieren (Datei)',
+      'dev_import_sub': 'Import-Datei laden und lokale Daten ersetzen.',
+      'dev_test_notification': 'Benachrichtigung testen',
+
+
       // Appearance section
       'theme_mode': 'Designmodus',
       'theme_system': 'System',
@@ -229,6 +328,8 @@ class S {
       'close': 'Schließen',
       'done': 'Fertig',
       'reset': 'Zurücksetzen',
+      'enable': 'Aktivieren',
+      'export': 'Export',
 
       // Colors
       'blue': 'Blau',
