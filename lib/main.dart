@@ -1,3 +1,4 @@
+import 'package:been_around/shared/backend/auth_controller.dart';
 import 'package:been_around/shared/location/country_monitor.dart';
 import 'package:been_around/shared/location/country_monitor_manager.dart';
 import 'package:been_around/shared/notifications/local_notification_service.dart';
@@ -19,7 +20,15 @@ void main() async {
   final settings = AppSettingsController();
   await settings.load();
 
-  runApp(BeenAroundApp(settings: settings));
+  final auth = AuthController(settings: settings);
+  await auth.init();
+
+  // When settings change and user is logged in -> schedule cloud backup.
+  settings.addListener(() {
+    auth.scheduleBackup();
+  });
+
+  runApp(BeenAroundApp(settings: settings, auth: auth,));
 
   // ✅ Bind manager (it will start/stop monitor depending on privacy toggles)
   CountryMonitorManager.instance.bind(

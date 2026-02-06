@@ -6,6 +6,7 @@ import '../features/friends/presentation/friends_page.dart';
 import '../features/map/presentation/map_page.dart';
 import '../features/settings/presentation/settings_page.dart';
 import '../features/stats/presentation/stats_page.dart';
+import '../shared/backend/auth_controller.dart';
 import '../shared/cities/cities_repository.dart';
 import '../shared/geo/continent_repository.dart';
 import '../shared/i18n/app_strings.dart';
@@ -14,13 +15,17 @@ import '../shared/map/world_map_models.dart';
 import '../shared/settings/app_settings.dart';
 import '../shared/storage/local_store.dart';
 import '../features/map/presentation/widgets/city_picker_sheet.dart';
-import '../shared/i18n/app_strings.dart';
 
 
 class BeenAroundApp extends StatelessWidget {
-  const BeenAroundApp({super.key, required this.settings});
+  const BeenAroundApp({
+    super.key,
+    required this.settings,
+    required this.auth,
+  });
 
   final AppSettingsController settings;
+  final AuthController auth;
 
   static final GlobalKey<HomeShellState> homeKey = GlobalKey<HomeShellState>();
 
@@ -35,35 +40,38 @@ class BeenAroundApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppSettingsScope(
       controller: settings,
-      child: AnimatedBuilder(
-        animation: settings,
-        builder: (context, _) {
-          return MaterialApp(
-            title: 'Been Around',
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: const [Locale('en'), Locale('de')],
-            locale: settings.locale,
-            themeMode: settings.themeMode,
-            theme: ThemeData(
-              useMaterial3: true,
-              colorSchemeSeed: settings.colorSchemeSeed,
-              brightness: Brightness.light,
-            ),
-            darkTheme: ThemeData(
-              useMaterial3: true,
-              colorSchemeSeed: settings.colorSchemeSeed,
-              brightness: Brightness.dark,
-            ),
+      child: AuthScope(
+          controller: auth,
+          child: AnimatedBuilder(
+            animation: settings,
+            builder: (context, _) {
+              return MaterialApp(
+                title: 'Been Around',
+                debugShowCheckedModeBanner: false,
+                localizationsDelegates: const [
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: const [Locale('en'), Locale('de')],
+                locale: settings.locale,
+                themeMode: settings.themeMode,
+                theme: ThemeData(
+                  useMaterial3: true,
+                  colorSchemeSeed: settings.colorSchemeSeed,
+                  brightness: Brightness.light,
+                ),
+                darkTheme: ThemeData(
+                  useMaterial3: true,
+                  colorSchemeSeed: settings.colorSchemeSeed,
+                  brightness: Brightness.dark,
+                ),
 
-            home: HomeShell(key: homeKey),
-          );
-        },
-      ),
+                home: HomeShell(key: homeKey),
+              );
+            },
+          ),
+      )
     );
   }
 }

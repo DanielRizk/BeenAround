@@ -6,6 +6,7 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:been_around/app/app.dart';
+import 'package:been_around/shared/backend/auth_controller.dart';
 import 'package:been_around/shared/settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,7 +15,9 @@ void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     final settings = AppSettingsController();
-    await tester.pumpWidget(BeenAroundApp(settings: settings,));
+    final auth = AuthController(settings: settings);
+    await auth.init();
+    await tester.pumpWidget(BeenAroundApp(settings: settings, auth: auth,));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
