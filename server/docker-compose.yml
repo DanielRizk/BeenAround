@@ -1,0 +1,60 @@
+services:
+  # -----------------------------
+  # Database container (Postgres)
+  # -----------------------------
+  db:
+    image: postgres:15-bookworm
+
+    env_file:
+      - .env
+
+    # The official Postgres image reads these on first init of the data directory
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me}
+
+    # Persist DB data so it survives container recreation
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+    # Healthcheck helps the API wait until DB is actually ready to accept connections
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+    restart: unless-stopped
+
+  # -----------------------------
+  # API container (FastAPI)
+  # -----------------------------
+  api:
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      STORAGE_DIR: /data/storage
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    # Persist uploaded files
+    volumes:
+      - appdata:/data
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+    ports:
+      - "8080:8080"
+
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  appdata:

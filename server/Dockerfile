@@ -1,32 +1,27 @@
-FROM postgres:15-bookworm
+# Small Python image for the API container
+FROM python:3.12-slim
 
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-ENV VENV_PATH=/opt/venv
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3 python3-venv python3-pip \
-    supervisor bash ca-certificates \
-    build-essential pkg-config \
-    libssl-dev libffi-dev \
-    && rm -rf /var/lib/apt/lists/*
+    ca-certificates \
+  && rm -rf /var/lib/apt/lists/*
 
-# Create venv + upgrade tooling inside it
-RUN python3 -m venv $VENV_PATH \
-    && $VENV_PATH/bin/pip install --no-cache-dir --upgrade pip setuptools wheel
+COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
-WORKDIR /srv
+COPY app /app/app
 
-COPY requirements.txt /srv/requirements.txt
-RUN $VENV_PATH/bin/pip install --no-cache-dir -r /srv/requirements.txt
-
-COPY app /srv/app
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY entrypoint.sh /entrypoint.sh
-COPY entrypoint_api.sh /entrypoint_api.sh
-RUN chmod +x /entrypoint.sh /entrypoint_api.sh
+# Security: run as non-root + prepare writable /data
+RUN useradd -m appuser \
+    && chown -R appuser:appuser /app \
+    && mkdir -p /data/storage \
+    && chown -R appuser:appuser /data
+USER appuser
 
 EXPOSE 8080
-VOLUME ["/data"]
 
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "app.main:app", "--bind", "0.0.0.0:8080", "--workers", "1", "--timeout", "60"]

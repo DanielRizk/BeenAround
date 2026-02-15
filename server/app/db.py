@@ -1,28 +1,35 @@
-import os
+"""
+Database setup: engine + sessions.
+
+Key ideas:
+- engine: manages a connection pool to DB
+- SessionLocal: factory to create per-request sessions
+- get_db: FastAPI dependency that yields a session and closes it after request
+"""
+
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, DeclarativeBase
+from sqlalchemy.orm import sessionmaker
+from .settings import settings
 
-POSTGRES_DB = os.getenv("POSTGRES_DB", "beenaround")
-POSTGRES_USER = os.getenv("POSTGRES_USER", "beenaround")
-POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "beenaround_pw")
-POSTGRES_PORT = os.getenv("POSTGRES_PORT", "5432")
-
-DATABASE_URL = (
-    f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}"
-    f"@127.0.0.1:{POSTGRES_PORT}/{POSTGRES_DB}"
-)
-
+# Create SQLAlchemy engine (connection pool)
 engine = create_engine(
-    DATABASE_URL,
-    pool_pre_ping=True,
+    settings.database_url,
+    pool_pre_ping=True,  # checks connection health before using it
+    pool_size=5,         # base pool size (tune later)
+    max_overflow=10,     # extra connections if needed
 )
 
+# Create sessions bound to this engine
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-class Base(DeclarativeBase):
-    pass
 
 def get_db():
+    """
+    FastAPI dependency:
+    - opens a DB session
+    - yields it to your endpoint
+    - closes it after the endpoint finishes (even on errors)
+    """
     db = SessionLocal()
     try:
         yield db

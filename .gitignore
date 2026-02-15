@@ -49,3 +49,4 @@ app.*.map.json
 /assets/cities/id_extractor.py
 /assets/maps/id_extractor.py
 /TODO.txt
+/server/.env

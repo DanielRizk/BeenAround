@@ -1,48 +1,90 @@
-from pydantic import BaseModel, Field
-from typing import Any, Optional, Dict
-from uuid import UUID
+from pydantic import BaseModel, EmailStr, Field
+from typing import Optional, Any, Dict, List
 
-class RegisterRequest(BaseModel):
-    username: str = Field(min_length=3, max_length=64)
-    first_name: str = Field(min_length=1, max_length=80)
-    last_name: str = Field(min_length=1, max_length=80)
-    password: str = Field(min_length=8, max_length=128)
 
-    # optional: migrate guest data at signup
-    initial_snapshot: Optional[Dict[str, Any]] = None
-    schema_version: int = 1
+# -------------------------
+# Auth
+# -------------------------
 
-class LoginRequest(BaseModel):
-    username: str
+class UserRegister(BaseModel):
+    first_name: str = Field(min_length=1, max_length=64)
+    last_name: str = Field(min_length=1, max_length=64)
+    username: str = Field(min_length=3, max_length=32)
+    email: EmailStr
+    password: str = Field(min_length=6, max_length=128)
+
+
+class UserLogin(BaseModel):
+    # allow login by email OR username
+    identifier: str
     password: str
+
 
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
 
-class MeResponse(BaseModel):
-    id: UUID
-    username: str
+
+# -------------------------
+# Users
+# -------------------------
+
+class UserOut(BaseModel):
+    id: str
     first_name: str
     last_name: str
-    has_profile_pic: bool
+    username: str
+    email: EmailStr
+    profile_pic_path: Optional[str] = None
+    travel_visible_to_friends: bool
+    is_admin: bool
 
-class UpdateMeRequest(BaseModel):
-    first_name: Optional[str] = Field(default=None, min_length=1, max_length=80)
-    last_name: Optional[str] = Field(default=None, min_length=1, max_length=80)
 
-class SnapshotResponse(BaseModel):
-    schema_version: int
-    rev: int
-    snapshot: Dict[str, Any]
+class UserPublic(BaseModel):
+    id: str
+    first_name: str
+    last_name: str
+    username: str
+    profile_pic_path: Optional[str] = None
+    travel_visible_to_friends: bool
 
-class SnapshotUpdateRequest(BaseModel):
-    schema_version: int = 1
-    base_rev: int = 0
-    snapshot: Dict[str, Any]
-    device_id: Optional[str] = None
-    client_ts_ms: Optional[int] = None
 
-class ConflictResponse(BaseModel):
-    message: str
-    current: SnapshotResponse
+# -------------------------
+# App Data
+# -------------------------
+
+class AppDataOut(BaseModel):
+    app_data: Dict[str, Any]
+
+
+class AppDataUpdate(BaseModel):
+    # patch/merge update (safer). If you want "replace", just set replace=True in endpoint.
+    app_data: Dict[str, Any]
+
+
+# -------------------------
+# Feed
+# -------------------------
+
+class ActivityOut(BaseModel):
+    id: str
+    actor_user_id: str
+    type: str
+    payload: Dict[str, Any]
+    created_at: str
+    expires_at: str
+
+
+class ReactRequest(BaseModel):
+    reaction: str = Field(min_length=1, max_length=16)
+
+
+# -------------------------
+# Files
+# -------------------------
+
+class FileMeta(BaseModel):
+    filename: str
+    path: str
+    size: int
+    content_type: Optional[str] = None

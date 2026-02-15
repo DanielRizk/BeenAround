@@ -1,227 +1,169 @@
-import os
-from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, status
+"""
+FastAPI entry point.
+"""
+
+from fastapi import FastAPI, Request
+from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
-from uuid import UUID
 
-from .db import get_db, engine
-from .models import Base, User, UserSnapshot
-from .schemas import (
-    RegisterRequest, LoginRequest, TokenResponse,
-    MeResponse, UpdateMeRequest,
-    SnapshotResponse, SnapshotUpdateRequest, ConflictResponse
+from .settings import settings
+from .db import engine, SessionLocal
+from .models import Base, User
+from .storage import ensure_storage_dir
+from .auth import hash_password
+from .monitoring import monitoring_middleware
+from .admin import setup_admin
+
+# Routers
+from .api.routes.health import router as health_router
+from .api.routes.auth import router as auth_router
+from .api.routes.users import router as users_router
+from .api.routes.files import router as files_router
+from .api.routes.data import router as data_router
+from .api.routes.friends import router as friends_router
+from .api.routes.feed import router as feed_router
+from .api.routes.monitor import router as monitor_router
+
+from fastapi.responses import RedirectResponse
+from starlette.middleware.sessions import SessionMiddleware
+
+
+app = FastAPI(title="Server API", version="1.0.0")
+
+class ProtectInternalPagesMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        path = request.url.path
+
+        # Always allow login/logout
+        if path.startswith("/internal/login") or path.startswith("/internal/logout"):
+            return await call_next(request)
+
+        # Let preflight through
+        if request.method == "OPTIONS":
+            return await call_next(request)
+
+        # Protect internal areas
+        if path.startswith("/db") or path.startswith("/admin") or path.startswith("/monitor"):
+            # ✅ now safe: SessionMiddleware will already have populated this
+            if not request.session.get("admin_logged_in"):
+                next_url = path + (("?" + request.url.query) if request.url.query else "")
+                return RedirectResponse(url=f"/internal/login?next={next_url}", status_code=303)
+
+        return await call_next(request)
+
+
+app.add_middleware(ProtectInternalPagesMiddleware)
+
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=settings.jwt_secret,
+    same_site="lax",
+    #https_only=(settings.env == "prod"),
+    https_only=False,
 )
-from .auth import hash_password, verify_password, create_access_token, get_current_user
-from .storage import ensure_dirs, user_pic_path
 
-app = FastAPI(title="BeenAround Backend", version="0.1.0")
+def seed_admin_if_configured() -> None:
+    if not settings.admin_email or not settings.admin_password:
+        return
 
-# For dev: allow everything. For prod: restrict to your app origins.
+    db: Session = SessionLocal()
+    try:
+        # 1) Fast path: already exists -> ensure admin -> return
+        existing = (
+            db.query(User)
+            .filter(User.email == settings.admin_email, User.is_deleted == False)  # noqa: E712
+            .first()
+        )
+        if existing:
+            # Optional hardening: ensure the existing user is actually admin
+            if not existing.is_admin:
+                existing.is_admin = True
+                db.commit()
+            return
+
+        # 2) Create admin (fill ALL NOT NULL fields if your model doesn't default them)
+        admin = User(
+            email=settings.admin_email,
+            username="admin",
+            first_name="Admin",
+            last_name="User",
+            password_hash=hash_password(settings.admin_password),
+            is_admin=True,
+
+            # IMPORTANT: set these if your model doesn't provide defaults
+            app_data={},
+            travel_visible_to_friends=False,
+            is_deleted=False,
+        )
+
+        db.add(admin)
+
+        # 3) Commit safely under concurrency (Gunicorn workers)
+        try:
+            db.commit()
+        except IntegrityError:
+            # Another worker probably inserted it first. Rollback and continue.
+            db.rollback()
+            return
+
+    finally:
+        db.close()
+
+
+@app.on_event("startup")
+def on_startup():
+    ensure_storage_dir()
+
+    # Ensure schema init runs once even if multiple workers boot.
+    with engine.begin() as conn:
+        conn.execute(text("SELECT pg_advisory_lock(123456789);"))
+        try:
+            Base.metadata.create_all(bind=conn)
+        finally:
+            conn.execute(text("SELECT pg_advisory_unlock(123456789);"))
+
+    seed_admin_if_configured()
+
+
+# CORS
+origins = [o.strip() for o in settings.cors_origins.split(",")] if settings.cors_origins else ["*"]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
+    allow_origins=origins,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-@app.on_event("startup")
-def on_startup():
-    ensure_dirs()
-    Base.metadata.create_all(bind=engine)
+# Monitoring middleware
+app.middleware("http")(monitoring_middleware)
 
-# -------------------------
-# Auth
-# -------------------------
-@app.post("/auth/register", response_model=TokenResponse)
-def register(payload: RegisterRequest, db: Session = Depends(get_db)):
-    exists = db.query(User).filter(User.username == payload.username).first()
-    if exists:
-        raise HTTPException(status_code=409, detail="Username already exists")
+# Admin DB UI at /db
+setup_admin(app, engine)
 
-    user = User(
-        username=payload.username,
-        first_name=payload.first_name,
-        last_name=payload.last_name,
-        password_hash=hash_password(payload.password),
-    )
-    db.add(user)
-    db.flush()  # get user.id
+# Routers
+app.include_router(health_router, tags=["health"])
+app.include_router(auth_router, prefix="/auth", tags=["auth"])
+app.include_router(users_router, prefix="/users", tags=["users"])
+app.include_router(files_router, prefix="/files", tags=["files"])
+app.include_router(data_router, prefix="/data", tags=["data"])
+app.include_router(friends_router, prefix="/friends", tags=["friends"])
+app.include_router(feed_router, prefix="/feed", tags=["feed"])
+app.include_router(monitor_router, tags=["monitor"])
 
-    # Create snapshot row
-    snap = UserSnapshot(
-        user_id=user.id,
-        schema_version=payload.schema_version,
-        rev=0,
-        snapshot=payload.initial_snapshot or {"schemaVersion": payload.schema_version},
-    )
-    db.add(snap)
-    db.commit()
+# /doc -> /docs
+@app.get("/doc", include_in_schema=False)
+def doc_redirect():
+    return RedirectResponse(url="/docs")
 
-    token = create_access_token(str(user.id))
-    return TokenResponse(access_token=token)
+@app.get("/db", include_in_schema=False)
+def db_redirect():
+    return RedirectResponse(url="/admin", status_code=307)
 
-@app.post("/auth/login", response_model=TokenResponse)
-def login(payload: LoginRequest, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.username == payload.username, User.is_deleted == False).first()
-    if not user or not verify_password(payload.password, user.password_hash):
-        raise HTTPException(status_code=401, detail="Invalid credentials")
-    token = create_access_token(str(user.id))
-    return TokenResponse(access_token=token)
+@app.get("/db/{path:path}", include_in_schema=False)
+def db_redirect_path(path: str):
+    return RedirectResponse(url=f"/admin/{path}", status_code=307)
 
-# -------------------------
-# Account
-# -------------------------
-@app.get("/users/me", response_model=MeResponse)
-def me(user: User = Depends(get_current_user)):
-    return MeResponse(
-        id=user.id,
-        username=user.username,
-        first_name=user.first_name,
-        last_name=user.last_name,
-        has_profile_pic=bool(user.profile_pic_path),
-    )
-
-@app.patch("/users/me", response_model=MeResponse)
-def update_me(payload: UpdateMeRequest, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
-    if payload.first_name is not None:
-        user.first_name = payload.first_name
-    if payload.last_name is not None:
-        user.last_name = payload.last_name
-
-    db.add(user)
-    db.commit()
-    db.refresh(user)
-
-    return MeResponse(
-        id=user.id,
-        username=user.username,
-        first_name=user.first_name,
-        last_name=user.last_name,
-        has_profile_pic=bool(user.profile_pic_path),
-    )
-
-@app.delete("/users/me")
-def delete_me(db: Session = Depends(get_db), user: User = Depends(get_current_user)):
-    user.is_deleted = True
-    db.add(user)
-    db.commit()
-    return {"ok": True}
-
-# -------------------------
-# Profile picture
-# -------------------------
-@app.put("/users/me/profile-pic")
-def upload_profile_pic(
-    db: Session = Depends(get_db),
-    user: User = Depends(get_current_user),
-    file: UploadFile = File(...)
-):
-    if not file.content_type or not file.content_type.startswith("image/"):
-        raise HTTPException(status_code=400, detail="File must be an image")
-
-    # decide extension
-    ext = "jpg"
-    if file.filename and "." in file.filename:
-        ext = file.filename.rsplit(".", 1)[-1]
-
-    path = user_pic_path(user.id, ext)
-    content = file.file.read()
-    if len(content) > 5 * 1024 * 1024:
-        raise HTTPException(status_code=400, detail="Image too large (max 5MB)")
-
-    path.write_bytes(content)
-    user.profile_pic_path = str(path)
-    db.add(user)
-    db.commit()
-
-    return {"ok": True}
-
-@app.get("/users/me/profile-pic")
-def download_profile_pic(user: User = Depends(get_current_user)):
-    if not user.profile_pic_path:
-        raise HTTPException(status_code=404, detail="No profile picture")
-
-    p = user.profile_pic_path
-    try:
-        with open(p, "rb") as f:
-            data = f.read()
-    except FileNotFoundError:
-        raise HTTPException(status_code=404, detail="No profile picture")
-
-    # fastapi will infer response, but we set a safe type
-    return app.response_class(content=data, media_type="image/jpeg")
-
-@app.delete("/users/me/profile-pic")
-def delete_profile_pic(db: Session = Depends(get_db), user: User = Depends(get_current_user)):
-    if not user.profile_pic_path:
-        # idempotent delete
-        return {"ok": True}
-
-    try:
-        os.remove(user.profile_pic_path)
-    except FileNotFoundError:
-        pass
-
-    user.profile_pic_path = None
-    db.add(user)
-    db.commit()
-    return {"ok": True}
-
-# -------------------------
-# Sync (snapshot)
-# -------------------------
-@app.get("/sync/snapshot", response_model=SnapshotResponse)
-def get_snapshot(db: Session = Depends(get_db), user: User = Depends(get_current_user)):
-    row = db.query(UserSnapshot).filter(UserSnapshot.user_id == user.id).first()
-    if not row:
-        row = UserSnapshot(user_id=user.id, schema_version=1, rev=0, snapshot={"schemaVersion": 1})
-        db.add(row)
-        db.commit()
-        db.refresh(row)
-    return SnapshotResponse(schema_version=row.schema_version, rev=int(row.rev), snapshot=row.snapshot)
-
-@app.put(
-    "/sync/snapshot",
-    responses={409: {"model": ConflictResponse}},
-    response_model=SnapshotResponse
-)
-def put_snapshot(
-    payload: SnapshotUpdateRequest,
-    db: Session = Depends(get_db),
-    user: User = Depends(get_current_user),
-):
-    row = db.query(UserSnapshot).filter(UserSnapshot.user_id == user.id).with_for_update().first()
-    if not row:
-        row = UserSnapshot(user_id=user.id, schema_version=payload.schema_version, rev=0, snapshot={})
-        db.add(row)
-        db.flush()
-
-    current_rev = int(row.rev)
-
-    # optimistic concurrency
-    if payload.base_rev != current_rev:
-        current = SnapshotResponse(schema_version=row.schema_version, rev=current_rev, snapshot=row.snapshot)
-        raise HTTPException(
-            status_code=409,
-            detail={
-                "message": "Conflict: snapshot changed on server",
-                "current": current.model_dump(),
-            },
-        )
-
-    row.schema_version = payload.schema_version
-    row.snapshot = payload.snapshot
-    row.rev = current_rev + 1
-    row.last_device_id = payload.device_id
-    row.last_client_ts_ms = payload.client_ts_ms
-
-    db.add(row)
-    db.commit()
-    db.refresh(row)
-
-    return SnapshotResponse(schema_version=row.schema_version, rev=int(row.rev), snapshot=row.snapshot)
-
-@app.get("/health")
-def health():
-    return {"ok": True}

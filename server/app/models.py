@@ -1,59 +1,93 @@
-from sqlalchemy import (
-    Column, String, DateTime, Boolean, Integer, BigInteger, ForeignKey, UniqueConstraint
-)
-from sqlalchemy.dialects.postgresql import UUID, JSONB
-from sqlalchemy.sql import func
+"""
+SQLAlchemy ORM models (tables).
+
+No migrations:
+    Base.metadata.create_all(bind=engine) on startup.
+"""
+
+from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, UniqueConstraint
+from sqlalchemy.orm import declarative_base
+from sqlalchemy.dialects.postgresql import JSONB
+from datetime import datetime, timezone, timedelta
 import uuid
-from .db import Base
+
+
+Base = declarative_base()
+
+
+def utcnow():
+    return datetime.now(timezone.utc)
+
 
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    username = Column(String(64), unique=True, nullable=False, index=True)
-    first_name = Column(String(80), nullable=False)
-    last_name = Column(String(80), nullable=False)
-    password_hash = Column(String(255), nullable=False)
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
 
-    is_deleted = Column(Boolean, nullable=False, default=False)
-    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
-    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+    first_name = Column(String, nullable=False)
+    last_name = Column(String, nullable=False)
 
-    # stored file path (inside container) or None
-    profile_pic_path = Column(String(512), nullable=True)
+    username = Column(String, unique=True, index=True, nullable=False)
+    email = Column(String, unique=True, index=True, nullable=False)
 
-class UserSnapshot(Base):
+    profile_pic_path = Column(String, nullable=True)
+
+    password_hash = Column(String, nullable=False)
+
+    # Entire app data blob (countries, cities, visited, memos, settings...)
+    app_data = Column(JSONB, nullable=False, default=dict)
+
+    # Mirrors app settings for quick checks in feed queries
+    travel_visible_to_friends = Column(Boolean, nullable=False, default=True)
+
+    is_admin = Column(Boolean, default=False, nullable=False)
+    is_deleted = Column(Boolean, default=False, nullable=False)
+
+    created_at = Column(DateTime(timezone=True), default=utcnow, nullable=False)
+    updated_at = Column(DateTime(timezone=True), default=utcnow, onupdate=utcnow, nullable=False)
+
+
+class Friend(Base):
+    __tablename__ = "friends"
+    __table_args__ = (UniqueConstraint("user_id", "friend_id", name="uq_friend_pair"),)
+
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = Column(String, ForeignKey("users.id"), index=True, nullable=False)
+    friend_id = Column(String, ForeignKey("users.id"), index=True, nullable=False)
+    created_at = Column(DateTime(timezone=True), default=utcnow, nullable=False)
+
+
+class Activity(Base):
+    __tablename__ = "activities"
+
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    actor_user_id = Column(String, ForeignKey("users.id"), index=True, nullable=False)
+
+    type = Column(String, index=True, nullable=False)      # e.g. "travel_updated"
+    payload = Column(JSONB, nullable=False, default=dict)  # details for feed
+
+    created_at = Column(DateTime(timezone=True), default=utcnow, nullable=False)
+    expires_at = Column(DateTime(timezone=True), index=True, nullable=False, default=lambda: utcnow() + timedelta(days=7))
+
+
+class ActivityReaction(Base):
+    __tablename__ = "activity_reactions"
+    __table_args__ = (UniqueConstraint("activity_id", "user_id", name="uq_react_once"),)
+
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    activity_id = Column(String, ForeignKey("activities.id"), index=True, nullable=False)
+    user_id = Column(String, ForeignKey("users.id"), index=True, nullable=False)
+
+    reaction = Column(String, nullable=False)  # "like", "love", ...
+    created_at = Column(DateTime(timezone=True), default=utcnow, nullable=False)
+
+
+class RevokedToken(Base):
     """
-    Single “latest snapshot” per user.
-    rev increments every time snapshot is updated.
+    Supports real logout for JWT by revoking token IDs (jti).
     """
-    __tablename__ = "user_snapshots"
-    __table_args__ = (UniqueConstraint("user_id", name="uq_user_snapshots_user_id"),)
+    __tablename__ = "revoked_tokens"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
-
-    schema_version = Column(Integer, nullable=False, default=1)
-    rev = Column(BigInteger, nullable=False, default=0)
-
-    snapshot = Column(JSONB, nullable=False, default=dict)
-
-    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
-    # optional client metadata
-    last_device_id = Column(String(128), nullable=True)
-    last_client_ts_ms = Column(BigInteger, nullable=True)
-
-# ---- Future-ready tables (placeholders for friends/feed) ----
-class Friendship(Base):
-    __tablename__ = "friendships"
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
-    friend_user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
-    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
-
-class FeedEvent(Base):
-    __tablename__ = "feed_events"
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    actor_user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
-    payload = Column(JSONB, nullable=False, default=dict)
-    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    jti = Column(String, primary_key=True)  # token id
+    user_id = Column(String, ForeignKey("users.id"), index=True, nullable=False)
+    expires_at = Column(DateTime(timezone=True), index=True, nullable=False)
