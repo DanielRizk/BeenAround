@@ -15,9 +15,7 @@ void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     final settings = AppSettingsController();
-    final auth = AuthController(settings: settings);
-    await auth.init();
-    await tester.pumpWidget(BeenAroundApp(settings: settings, auth: auth,));
+    await tester.pumpWidget(BeenAroundApp(settings: settings));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

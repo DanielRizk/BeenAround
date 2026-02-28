@@ -4,6 +4,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../../../shared/i18n/app_strings.dart';
 import '../../../shared/settings/app_settings.dart';
+import '../../../shared/ui_kit/app_cards.dart';
+import '../../../shared/ui_kit/app_scaffold.dart';
+import '../../../shared/ui_kit/app_style.dart';
+import '../../../shared/ui_kit/app_toast.dart';
 
 class PrivacyPage extends StatefulWidget {
   const PrivacyPage({super.key});
@@ -19,9 +23,9 @@ class _PrivacyPageState extends State<PrivacyPage> {
 
   AppSettingsController get _settings => AppSettingsScope.of(context);
 
-  Future<void> _showMsg(String text) async {
+  Future<void> _showMsg(String text, {AppToastTone tone = AppToastTone.normal}) async {
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
+    AppToast.show(context, message: text, tone: tone);
   }
 
   Future<bool> _ensureNotificationsEnabled() async {
@@ -30,16 +34,14 @@ class _PrivacyPageState extends State<PrivacyPage> {
       final plugin = FlutterLocalNotificationsPlugin();
 
       // ANDROID (13+)
-      final android = plugin.resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>();
+      final android = plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
 
       if (android != null) {
-        // Request permission (Android 13+)
         await android.requestNotificationsPermission();
 
         final enabled = await android.areNotificationsEnabled();
         if (enabled == false) {
-          await _showMsg(S.t(context, 'privacy_notifications_denied'));
+          await _showMsg(S.t(context, 'privacy_notifications_denied'), tone: AppToastTone.danger);
           await Geolocator.openAppSettings();
           return false;
         }
@@ -47,10 +49,8 @@ class _PrivacyPageState extends State<PrivacyPage> {
       }
 
       // IOS / MACOS
-      // No reliable "check enabled" API → just request
       final granted = await plugin
-          .resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin>()
+          .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions(
         alert: true,
         badge: true,
@@ -58,7 +58,7 @@ class _PrivacyPageState extends State<PrivacyPage> {
       );
 
       if (granted == false) {
-        await _showMsg(S.t(context, 'privacy_notifications_denied'));
+        await _showMsg(S.t(context, 'privacy_notifications_denied'), tone: AppToastTone.danger);
         await Geolocator.openAppSettings();
         return false;
       }
@@ -69,14 +69,13 @@ class _PrivacyPageState extends State<PrivacyPage> {
     }
   }
 
-
   Future<bool> _ensureLocationEnabled() async {
     setState(() => _busyLoc = true);
     try {
       // 1) services enabled?
       final enabled = await Geolocator.isLocationServiceEnabled();
       if (!enabled) {
-        await _showMsg(S.t(context, 'privacy_location_services_off'));
+        await _showMsg(S.t(context, 'privacy_location_services_off'), tone: AppToastTone.danger);
         await Geolocator.openLocationSettings();
         final enabled2 = await Geolocator.isLocationServiceEnabled();
         if (!enabled2) return false;
@@ -88,9 +87,8 @@ class _PrivacyPageState extends State<PrivacyPage> {
         perm = await Geolocator.requestPermission();
       }
 
-      if (perm == LocationPermission.denied ||
-          perm == LocationPermission.deniedForever) {
-        await _showMsg(S.t(context, 'privacy_location_denied'));
+      if (perm == LocationPermission.denied || perm == LocationPermission.deniedForever) {
+        await _showMsg(S.t(context, 'privacy_location_denied'), tone: AppToastTone.danger);
         await Geolocator.openAppSettings();
         return false;
       }
@@ -165,7 +163,7 @@ class _PrivacyPageState extends State<PrivacyPage> {
       }
 
       _settings.setPrivacyCountryDetection(true);
-      await _showMsg(S.t(context, 'privacy_detection_enabled'));
+      await _showMsg(S.t(context, 'privacy_detection_enabled'), tone: AppToastTone.success);
     } finally {
       if (mounted) setState(() => _busyDetect = false);
     }
@@ -175,49 +173,166 @@ class _PrivacyPageState extends State<PrivacyPage> {
   Widget build(BuildContext context) {
     final s = _settings;
 
-    return Scaffold(
-      appBar: AppBar(title: Text(S.t(context, 'privacy_title'))),
-      body: ListView(
+    return AppScaffold(
+      title: S.t(context, 'privacy_title'),
+      child: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
         children: [
-          const SizedBox(height: 8),
-
-          SwitchListTile(
-            secondary: const Icon(Icons.notifications_outlined),
-            title: Text(S.t(context, 'privacy_notifications')),
-            subtitle: Text(S.t(context, 'privacy_notifications_sub')),
-            value: s.privacyNotifications,
-            onChanged: _busyNotif ? null : _toggleNotifications,
+          SectionCard(
+            title: S.t(context, 'privacy_title'),
+            child: Column(
+              children: [
+                _SwitchMotionTile(
+                  icon: Icons.notifications_outlined,
+                  title: S.t(context, 'privacy_notifications'),
+                  subtitle: S.t(context, 'privacy_notifications_sub'),
+                  value: s.privacyNotifications,
+                  busy: _busyNotif,
+                  onChanged: _toggleNotifications,
+                ),
+                const SoftDivider(),
+                _SwitchMotionTile(
+                  icon: Icons.location_on_outlined,
+                  title: S.t(context, 'privacy_location'),
+                  subtitle: S.t(context, 'privacy_location_sub'),
+                  value: s.privacyLocation,
+                  busy: _busyLoc,
+                  onChanged: _toggleLocation,
+                ),
+                const SoftDivider(),
+                _SwitchMotionTile(
+                  icon: Icons.public_outlined,
+                  title: S.t(context, 'privacy_detection'),
+                  subtitle: S.t(context, 'privacy_detection_sub'),
+                  value: s.privacyCountryDetection,
+                  busy: _busyDetect,
+                  onChanged: _toggleDetection,
+                ),
+              ],
+            ),
           ),
-          const Divider(height: 1),
 
-          SwitchListTile(
-            secondary: const Icon(Icons.location_on_outlined),
-            title: Text(S.t(context, 'privacy_location')),
-            subtitle: Text(S.t(context, 'privacy_location_sub')),
-            value: s.privacyLocation,
-            onChanged: _busyLoc ? null : _toggleLocation,
-          ),
-          const Divider(height: 1),
-
-          SwitchListTile(
-            secondary: const Icon(Icons.public_outlined),
-            title: Text(S.t(context, 'privacy_detection')),
-            subtitle: Text(S.t(context, 'privacy_detection_sub')),
-            value: s.privacyCountryDetection,
-            onChanged: _busyDetect ? null : _toggleDetection,
-          ),
-          const Divider(height: 1),
-
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
 
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 2),
             child: Text(
               S.t(context, 'privacy_hint'),
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                height: 1.3,
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// ✅ UI-kit-consistent switch row:
+/// - same motion feel as MotionTile
+/// - no ListTile / SwitchListTile legacy visuals
+/// - switch is the only interactive control (tap anywhere toggles)
+class _SwitchMotionTile extends StatefulWidget {
+  const _SwitchMotionTile({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.value,
+    required this.onChanged,
+    required this.busy,
+  });
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final bool value;
+  final bool busy;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  State<_SwitchMotionTile> createState() => _SwitchMotionTileState();
+}
+
+class _SwitchMotionTileState extends State<_SwitchMotionTile> {
+  bool _down = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    final style = context.style;
+
+    final disabled = widget.busy;
+    final accent = cs.primary;
+
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTapDown: disabled ? null : (_) => setState(() => _down = true),
+      onTapCancel: disabled ? null : () => setState(() => _down = false),
+      onTapUp: disabled ? null : (_) => setState(() => _down = false),
+      onTap: disabled ? null : () => widget.onChanged(!widget.value),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 160),
+        curve: Curves.easeOut,
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        color: _down ? accent.withOpacity(.06) : Colors.transparent,
+        child: Row(
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 160),
+              curve: Curves.easeOut,
+              height: 44,
+              width: 44,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(style.iconRadius),
+                color: accent.withOpacity(_down ? .16 : .10),
+              ),
+              child: Icon(widget.icon, color: accent),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Opacity(
+                opacity: disabled ? .60 : 1.0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.title,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: cs.onSurface,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      widget.subtitle,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: cs.onSurfaceVariant,
+                        height: 1.25,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            IgnorePointer(
+              ignoring: disabled,
+              child: AnimatedOpacity(
+                duration: const Duration(milliseconds: 160),
+                opacity: disabled ? .6 : 1.0,
+                child: Switch(
+                  value: widget.value,
+                  onChanged: disabled ? null : widget.onChanged,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

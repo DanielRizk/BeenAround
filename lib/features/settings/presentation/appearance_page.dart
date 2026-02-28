@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import '../../../../shared/settings/app_settings.dart';
 import '../../../shared/i18n/app_strings.dart';
 
+import '../../../shared/ui_kit/app_cards.dart';
+import '../../../shared/ui_kit/app_dialogs.dart';
+import '../../../shared/ui_kit/app_scaffold.dart';
+import '../../../shared/ui_kit/app_tiles.dart';
+
 class AppearancePage extends StatelessWidget {
   const AppearancePage({super.key});
 
@@ -11,113 +16,117 @@ class AppearancePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final settings = AppSettingsScope.of(context);
 
-    return Scaffold(
-      appBar: AppBar(title: Text(S.t(context, 'settings_appearance'))),
-      body: AnimatedBuilder(
+    return AppScaffold(
+      title: S.t(context, 'settings_appearance'),
+      child: AnimatedBuilder(
         animation: settings,
         builder: (context, _) {
+          final themeMode = settings.themeMode;
+
           return ListView(
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
             children: [
-              _sectionTitle(context, S.t(context, 'theme_mode')),
-              RadioListTile<ThemeMode>(
-                value: ThemeMode.system,
-                groupValue: settings.themeMode,
-                title: Text(S.t(context, 'theme_system')),
-                onChanged: (v) => settings.setThemeMode(v!),
-              ),
-              RadioListTile<ThemeMode>(
-                value: ThemeMode.light,
-                groupValue: settings.themeMode,
-                title: Text(S.t(context, 'theme_light')),
-                onChanged: (v) => settings.setThemeMode(v!),
-              ),
-              RadioListTile<ThemeMode>(
-                value: ThemeMode.dark,
-                groupValue: settings.themeMode,
-                title: Text(S.t(context, 'theme_dark')),
-                onChanged: (v) => settings.setThemeMode(v!),
-              ),
-
-              const Divider(height: 24),
-
-              _sectionTitle(context, S.t(context, 'color_scheme')),
-              ListTile(
-                leading: const Icon(Icons.palette_outlined),
-                title: Text(S.t(context, 'app_color')),
-                subtitle: Text(_colorName(context, settings.colorSchemeSeed)),
-                trailing: _colorDot(settings.colorSchemeSeed),
-                onTap: () => _pickColor(
-                  context,
-                  title: S.t(context, 'app_color_scheme'),
-                  current: settings.colorSchemeSeed,
-                  onPick: settings.setColorSchemeSeed,
+              SectionCard(
+                title: S.t(context, 'theme_mode'),
+                child: Column(
+                  children: [
+                    SelectMotionTile(
+                      icon: Icons.auto_awesome_rounded,
+                      title: S.t(context, 'theme_system'),
+                      subtitle: S.t(context, 'theme_system'),
+                      selected: themeMode == ThemeMode.system,
+                      onTap: () => settings.setThemeMode(ThemeMode.system),
+                    ),
+                    const SoftDivider(),
+                    SelectMotionTile(
+                      icon: Icons.light_mode_rounded,
+                      title: S.t(context, 'theme_light'),
+                      subtitle: S.t(context, 'theme_light'),
+                      selected: themeMode == ThemeMode.light,
+                      onTap: () => settings.setThemeMode(ThemeMode.light),
+                    ),
+                    const SoftDivider(),
+                    SelectMotionTile(
+                      icon: Icons.dark_mode_rounded,
+                      title: S.t(context, 'theme_dark'),
+                      subtitle: S.t(context, 'theme_dark'),
+                      selected: themeMode == ThemeMode.dark,
+                      onTap: () => settings.setThemeMode(ThemeMode.dark),
+                    ),
+                  ],
                 ),
               ),
 
-              const Divider(height: 24),
+              const SizedBox(height: 12),
 
-              _sectionTitle(context, S.t(context, 'map_section')),
-              SwitchListTile(
-                secondary: const Icon(Icons.text_fields_outlined),
-                title: Text(S.t(context, 'show_country_labels')),
-                value: settings.showCountryLabels,
-                onChanged: settings.setShowCountryLabels,
-              ),
-              ListTile(
-                leading: const Icon(Icons.public),
-                title: Text(S.t(context, 'selected_country_color')),
-                subtitle: Text(
-                  settings.selectedCountryColorMode ==
-                      SelectedCountryColorMode.multicolor
-                      ? S.t(context, 'multicolor')
-                      : _colorName(context, settings.selectedCountryColor),
+              SectionCard(
+                title: S.t(context, 'color_scheme'),
+                child: Column(
+                  children: [
+                    MotionTile(
+                      icon: Icons.palette_outlined,
+                      title: S.t(context, 'app_color'),
+                      subtitle: _colorName(context, settings.colorSchemeSeed),
+                      onTap: () async {
+                        final picked = await AppDialogs.showColorPalettePicker(
+                          context: context,
+                          title: S.t(context, 'app_color_scheme'),
+                          palette: _palette,
+                          current: settings.colorSchemeSeed,
+                          cancelLabel: S.t(context, 'cancel'),
+                        );
+                        if (picked != null) settings.setColorSchemeSeed(picked);
+                      },
+                    ),
+                  ],
                 ),
-                trailing: settings.selectedCountryColorMode ==
-                    SelectedCountryColorMode.multicolor
-                    ? _multiColorDot(_palette)
-                    : _colorDot(settings.selectedCountryColor),
-                onTap: () => _pickSelectedCountryColor(context, settings),
+              ),
+
+              const SizedBox(height: 12),
+
+              SectionCard(
+                title: S.t(context, 'map_section'),
+                child: Column(
+                  children: [
+                    SwitchMotionTile(
+                      icon: Icons.text_fields_outlined,
+                      title: S.t(context, 'show_country_labels'),
+                      subtitle: S.t(context, 'show_country_labels'),
+                      value: settings.showCountryLabels,
+                      onChanged: settings.setShowCountryLabels,
+                    ),
+                    const SoftDivider(),
+                    MotionTile(
+                      icon: Icons.public,
+                      title: S.t(context, 'selected_country_color'),
+                      subtitle: settings.selectedCountryColorMode == SelectedCountryColorMode.multicolor
+                          ? S.t(context, 'multicolor')
+                          : _colorName(context, settings.selectedCountryColor),
+                      onTap: () async {
+                        final picked = await AppDialogs.showSelectedCountryColorPicker(
+                          context: context,
+                          title: S.t(context, 'selected_country_color'),
+                          palette: _palette,
+                          mode: settings.selectedCountryColorMode,
+                          currentColor: settings.selectedCountryColor,
+                          cancelLabel: S.t(context, 'cancel'),
+                        );
+
+                        if (picked == null) return;
+
+                        if (picked.mode == SelectedCountryColorMode.multicolor) {
+                          settings.setSelectedCountryColorMode(SelectedCountryColorMode.multicolor);
+                        } else if (picked.color != null) {
+                          settings.setSelectedCountryColor(picked.color!);
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             ],
           );
         },
-      ),
-    );
-  }
-
-  Widget _sectionTitle(BuildContext context, String text) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-          color: Theme.of(context).colorScheme.secondary,
-        ),
-      ),
-    );
-  }
-
-  Widget _colorDot(Color c) {
-    return Container(
-      width: 18,
-      height: 18,
-      decoration: BoxDecoration(
-        color: c,
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.black12),
-      ),
-    );
-  }
-
-  Widget _multiColorDot(List<Color> palette) {
-    return Container(
-      width: 18,
-      height: 18,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.black12),
-        gradient: SweepGradient(colors: palette),
       ),
     );
   }
@@ -136,153 +145,4 @@ class AppearancePage extends StatelessWidget {
 
     return '#${v.toRadixString(16).padLeft(8, '0')}';
   }
-
-  Future<void> _pickColor(
-      BuildContext context, {
-        required String title,
-        required Color current,
-        required void Function(Color) onPick,
-      }) async {
-    final picked = await showDialog<Color>(
-      context: context,
-      builder: (ctx) {
-        return AlertDialog(
-          title: Text(title),
-          content: Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: [
-              for (final c in _palette)
-                InkWell(
-                  borderRadius: BorderRadius.circular(999),
-                  onTap: () => Navigator.pop(ctx, c),
-                  child: Container(
-                    width: 34,
-                    height: 34,
-                    decoration: BoxDecoration(
-                      color: c,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        width: (c.value == current.value) ? 3 : 1,
-                        color: (c.value == current.value)
-                            ? Theme.of(ctx).colorScheme.onSurface
-                            : Colors.black26,
-                      ),
-                    ),
-                  ),
-                ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: Text(S.t(context, 'cancel')),
-            ),
-          ],
-        );
-      },
-    );
-
-    if (picked != null) onPick(picked);
-  }
-
-  Future<void> _pickSelectedCountryColor(
-      BuildContext context,
-      AppSettingsController settings,
-      ) async {
-    final picked = await showDialog<_SelectedColorPick>(
-      context: context,
-      builder: (ctx) {
-        final currentMode = settings.selectedCountryColorMode;
-        final currentColor = settings.selectedCountryColor;
-
-        return AlertDialog(
-          title: Text(S.t(context, 'selected_country_color')),
-          content: Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: [
-              // Multicolor option
-              InkWell(
-                borderRadius: BorderRadius.circular(999),
-                onTap: () =>
-                    Navigator.pop(ctx, const _SelectedColorPick.multicolor()),
-                child: Container(
-                  width: 34,
-                  height: 34,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: SweepGradient(colors: _palette),
-                    border: Border.all(
-                      width:
-                      (currentMode == SelectedCountryColorMode.multicolor)
-                          ? 3
-                          : 1,
-                      color:
-                      (currentMode == SelectedCountryColorMode.multicolor)
-                          ? Theme.of(ctx).colorScheme.onSurface
-                          : Colors.black26,
-                    ),
-                  ),
-                ),
-              ),
-
-              // Single-color options
-              for (final c in _palette)
-                InkWell(
-                  borderRadius: BorderRadius.circular(999),
-                  onTap: () =>
-                      Navigator.pop(ctx, _SelectedColorPick.single(c)),
-                  child: Container(
-                    width: 34,
-                    height: 34,
-                    decoration: BoxDecoration(
-                      color: c,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        width: (currentMode ==
-                            SelectedCountryColorMode.single &&
-                            c.value == currentColor.value)
-                            ? 3
-                            : 1,
-                        color: (currentMode ==
-                            SelectedCountryColorMode.single &&
-                            c.value == currentColor.value)
-                            ? Theme.of(ctx).colorScheme.onSurface
-                            : Colors.black26,
-                      ),
-                    ),
-                  ),
-                ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: Text(S.t(context, 'cancel')),
-            ),
-          ],
-        );
-      },
-    );
-
-    if (picked == null) return;
-    if (picked.mode == SelectedCountryColorMode.multicolor) {
-      settings.setSelectedCountryColorMode(SelectedCountryColorMode.multicolor);
-    } else if (picked.color != null) {
-      settings.setSelectedCountryColor(picked.color!);
-    }
-  }
-}
-
-class _SelectedColorPick {
-  final SelectedCountryColorMode mode;
-  final Color? color;
-
-  const _SelectedColorPick.multicolor()
-      : mode = SelectedCountryColorMode.multicolor,
-        color = null;
-
-  const _SelectedColorPick.single(this.color)
-      : mode = SelectedCountryColorMode.single;
 }

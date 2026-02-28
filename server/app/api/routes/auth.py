@@ -87,3 +87,5 @@ def logout(
     db.commit()
 
     return {"status": "ok"}
+
+

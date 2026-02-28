@@ -5,6 +5,12 @@ import 'package:flutter/material.dart';
 import '../../../shared/i18n/app_strings.dart';
 import '../../../shared/map/world_map_models.dart';
 import '../../../shared/settings/app_settings.dart';
+
+import '../../../shared/ui_kit/app_cards.dart';
+import '../../../shared/ui_kit/app_dialogs.dart';
+import '../../../shared/ui_kit/app_scaffold.dart';
+import '../../../shared/ui_kit/app_toast.dart';
+
 import 'account_page.dart';
 import 'appearance_page.dart';
 import 'developer_mode_page.dart';
@@ -29,7 +35,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Timer? _devHoldTimer;
   bool _devHoldActive = false;
 
-  // ✅ Change this to whatever 4 digits you want
+  // ✅ Change this to whatever 6 digits you want
   static const String _kDevPin = '268426';
 
   @override
@@ -58,218 +64,174 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Future<void> _showDevModePrompt() async {
     final settings = AppSettingsScope.of(context);
-
     if (settings.devModeEnabled) return;
 
-    final pinController = TextEditingController();
-    bool wrong = false;
-
-    final ok = await showDialog<bool>(
+    final code = await AppDialogs.showSixDigitCodeDialog(
       context: context,
-      barrierDismissible: true,
-      builder: (ctx) {
-        return StatefulBuilder(
-          builder: (ctx, setLocal) {
-            return AlertDialog(
-              title: Text(S.t(context, 'dev_mode_enable_title')),
-              content: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(S.t(context, 'dev_mode_enable_msg')),
-                    const SizedBox(height: 12),
-                    TextField(
-                      controller: pinController,
-                      keyboardType: TextInputType.number,
-                      maxLength: 6,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: S.t(context, 'dev_mode_pin'),
-                        errorText: wrong ? S.t(context, 'dev_mode_pin_wrong') : null,
-                        counterText: '', // avoids extra height from counter
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(ctx, false),
-                  child: Text(S.t(context, 'cancel')),
-                ),
-                FilledButton(
-                  onPressed: () {
-                    final pin = pinController.text.trim();
-                    if (pin == _kDevPin) {
-                      Navigator.pop(ctx, true);
-                    } else {
-                      setLocal(() => wrong = true);
-                    }
-                  },
-                  child: Text(S.t(context, 'enable')),
-                ),
-              ],
-            );
-          },
-        );
+      title: S.t(context, 'dev_mode_enable_title'),
+      subtitle: S.t(context, 'dev_mode_enable_msg'),
+      confirmLabel: S.t(context, 'enable'),
+      cancelLabel: S.t(context, 'cancel'),
+      defaultErrorMessage: S.t(context, 'dev_mode_pin_wrong'),
+      validate: (input) async {
+        return input.trim() == _kDevPin ? null : S.t(context, 'dev_mode_pin_wrong');
       },
     );
 
-    // ✅ IMPORTANT: dispose controller AFTER the dialog is fully removed
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      pinController.dispose();
-    });
+    if (!mounted) return;
+    if (code == null) return;
 
-    if (ok == true) {
-      // ✅ Also defer enabling to next microtask (keeps Flutter happy)
-      Future.microtask(() {
-        settings.setDevModeEnabled(true);
-      });
+    // enable dev mode
+    Future.microtask(() => settings.setDevModeEnabled(true));
 
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(S.t(context, 'dev_mode_enabled'))),
-      );
-    }
+    AppToast.show(
+      context,
+      message: S.t(context, 'dev_mode_enabled'),
+      tone: AppToastTone.success,
+    );
   }
-
 
   @override
   Widget build(BuildContext context) {
     final settings = AppSettingsScope.of(context);
 
-    return Scaffold(
-      appBar: AppBar(title: Text(S.t(context, 'settings_title'))),
-      body: Column(
+    return AppScaffold(
+      title: S.t(context, 'settings_title'),
+      child: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 14, 16, 20),
         children: [
-          Expanded(
-            child: ListView(
+          SectionCard(
+            title: S.t(context, 'settings_account'),
+            child: Column(
               children: [
-                const SizedBox(height: 8),
-
-                // ✅ Account tile + hidden dev hold (5 seconds)
-                Listener(
-                  onPointerDown: (_) => _startDevHold(),
-                  onPointerUp: (_) => _cancelDevHold(),
-                  onPointerCancel: (_) => _cancelDevHold(),
-                  child: ListTile(
-                    leading: const Icon(Icons.person_outline),
-                    title: Text(S.t(context, 'settings_account')),
-                    subtitle: Text(S.t(context, 'settings_account_sub')),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) =>
-                              AccountPage(worldMapData: widget.worldMapData),
+                MotionTile(
+                  icon: Icons.person_outline,
+                  title: S.t(context, 'settings_account'),
+                  subtitle: S.t(context, 'settings_account_sub'),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => AccountPage(
+                          worldMapData: widget.worldMapData,
+                          onResetAll: widget.onResetAll,
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 ),
-                const Divider(height: 1),
+              ],
+            ),
+          ),
 
-                ListTile(
-                  leading: const Icon(Icons.palette_outlined),
-                  title: Text(S.t(context, 'settings_appearance')),
-                  subtitle: Text(S.t(context, 'settings_appearance_sub')),
-                  trailing: const Icon(Icons.chevron_right),
+          const SizedBox(height: 12),
+
+          SectionCard(
+            title: S.t(context, 'settings_appearance'),
+            child: Column(
+              children: [
+                MotionTile(
+                  icon: Icons.palette_outlined,
+                  title: S.t(context, 'settings_appearance'),
+                  subtitle: S.t(context, 'settings_appearance_sub'),
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => const AppearancePage()),
                     );
                   },
                 ),
-                const Divider(height: 1),
-
-                ListTile(
-                  leading: const Icon(Icons.language_outlined),
-                  title: Text(S.t(context, 'settings_language')),
-                  subtitle: Text(S.t(context, 'lang_${S.lang(context).name}')),
-                  trailing: const Icon(Icons.chevron_right),
+                const SoftDivider(),
+                MotionTile(
+                  icon: Icons.language_outlined,
+                  title: S.t(context, 'settings_language'),
+                  subtitle: S.t(context, 'lang_${S.lang(context).name}'),
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => const LanguagePage()),
                     );
                   },
                 ),
-                const Divider(height: 1),
+              ],
+            ),
+          ),
 
-                ListTile(
-                  leading: const Icon(Icons.lock_outline),
-                  title: Text(S.t(context, 'settings_privacy')),
-                  subtitle: Text(S.t(context, 'settings_privacy_sub')),
-                  trailing: const Icon(Icons.chevron_right),
+          const SizedBox(height: 12),
+
+          SectionCard(
+            title: S.t(context, 'settings_privacy'),
+            child: Column(
+              children: [
+                MotionTile(
+                  icon: Icons.lock_outline,
+                  title: S.t(context, 'settings_privacy'),
+                  subtitle: S.t(context, 'settings_privacy_sub'),
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => const PrivacyPage()),
                     );
                   },
                 ),
-
-                // ✅ Show Developer Mode only if enabled
                 if (settings.devModeEnabled) ...[
-                  const Divider(height: 1),
-                  ListTile(
-                    leading: const Icon(Icons.developer_mode),
-                    title: Text(S.t(context, 'dev_mode_title')),
-                    subtitle: Text(S.t(context, 'dev_mode_sub')),
-                    trailing: const Icon(Icons.chevron_right),
+                  const SoftDivider(),
+                  MotionTile(
+                    icon: Icons.developer_mode,
+                    title: S.t(context, 'dev_mode_title'),
+                    subtitle: S.t(context, 'dev_mode_sub'),
                     onTap: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => const DeveloperModePage(),
-                        ),
+                        MaterialPageRoute(builder: (_) => const DeveloperModePage()),
                       );
                     },
                   ),
                 ],
-
-                const Divider(height: 1),
-                const SizedBox(height: 12),
               ],
             ),
           ),
 
-          const Divider(height: 1),
+          const SizedBox(height: 12),
 
-          Padding(
-            padding: const EdgeInsets.only(bottom: 1),
-            child: ListTile(
-              leading: const Icon(Icons.delete_forever_outlined),
-              title: Text(S.t(context, 'reset_app_data')),
-              subtitle: Text(S.t(context, 'reset_app_data_subtitle')),
-              onTap: () async {
-                final ok = await showDialog<bool>(
-                  context: context,
-                  builder: (ctx) => AlertDialog(
-                    title: Text(S.t(context, 'reset_everything')),
-                    content: Text(S.t(context, 'reset_everything_confirm')),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(ctx, false),
-                        child: Text(S.t(context, 'cancel')),
-                      ),
-                      FilledButton(
-                        onPressed: () => Navigator.pop(ctx, true),
-                        child: Text(S.t(context, 'reset')),
-                      ),
-                    ],
+          SectionCard(
+            title: S.t(context, 'reset_app_data'),
+            tone: CardTone.danger,
+            child: Column(
+              children: [
+                Listener(
+                  // ✅ hidden dev hold remains (no UI)
+                  onPointerDown: (_) => _startDevHold(),
+                  onPointerUp: (_) => _cancelDevHold(),
+                  onPointerCancel: (_) => _cancelDevHold(),
+                  child: MotionTile(
+                    icon: Icons.delete_forever_outlined,
+                    title: S.t(context, 'reset_app_data'),
+                    subtitle: S.t(context, 'reset_app_data_subtitle'),
+                    tone: TileTone.danger,
+                    onTap: () async {
+                      final ok = await AppDialogs.showConfirmDialog(
+                        context: context,
+                        title: S.t(context, 'reset_everything'),
+                        message: S.t(context, 'reset_everything_confirm'),
+                        cancelLabel: S.t(context, 'cancel'),
+                        confirmLabel: S.t(context, 'reset'),
+                        tone: AppDialogTone.danger,
+                      );
+
+                      if (!ok) return;
+
+                      await widget.onResetAll();
+                      if (!mounted) return;
+
+                      AppToast.show(
+                        context,
+                        message: S.t(context, 'reset_confirmation'),
+                        tone: AppToastTone.success,
+                      );
+                    },
                   ),
-                );
-
-                if (ok != true) return;
-
-                await widget.onResetAll();
-
-                if (!mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(S.t(context, 'reset_confirmation'))),
-                );
-              },
+                ),
+              ],
             ),
           ),
+
+          const SizedBox(height: 28),
         ],
       ),
     );

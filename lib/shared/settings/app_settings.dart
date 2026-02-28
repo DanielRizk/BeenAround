@@ -61,30 +61,69 @@ class AppSettingsController extends ChangeNotifier {
   bool get showCountryLabels => _showCountryLabels;
   Locale get locale => _locale;
 
+  int? _readInt(SharedPreferences sp, String key) {
+    final v = sp.get(key);
+    if (v is int) return v;
+    if (v is num) return v.toInt();
+    if (v is String) return int.tryParse(v.trim());
+    return null;
+  }
+
+  bool? _readBool(SharedPreferences sp, String key) {
+    final v = sp.get(key);
+    if (v is bool) return v;
+    if (v is String) {
+      final s = v.trim().toLowerCase();
+      if (s == 'true') return true;
+      if (s == 'false') return false;
+      final asInt = int.tryParse(s);
+      if (asInt != null) return asInt != 0;
+    }
+    if (v is num) return v != 0;
+    return null;
+  }
+
+  String? _readString(SharedPreferences sp, String key) {
+    final v = sp.get(key);
+    if (v == null) return null;
+    return v.toString();
+  }
+
   /// Call once before runApp()
+  @override
   Future<void> load() async {
     final sp = await SharedPreferences.getInstance();
 
-    _themeMode =
-    ThemeMode.values[sp.getInt(_kThemeMode) ?? ThemeMode.system.index];
-    _colorSchemeSeed =
-        Color(sp.getInt(_kSeedColor) ?? Colors.blue.toARGB32());
-    _selectedCountryColor = Color(
-        sp.getInt(_kSelectedCountryColor) ?? Colors.orange.toARGB32());
-    _selectedCountryColorMode = SelectedCountryColorMode.values[
-    sp.getInt(_kSelectedCountryColorMode) ??
-        SelectedCountryColorMode.single.index];
-    _showCountryLabels = sp.getBool(_kShowLabels) ?? true;
+    final themeIdx = _readInt(sp, _kThemeMode) ?? ThemeMode.system.index;
+    _themeMode = ThemeMode.values[
+    themeIdx.clamp(0, ThemeMode.values.length - 1)
+    ];
 
-    final lang = sp.getString(_kLocale);
-    if (lang != null) {
+    _colorSchemeSeed = Color(
+      _readInt(sp, _kSeedColor) ?? Colors.blue.toARGB32(),
+    );
+
+    _selectedCountryColor = Color(
+      _readInt(sp, _kSelectedCountryColor) ?? Colors.orange.toARGB32(),
+    );
+
+    final modeIdx = _readInt(sp, _kSelectedCountryColorMode) ??
+        SelectedCountryColorMode.single.index;
+    _selectedCountryColorMode = SelectedCountryColorMode.values[
+    modeIdx.clamp(0, SelectedCountryColorMode.values.length - 1)
+    ];
+
+    _showCountryLabels = _readBool(sp, _kShowLabels) ?? true;
+
+    final lang = _readString(sp, _kLocale);
+    if (lang != null && lang.isNotEmpty) {
       _locale = Locale(lang);
     }
 
-    _privacyNotifications = sp.getBool(_kPrivacyNotifications) ?? false;
-    _privacyLocation = sp.getBool(_kPrivacyLocation) ?? false;
-    _privacyCountryDetection = sp.getBool(_kPrivacyCountryDetection) ?? false;
-    _devModeEnabled = sp.getBool(_kDevModeEnabled) ?? false;
+    _privacyNotifications = _readBool(sp, _kPrivacyNotifications) ?? false;
+    _privacyLocation = _readBool(sp, _kPrivacyLocation) ?? false;
+    _privacyCountryDetection = _readBool(sp, _kPrivacyCountryDetection) ?? false;
+    _devModeEnabled = _readBool(sp, _kDevModeEnabled) ?? false;
 
     notifyListeners();
   }

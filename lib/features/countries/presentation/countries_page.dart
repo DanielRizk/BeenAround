@@ -1,7 +1,9 @@
+import 'package:been_around/shared/ui_kit/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../shared/i18n/app_strings.dart';
+import '../../../shared/ui_kit/app_cards.dart';
 import '../../map/presentation/widgets/city_picker_sheet.dart';
 
 class CountriesPage extends StatefulWidget {
@@ -98,18 +100,9 @@ class _CountriesPageState extends State<CountriesPage> {
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: const SizedBox.shrink(),
-        actions: const [],
-        backgroundColor: Colors.transparent,
-        surfaceTintColor: Colors.transparent,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        systemOverlayStyle: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
-      ),
-      body: body,
+    return AppScaffold(
+      title: S.t(context, 'tab_countries'),
+      child: body,
     );
   }
 
@@ -339,13 +332,11 @@ class _CountrySection extends StatelessWidget {
   Widget build(BuildContext context) {
     final headerBg = Theme.of(context).colorScheme.surfaceContainerHighest;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: headerBg,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      clipBehavior: Clip.antiAlias,
+    return GlowCard(
+      // optional: danger tone only if you want (usually normal)
+      // tone: CardTone.normal,
       child: Theme(
+        // keep ExpansionTile clean (no default dividers)
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
           key: ValueKey('country-$iso2'),
@@ -354,8 +345,7 @@ class _CountrySection extends StatelessWidget {
           tilePadding: const EdgeInsets.fromLTRB(16, 10, 12, 10),
           childrenPadding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
           shape: const RoundedRectangleBorder(side: BorderSide(color: Colors.transparent)),
-          collapsedShape:
-          const RoundedRectangleBorder(side: BorderSide(color: Colors.transparent)),
+          collapsedShape: const RoundedRectangleBorder(side: BorderSide(color: Colors.transparent)),
           title: Row(
             children: [
               const SizedBox(width: 12),
@@ -375,16 +365,14 @@ class _CountrySection extends StatelessWidget {
                               countryName,
                               maxLines: 1,
                               softWrap: false,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(fontWeight: FontWeight.w800),
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w800,
+                              ),
                             ),
                           ),
                         ),
                       ],
                     ),
-                    // Country visited date editable ONLY on Countries tab (editable == false)
                     if (!editable && countryVisitedOn != null)
                       ValueListenableBuilder<Map<String, String>>(
                         valueListenable: countryVisitedOn!,
@@ -498,14 +486,8 @@ class _CityGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bg = Theme.of(context).colorScheme.surface;
-
-    return Container(
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(14),
-      ),
-      clipBehavior: Clip.antiAlias,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(14),
       child: Column(
         children: [
           for (int i = 0; i < cities.length; i++) ...[
@@ -518,7 +500,7 @@ class _CityGroup extends StatelessWidget {
               onRemove: () => onRemoveCity(cities[i]),
               noteControllerFactory: noteControllerFactory,
             ),
-            if (i != cities.length - 1) const Divider(height: 1),
+            if (i != cities.length - 1) const SoftDivider(),
           ],
         ],
       ),
@@ -646,59 +628,74 @@ class _CityRowModernState extends State<_CityRowModern> {
                           ? const SizedBox.shrink()
                           : Padding(
                         padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Theme.of(context)
-                                .colorScheme
-                                .surfaceContainerHighest,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                S.t(context, 'notes'),
-                                style: Theme.of(context).textTheme.labelLarge,
-                              ),
-                              const SizedBox(height: 8),
-                              TextField(
-                                controller: controller,
-                                maxLines: null,
-                                decoration: InputDecoration(
-                                  hintText: S.t(context, 'add_note'),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
+                        child: GlowCard(
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      S.t(context, 'notes'),
+                                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    // subtle affordance to close
+                                    IconButton(
+                                      visualDensity: VisualDensity.compact,
+                                      padding: EdgeInsets.zero,
+                                      constraints: const BoxConstraints.tightFor(width: 34, height: 34),
+                                      tooltip: S.t(context, 'close'),
+                                      icon: const Icon(Icons.close, size: 18),
+                                      onPressed: () => setState(() => _expanded = false),
+                                    ),
+                                  ],
                                 ),
-                                onChanged: (txt) {
-                                  final vn = widget.cityNotes;
-                                  if (vn == null) return;
+                                const SizedBox(height: 8),
 
-                                  final nextAll =
-                                  Map<String, Map<String, String>>.from(vn.value);
-                                  final nextForCountry = Map<String, String>.from(
-                                      nextAll[widget.iso2] ?? const {});
-                                  final trimmed = txt.trim();
+                                // "Premium" input: filled, no harsh outline
+                                TextField(
+                                  controller: controller,
+                                  maxLines: null,
+                                  decoration: InputDecoration(
+                                    hintText: S.t(context, 'add_note'),
+                                    filled: true,
+                                    fillColor: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(.55),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(14),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                  ),
+                                  onChanged: (txt) {
+                                    final vn = widget.cityNotes;
+                                    if (vn == null) return;
 
-                                  if (trimmed.isEmpty) {
-                                    nextForCountry.remove(widget.city);
-                                  } else {
-                                    nextForCountry[widget.city] = txt;
-                                  }
+                                    final nextAll = Map<String, Map<String, String>>.from(vn.value);
+                                    final nextForCountry = Map<String, String>.from(nextAll[widget.iso2] ?? const {});
+                                    final trimmed = txt.trim();
 
-                                  if (nextForCountry.isEmpty) {
-                                    nextAll.remove(widget.iso2);
-                                  } else {
-                                    nextAll[widget.iso2] = nextForCountry;
-                                  }
+                                    if (trimmed.isEmpty) {
+                                      nextForCountry.remove(widget.city);
+                                    } else {
+                                      nextForCountry[widget.city] = txt;
+                                    }
 
-                                  vn.value = nextAll;
-                                  setState(() {}); // refresh note icon instantly
-                                },
-                              ),
-                            ],
+                                    if (nextForCountry.isEmpty) {
+                                      nextAll.remove(widget.iso2);
+                                    } else {
+                                      nextAll[widget.iso2] = nextForCountry;
+                                    }
+
+                                    vn.value = nextAll;
+                                    setState(() {}); // refresh note icon instantly
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

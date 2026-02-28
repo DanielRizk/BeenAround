@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -6,7 +7,6 @@ import '../features/friends/presentation/friends_page.dart';
 import '../features/map/presentation/map_page.dart';
 import '../features/settings/presentation/settings_page.dart';
 import '../features/stats/presentation/stats_page.dart';
-import '../shared/backend/auth_controller.dart';
 import '../shared/cities/cities_repository.dart';
 import '../shared/geo/continent_repository.dart';
 import '../shared/i18n/app_strings.dart';
@@ -14,18 +14,18 @@ import '../shared/map/world_map_loader.dart';
 import '../shared/map/world_map_models.dart';
 import '../shared/settings/app_settings.dart';
 import '../shared/storage/local_store.dart';
+import '../shared/export/user_data_file_transfer.dart';
 import '../features/map/presentation/widgets/city_picker_sheet.dart';
+import '../shared/ui_kit/app_theme.dart';
 
 
 class BeenAroundApp extends StatelessWidget {
   const BeenAroundApp({
     super.key,
     required this.settings,
-    required this.auth,
   });
 
   final AppSettingsController settings;
-  final AuthController auth;
 
   static final GlobalKey<HomeShellState> homeKey = GlobalKey<HomeShellState>();
 
@@ -40,38 +40,26 @@ class BeenAroundApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppSettingsScope(
       controller: settings,
-      child: AuthScope(
-          controller: auth,
-          child: AnimatedBuilder(
-            animation: settings,
-            builder: (context, _) {
-              return MaterialApp(
-                title: 'Been Around',
-                debugShowCheckedModeBanner: false,
-                localizationsDelegates: const [
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: const [Locale('en'), Locale('de')],
-                locale: settings.locale,
-                themeMode: settings.themeMode,
-                theme: ThemeData(
-                  useMaterial3: true,
-                  colorSchemeSeed: settings.colorSchemeSeed,
-                  brightness: Brightness.light,
-                ),
-                darkTheme: ThemeData(
-                  useMaterial3: true,
-                  colorSchemeSeed: settings.colorSchemeSeed,
-                  brightness: Brightness.dark,
-                ),
-
-                home: HomeShell(key: homeKey),
-              );
-            },
-          ),
-      )
+      child: AnimatedBuilder(
+        animation: settings,
+        builder: (context, _) {
+          return MaterialApp(
+            title: 'Been Around',
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [Locale('en'), Locale('de')],
+            locale: settings.locale,
+            themeMode: settings.themeMode,
+            theme: AppTheme.light(seed: settings.colorSchemeSeed),
+            darkTheme: AppTheme.dark(seed: settings.colorSchemeSeed),
+            home: HomeShell(key: homeKey),
+          );
+        },
+      ),
     );
   }
 }
@@ -95,7 +83,7 @@ class HomeShellState extends State<HomeShell> {
   final ValueNotifier<Map<String, List<String>>> citiesByCountry =
       ValueNotifier<Map<String, List<String>>>({});
 
-  // ✅ New: visit metadata (persisted)
+  // New: visit metadata (persisted)
   final ValueNotifier<Map<String, String>> countryVisitedOn =
       ValueNotifier<Map<String, String>>({}); // iso2 -> ISO date
   final ValueNotifier<Map<String, Map<String, String>>> cityVisitedOn =
@@ -104,14 +92,25 @@ class HomeShellState extends State<HomeShell> {
       ValueNotifier<Map<String, Map<String, String>>>({}); // iso2 -> city -> note
 
   late final Future<(WorldMapData, Map<String, List<String>>)> _bootstrapFuture;
+
   Map<String, String> _iso2ToContinent = const {};
   Map<String, List<String>> _iso2ToCities = const {};
 
   bool _reconciling = false;
 
+  Future<void> Function()? _prevImportHook;
+  late final Future<void> Function() _chainedImportHook;
+
   @override
   void initState() {
     super.initState();
+
+    _chainedImportHook = () async {
+      // Run any hook that existed before HomeShell registered.
+      await _prevImportHook?.call();
+      if (!mounted) return;
+      await reloadAllFromStorage();
+    };
 
     _bootstrapFuture = Future.wait([
       WorldMapLoader.loadFromAssetWithAnchors('assets/maps/world.svg'),
@@ -121,7 +120,7 @@ class HomeShellState extends State<HomeShell> {
       LocalStore.loadSelectedCountries(),
       LocalStore.loadCitiesByCountry(),
 
-      // ✅ load saved metadata
+      // load saved metadata
       LocalStore.loadCountryVisitedOn(),
       LocalStore.loadCityVisitedOn(),
       LocalStore.loadCityNotes(),
@@ -140,7 +139,23 @@ class HomeShellState extends State<HomeShell> {
       _iso2ToCities = cities;
       _iso2ToContinent = continentMap;
 
-      // ✅ hydrate notifiers
+      UserDataFileTransfer.countryMetaResolver = (iso2) {
+        final key = iso2.toUpperCase();
+
+        final name = mapData.nameById[key] ?? key;
+        final continent = continentMap[key] ?? '';
+
+        return {
+          'name': name,
+          'continent': continent,
+        };
+      };
+
+      // ✅ Chain (don't overwrite) the import hook so app settings + UI can refresh.
+      _prevImportHook = UserDataFileTransfer.onImportApplied;
+      UserDataFileTransfer.onImportApplied = _chainedImportHook;
+
+      // hydrate notifiers
       selectedCountryIds.value = savedSelected;
       citiesByCountry.value = savedCitiesByCountry;
 
@@ -150,7 +165,7 @@ class HomeShellState extends State<HomeShell> {
 
       _reconcileMetadata();
 
-      // ✅ start auto-saving on changes
+      // start auto-saving on changes
       selectedCountryIds.addListener(() {
         LocalStore.saveSelectedCountries(selectedCountryIds.value);
         _reconcileMetadata();
@@ -172,6 +187,27 @@ class HomeShellState extends State<HomeShell> {
 
       return (mapData, cities);
     });
+  }
+
+  Future<void> reloadAllFromStorage() async {
+    // 1) read latest from disk
+    final savedSelected = await LocalStore.loadSelectedCountries();
+    final savedCitiesByCountry = await LocalStore.loadCitiesByCountry();
+
+    final savedCountryVisitedOn = await LocalStore.loadCountryVisitedOn();
+    final savedCityVisitedOn = await LocalStore.loadCityVisitedOn();
+    final savedCityNotes = await LocalStore.loadCityNotes();
+
+    // 2) write into notifiers (this rebuilds listening UI)
+    selectedCountryIds.value = savedSelected;
+    citiesByCountry.value = savedCitiesByCountry;
+
+    countryVisitedOn.value = savedCountryVisitedOn;
+    cityVisitedOn.value = savedCityVisitedOn;
+    cityNotes.value = savedCityNotes;
+
+    // 3) ensure metadata consistency
+    _reconcileMetadata();
   }
 
   void _reconcileMetadata() {
@@ -273,6 +309,9 @@ class HomeShellState extends State<HomeShell> {
 
   @override
   void dispose() {
+    if (UserDataFileTransfer.onImportApplied == _chainedImportHook) {
+      UserDataFileTransfer.onImportApplied = _prevImportHook;
+    }
     selectedCountryIds.dispose();
     citiesByCountry.dispose();
     countryVisitedOn.dispose();
@@ -400,7 +439,7 @@ class HomeShellState extends State<HomeShell> {
           );
         }
 
-        final (mapData, iso2ToCities) = snap.data!; // ✅ unpack tuple
+        final (mapData, iso2ToCities) = snap.data!; // unpack tuple
 
         _worldMapData = mapData;
         _bootstrapReady = true;

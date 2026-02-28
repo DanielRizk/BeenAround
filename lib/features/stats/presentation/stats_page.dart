@@ -1,10 +1,13 @@
+import 'dart:math' as math;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../../shared/i18n/app_strings.dart';
+import '../../../shared/ui_kit/app_cards.dart';
+import '../../../shared/ui_kit/app_scaffold.dart';
+import '../../../shared/ui_kit/app_style.dart';
 import 'continent_countries_page.dart';
-import 'widgets/gradient_gauge.dart';
 
 class StatsPage extends StatelessWidget {
   final ValueListenable<Set<String>> selectedCountryIds;
@@ -39,43 +42,33 @@ class StatsPage extends StatelessWidget {
 
             final continents = _buildContinentsIndex();
 
-            final isDark = Theme.of(context).brightness == Brightness.dark;
-
-            return Scaffold(
-              appBar: AppBar(
-                automaticallyImplyLeading: true,
-                title: const SizedBox.shrink(),
-                actions: const [],
-                backgroundColor: Colors.transparent,
-                surfaceTintColor: Colors.transparent,
-                elevation: 0,
-                scrolledUnderElevation: 0,
-                systemOverlayStyle: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
-              ),
-              body: ListView(
+            return AppScaffold(
+              title: S.t(context, 'tab_stats'),
+              child: ListView(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
                 children: [
                   _SectionHeader(title: S.t(context, 'worldwide')),
                   const SizedBox(height: 10),
 
-                  // Worldwide cards (Countries / Cities)
                   Row(
                     children: [
                       Expanded(
-                        child: _GaugeCard(
-                          title: S.t(context, 'tab_countries'),
-                          visited: visitedCountries,
-                          total: totalCountries,
-                          onTap: null,
+                        child: GlowCard(
+                          child: _GaugeCardContent(
+                            title: S.t(context, 'tab_countries'),
+                            visited: visitedCountries,
+                            total: totalCountries,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
-                        child: _GaugeCard(
-                          title: S.t(context, 'cities'),
-                          visited: visitedCities,
-                          total: totalCities,
-                          onTap: null,
+                        child: GlowCard(
+                          child: _GaugeCardContent(
+                            title: S.t(context, 'cities'),
+                            visited: visitedCities,
+                            total: totalCities,
+                          ),
                         ),
                       ),
                     ],
@@ -85,35 +78,31 @@ class StatsPage extends StatelessWidget {
                   _SectionHeader(title: S.t(context, 'continents')),
                   const SizedBox(height: 10),
 
-                  // Continents list (cards with gauge)
                   for (final entry in continents)
-                    _ContinentRowCard(
-                      continent: entry.continent,
-                      iso2s: entry.iso2s,
-                      visitedCountryIds: visitedCountriesSet,
-                      citiesByCountry: visitedCitiesMap,
-                      countryNameById: countryNameById,
-                      iso2ToCities: iso2ToCities,
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => ContinentCountriesPage(
-                              continent: entry.continent,
-                              iso2s: entry.iso2s,
-                              visitedCountryIds: visitedCountriesSet,
-                              citiesByCountry: visitedCitiesMap,
-                              countryNameById: countryNameById,
-                              iso2ToCities: iso2ToCities,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: _ContinentCard(
+                        continent: entry.continent,
+                        iso2s: entry.iso2s,
+                        visitedCountryIds: visitedCountriesSet,
+                        citiesByCountry: visitedCitiesMap,
+                        iso2ToCities: iso2ToCities,
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => ContinentCountriesPage(
+                                continent: entry.continent,
+                                iso2s: entry.iso2s,
+                                visitedCountryIds: visitedCountriesSet,
+                                citiesByCountry: visitedCitiesMap,
+                                countryNameById: countryNameById,
+                                iso2ToCities: iso2ToCities,
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-
-                  const SizedBox(height: 8),
-
-                  // Optional: quick access to a country if you want later
-                  // (skip for now)
                 ],
               ),
             );
@@ -124,7 +113,6 @@ class StatsPage extends StatelessWidget {
   }
 
   List<_ContinentBucket> _buildContinentsIndex() {
-    // Build from ISO2 universe (cities dataset keys)
     final buckets = <String, List<String>>{};
 
     for (final rawIso2 in iso2ToCities.keys) {
@@ -133,11 +121,8 @@ class StatsPage extends StatelessWidget {
       buckets.putIfAbsent(continent, () => <String>[]).add(iso2);
     }
 
-    final out = buckets.entries
-        .map((e) => _ContinentBucket(e.key, (e.value..sort())))
-        .toList();
+    final out = buckets.entries.map((e) => _ContinentBucket(e.key, (e.value..sort()))).toList();
 
-    // Put "Other" at the end
     out.sort((a, b) {
       if (a.continent == 'Other') return 1;
       if (b.continent == 'Other') return -1;
@@ -167,116 +152,261 @@ class _SectionHeader extends StatelessWidget {
   }
 }
 
-class _GaugeCard extends StatelessWidget {
+class _GaugeCardContent extends StatelessWidget {
   final String title;
   final int visited;
   final int total;
-  final VoidCallback? onTap; // ✅ nullable
 
-  const _GaugeCard({
+  const _GaugeCardContent({
     required this.title,
     required this.visited,
     required this.total,
-    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final content = Padding(
+    return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
       child: Column(
         children: [
-          GradientGauge(visited: visited, total: total, size: 96),
+          _PremiumGauge(visited: visited, total: total, size: 96),
           const SizedBox(height: 10),
           Text(
             title,
-            style: Theme.of(context)
-                .textTheme
-                .titleSmall
-                ?.copyWith(fontWeight: FontWeight.w700),
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
           ),
         ],
-      ),
-    );
-
-    return Card(
-      child: onTap == null
-          ? content // ✅ no InkWell, no tap effect
-          : InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: onTap,
-        child: content,
       ),
     );
   }
 }
 
-
-class _ContinentRowCard extends StatelessWidget {
+class _ContinentCard extends StatefulWidget {
   final String continent;
   final List<String> iso2s;
   final Set<String> visitedCountryIds;
   final Map<String, List<String>> citiesByCountry;
-  final Map<String, String> countryNameById;
   final Map<String, List<String>> iso2ToCities;
   final VoidCallback onTap;
 
-  const _ContinentRowCard({
+  const _ContinentCard({
     required this.continent,
     required this.iso2s,
     required this.visitedCountryIds,
     required this.citiesByCountry,
-    required this.countryNameById,
     required this.iso2ToCities,
     required this.onTap,
   });
 
   @override
+  State<_ContinentCard> createState() => _ContinentCardState();
+}
+
+class _ContinentCardState extends State<_ContinentCard> {
+  bool _down = false;
+
+  @override
   Widget build(BuildContext context) {
-    final visitedCountries = iso2s.where(visitedCountryIds.contains).length;
-    final totalCountries = iso2s.length;
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    final style = context.style;
 
-    // You can also show cities coverage; but per your spec, gauge for “countries/cities visited”
-    // We'll use countries gauge here, and show a small cities line in subtitle.
-    final totalCities = iso2s.fold<int>(0, (a, iso) => a + (iso2ToCities[iso]?.length ?? 0));
-    final visitedCities = iso2s.fold<int>(0, (a, iso) => a + (citiesByCountry[iso]?.length ?? 0));
+    final visitedCountries = widget.iso2s.where(widget.visitedCountryIds.contains).length;
+    final totalCountries = widget.iso2s.length;
 
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Row(
-            children: [
-              GradientGauge(visited: visitedCountries, total: totalCountries, size: 76),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      continent,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      '${S.t(context, 'tab_countries')} $visitedCountries/$totalCountries',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    Text(
-                      '${S.t(context, 'cities')} $visitedCities/$totalCities',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
+    final totalCities = widget.iso2s.fold<int>(0, (a, iso) => a + (widget.iso2ToCities[iso]?.length ?? 0));
+    final visitedCities = widget.iso2s.fold<int>(0, (a, iso) => a + (widget.citiesByCountry[iso]?.length ?? 0));
+
+    return GlowCard(
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTapDown: (_) => setState(() => _down = true),
+        onTapCancel: () => setState(() => _down = false),
+        onTapUp: (_) => setState(() => _down = false),
+        onTap: widget.onTap,
+        child: AnimatedScale(
+          duration: const Duration(milliseconds: 140),
+          curve: Curves.easeOut,
+          scale: _down ? style.pressScale : 1,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 160),
+            curve: Curves.easeOut,
+            padding: const EdgeInsets.all(14),
+            color: _down ? cs.primary.withOpacity(.05) : Colors.transparent,
+            child: Row(
+              children: [
+                _PremiumGauge(visited: visitedCountries, total: totalCountries, size: 76),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.continent,
+                        style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w800),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        '${S.t(context, 'tab_countries')} $visitedCountries/$totalCountries',
+                        style: theme.textTheme.bodyMedium?.copyWith(color: cs.onSurfaceVariant),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        '${S.t(context, 'cities')} $visitedCities/$totalCities',
+                        style: theme.textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const Icon(Icons.chevron_right),
-            ],
+                const SizedBox(width: 10),
+                AnimatedSlide(
+                  duration: const Duration(milliseconds: 160),
+                  curve: Curves.easeOut,
+                  offset: _down ? const Offset(.10, 0) : Offset.zero,
+                  child: Icon(Icons.chevron_right_rounded, color: cs.onSurfaceVariant),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+}
+
+class _PremiumGauge extends StatelessWidget {
+  final int visited;
+  final int total;
+  final double size;
+
+  const _PremiumGauge({
+    required this.visited,
+    required this.total,
+    required this.size,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+
+    final t = total <= 0 ? 0.0 : (visited / total).clamp(0.0, 1.0);
+    final pct = (t * 100).round();
+
+    // No box. No border. Just ring + clean type, centered.
+    return SizedBox.square(
+      dimension: size,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          CustomPaint(
+            size: Size.square(size),
+            painter: _PremiumGaugePainter(
+              t: t,
+              primary: cs.primary,
+              secondary: cs.secondary,
+              track: cs.outlineVariant.withOpacity(theme.brightness == Brightness.dark ? .35 : .28),
+              glow: cs.primary.withOpacity(theme.brightness == Brightness.dark ? .20 : .12),
+            ),
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                '$pct%',
+                style: theme.textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: -.3,
+                ),
+              ),
+              const SizedBox(height: 1),
+              Text(
+                '$visited/$total',
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: cs.onSurfaceVariant,
+                  fontWeight: FontWeight.w700,
+                  height: 1.0,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PremiumGaugePainter extends CustomPainter {
+  _PremiumGaugePainter({
+    required this.t,
+    required this.primary,
+    required this.secondary,
+    required this.track,
+    required this.glow,
+  });
+
+  final double t;
+  final Color primary;
+  final Color secondary;
+  final Color track;
+  final Color glow;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final s = math.min(size.width, size.height);
+    final center = Offset(size.width / 2, size.height / 2);
+
+    // Breathing room so nothing clips/overflows.
+    final radius = s * 0.38;
+    final stroke = s * 0.10; // premium thickness, not chunky
+    final rect = Rect.fromCircle(center: center, radius: radius);
+
+    const start = -math.pi / 2;
+    const sweepMax = math.pi * 2;
+
+    final trackPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = stroke
+      ..color = track;
+
+    // Soft glow under the progress (subtle, premium)
+    final glowPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = stroke * 1.25
+      ..color = glow
+      ..maskFilter = MaskFilter.blur(BlurStyle.normal, stroke * 0.9);
+
+    // Progress paint with sweep gradient
+    final progressPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = stroke
+      ..shader = SweepGradient(
+        startAngle: start,
+        endAngle: start + sweepMax,
+        colors: [primary, secondary, primary],
+        stops: const [0.0, 0.55, 1.0],
+      ).createShader(rect);
+
+    // Track
+    canvas.drawArc(rect, start, sweepMax, false, trackPaint);
+
+    // Progress (only if > 0)
+    if (t > 0) {
+      final sweep = (sweepMax * t).clamp(0.0, sweepMax);
+      canvas.drawArc(rect, start, sweep, false, glowPaint);
+      canvas.drawArc(rect, start, sweep, false, progressPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _PremiumGaugePainter old) {
+    return old.t != t ||
+        old.primary != primary ||
+        old.secondary != secondary ||
+        old.track != track ||
+        old.glow != glow;
   }
 }

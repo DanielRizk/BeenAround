@@ -1,4 +1,4 @@
-import 'package:been_around/shared/backend/auth_controller.dart';
+import 'package:been_around/shared/export/user_data_file_transfer.dart';
 import 'package:been_around/shared/location/country_monitor.dart';
 import 'package:been_around/shared/location/country_monitor_manager.dart';
 import 'package:been_around/shared/notifications/local_notification_service.dart';
@@ -20,15 +20,15 @@ void main() async {
   final settings = AppSettingsController();
   await settings.load();
 
-  final auth = AuthController(settings: settings);
-  await auth.init();
+  UserDataFileTransfer.onImportApplied = () async {
+    // refresh settings (theme/locale/colors/etc)
+    await settings.load();
 
-  // When settings change and user is logged in -> schedule cloud backup.
-  settings.addListener(() {
-    auth.scheduleBackup();
-  });
+    // refresh travel data (your HomeShell notifiers)
+    await BeenAroundApp.homeKey.currentState?.reloadAllFromStorage();
+  };
 
-  runApp(BeenAroundApp(settings: settings, auth: auth,));
+  runApp(BeenAroundApp(settings: settings));
 
   // ✅ Bind manager (it will start/stop monitor depending on privacy toggles)
   CountryMonitorManager.instance.bind(
